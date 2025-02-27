@@ -44,7 +44,7 @@ const NavBar = () => {
               }}
               onClick={() => navigate("/")}
             >
-              <img width={20} height={20} alt="PostIT" />
+              <img width={20} height={20} alt="GroovityLogo" />
               <Typography variant="h6" fontWeight={700}>
                 Groovity
               </Typography>
