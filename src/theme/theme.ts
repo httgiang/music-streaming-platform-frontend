@@ -7,6 +7,7 @@ const theme = createTheme({
         root: {
           textTransform: "none",
           borderRadius: "5px",
+          color: "inherit",
         },
       },
     },
@@ -16,6 +17,7 @@ const theme = createTheme({
           cursor: "pointer",
           alignSelf: "center",
           fontSize: 18,
+          color: "inherit",
         },
       },
     },
