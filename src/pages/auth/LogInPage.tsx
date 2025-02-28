@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GoogleLogo from "@/assets/google-icon.svg";
 import { initialLogInValues, logInValidationSchema } from "@/types/auth/login";
+import AuthButton from "@/components/auth/AuthButton";
 import { useState } from "react";
 
 const LogInPage = () => {
@@ -82,9 +83,10 @@ const LogInPage = () => {
             size="small"
           />
           <Box display="flex" flexDirection="column" gap={1}>
-            <Button type="submit" variant="outlined">
-              <Typography fontWeight={700}>Log in</Typography>
-            </Button>
+            <AuthButton
+              onClick={() => formik.handleSubmit()}
+              typography="Log in"
+            />
             <Box display="flex" justifyContent="right">
               <Link href="/forgot-password" color="textSecondary">
                 Forgot password?

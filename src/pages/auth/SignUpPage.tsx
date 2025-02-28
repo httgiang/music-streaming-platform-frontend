@@ -17,6 +17,7 @@ import {
   initialSignUpValues,
   signUpValidationSchema,
 } from "@/types/auth/signup";
+import AuthButton from "@/components/auth/AuthButton";
 
 const SignUpPage = () => {
   const formik = useFormik({
@@ -116,15 +117,14 @@ const SignUpPage = () => {
               size="small"
             />
           </Box>
-          <Button type="submit" variant="outlined" size="large">
-            <Typography fontWeight="700">Sign up</Typography>
-          </Button>
-
+          <AuthButton
+            onClick={() => formik.handleSubmit()}
+            typography="Sign up"
+          />
           <Divider>or sign up with</Divider>
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>
               <img src={GoogleLogo} alt="Google Logo" width={20} height={20} />
-
               <Typography fontWeight="700">Continue with Google</Typography>
             </Box>
           </Button>

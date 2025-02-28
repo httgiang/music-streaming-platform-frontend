@@ -17,6 +17,9 @@ const AuthLayout = () => {
     if (location.pathname.includes("verification")) {
       return "otp-verification";
     }
+    if (location.pathname.includes("password-reset")) {
+      return "password-reset";
+    }
   }, [location.pathname]);
   const formTitle = useMemo(() => {
     if (authPathName === "sign-up") {
@@ -30,6 +33,9 @@ const AuthLayout = () => {
     }
     if (authPathName === "otp-verification") {
       return "Verification";
+    }
+    if (authPathName === "password-reset") {
+      return "Create new password";
     }
   }, [authPathName]);
 
@@ -58,7 +64,6 @@ const AuthLayout = () => {
           <Typography fontSize={24} fontWeight={700}>
             {formTitle}
           </Typography>
-
           <Box
             paddingY={3}
             display="flex"

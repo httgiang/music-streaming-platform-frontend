@@ -6,7 +6,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          borderRadius: "5px",
+          borderRadius: "20px",
           color: "inherit",
         },
       },

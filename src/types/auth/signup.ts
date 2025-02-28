@@ -16,7 +16,7 @@ export const initialSignUpValues: SignUpProps = {
 };
 
 export const signUpValidationSchema = Yup.object().shape({
-  userName: Yup.string().required("Username is required"),
+  username: Yup.string().required("Username is required"),
   name: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
