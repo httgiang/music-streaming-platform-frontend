@@ -1,6 +1,6 @@
 import { Box, Typography, Link } from "@mui/material";
 import AuthButton from "@/components/auth/AuthButton";
-import OTPInputs from "@/components/auth/OtpInputs";
+import OTPInputs from "@/components/auth/OTPInputs";
 
 const OTPVerficationPage = () => {
   const userEmail = "hotrungthygiang@gmail.com"; //dummy value

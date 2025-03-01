@@ -5,12 +5,11 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   return (
     <AppBar
       color="transparent"

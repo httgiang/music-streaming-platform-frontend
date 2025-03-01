@@ -11,14 +11,14 @@ const AuthLayout = () => {
     if (location.pathname.includes("log-in")) {
       return "log-in";
     }
-    if (location.pathname.includes("forgot-password")) {
-      return "forgot-password";
-    }
     if (location.pathname.includes("verification")) {
       return "otp-verification";
     }
-    if (location.pathname.includes("password-reset")) {
-      return "password-reset";
+    if (location.pathname.includes("forgot-password")) {
+      return "forgot-password";
+    }
+    if (location.pathname.includes("reset-password")) {
+      return "reset-password";
     }
   }, [location.pathname]);
   const formTitle = useMemo(() => {
@@ -28,13 +28,13 @@ const AuthLayout = () => {
     if (authPathName === "log-in") {
       return "Welcome back";
     }
-    if (authPathName === "forgot-password") {
-      return "Reset password";
-    }
     if (authPathName === "otp-verification") {
       return "Verification";
     }
-    if (authPathName === "password-reset") {
+    if (authPathName === "forgot-password") {
+      return "Reset password";
+    }
+    if (authPathName === "reset-password") {
       return "Create new password";
     }
   }, [authPathName]);

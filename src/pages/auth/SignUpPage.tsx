@@ -13,6 +13,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GoogleLogo from "@/assets/google-icon.svg";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   initialSignUpValues,
   signUpValidationSchema,
@@ -31,6 +32,8 @@ const SignUpPage = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const navigate = useNavigate();
 
   return (
     <Box width="100%">
@@ -118,7 +121,10 @@ const SignUpPage = () => {
             />
           </Box>
           <AuthButton
-            onClick={() => formik.handleSubmit()}
+            onClick={() => {
+              formik.handleSubmit();
+              navigate("/otp-verification");
+            }}
             typography="Sign up"
           />
           <Divider>or sign up with</Divider>

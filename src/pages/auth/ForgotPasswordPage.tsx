@@ -1,4 +1,4 @@
-import { Box, Button, Link, Stack, Typography, TextField } from "@mui/material";
+import { Box, Link, Stack, Typography, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { ArrowBack } from "@mui/icons-material";
 import {
@@ -47,7 +47,7 @@ const ForgotPasswordPage = () => {
           ></TextField>
           <AuthButton
             onClick={() => {
-              navigate("/otp-verification");
+              navigate("/reset-password");
             }}
             typography="Send verification"
           />
