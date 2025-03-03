@@ -4,13 +4,17 @@ import App from "./App.tsx";
 import ToastProvider from "@/contexts/ToastContext.tsx";
 import theme from "@/theme/theme.ts";
 import { ThemeProvider } from "@mui/material/styles";
+import { Provider } from "react-redux";
+import store from "@/store";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </ThemeProvider>
+    </Provider>
   </StrictMode>,
 );
