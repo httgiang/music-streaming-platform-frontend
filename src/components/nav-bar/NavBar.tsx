@@ -1,36 +1,15 @@
 import {
-  Avatar,
   AppBar,
-  Menu,
-  MenuItem,
   Toolbar,
   Box,
   Typography,
   Button,
-  IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { Notifications } from "@mui/icons-material";
-import { useState } from "react";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated,
-  );
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorEl);
-  const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <AppBar
       color="transparent"
@@ -71,43 +50,24 @@ const NavBar = () => {
             </Box>
             <SearchBar />
           </Box>
-          {!isAuthenticated ? (
-            <Box display="flex" flexDirection="row" gap={2}>
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/sign-up");
-                }}
-              >
-                <Typography>Sign up</Typography>
-              </Button>
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/log-in");
-                }}
-              >
-                <Typography>Log in</Typography>
-              </Button>
-            </Box>
-          ) : (
-            <Box display="flex" flexDirection="row" gap={3} alignItems="center">
-              <Notifications sx={{ cursor: "pointer" }} />
-              <IconButton onClick={handleClickMenu}>
-                <Avatar sx={{ width: 22, height: 22, cursor: "pointer" }} />
-              </IconButton>
-              <Menu
-                id="profile-menu"
-                anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleCloseMenu}
-              >
-                <MenuItem onClick={handleCloseMenu}>Account</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
-              </Menu>
-            </Box>
-          )}
+          <Box display="flex" flexDirection="row" gap={1}>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/sign-up");
+              }}
+            >
+              <Typography>Sign up</Typography>
+            </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/log-in");
+              }}
+            >
+              <Typography>Log in</Typography>
+            </Button>
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>
