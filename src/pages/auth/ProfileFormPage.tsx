@@ -13,11 +13,10 @@ import {
   initialUserProfileValues,
   userProfileValidationSchema,
 } from "@/types/user";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useState } from "react";
 import AuthButton from "@/components/auth/AuthButton";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +29,6 @@ const ProfileFormPage = () => {
     },
   });
 
-  const [value, setValue] = useState<Dayjs | null>(dayjs());
   const navigate = useNavigate();
 
   return (
@@ -54,26 +52,31 @@ const ProfileFormPage = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date of birth"
-              defaultValue={dayjs(new Date())}
+              value={formik.values.dob ? dayjs(formik.values.dob) : null}
+              onChange={(value) => formik.setFieldValue("dob", value)}
+              slotProps={{
+                textField: {
+                  name: "dob",
+                  onBlur: formik.handleBlur,
+                  error: formik.touched.dob && Boolean(formik.errors.dob),
+                  helperText: formik.touched.dob && formik.errors.dob,
+                },
+              }}
             />
           </LocalizationProvider>
           <Box display="flex">
             <FormControl
               sx={{
                 textAlign: "left",
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
               }}
               component="fieldset"
             >
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                Gender
-              </FormLabel>
+              <FormLabel id="gender-radio-buttons-form-label">Gender</FormLabel>
               <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                aria-labelledby="gender-radio-buttons-group"
+                name="gender"
+                value={formik.values.gender}
+                onChange={formik.handleChange}
               >
                 <FormControlLabel
                   value="female"
