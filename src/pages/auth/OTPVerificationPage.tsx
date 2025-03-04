@@ -1,9 +1,12 @@
 import { Box, Typography, Link } from "@mui/material";
 import AuthButton from "@/components/auth/AuthButton";
 import OTPInputs from "@/components/auth/OTPInputs";
+import { useNavigate } from "react-router-dom";
 
 const OTPVerficationPage = () => {
   const userEmail = "hotrungthygiang@gmail.com"; //dummy value
+  const navigate = useNavigate();
+
   return (
     <Box
       display="flex"
@@ -16,7 +19,12 @@ const OTPVerficationPage = () => {
         We just sent the verifcation code to {userEmail}
       </Typography>
       <OTPInputs />
-      <AuthButton onClick={() => console.log("submit")} typography="Verify" />
+      <AuthButton
+        onClick={() => {
+          navigate("/");
+        }}
+        typography="Verify"
+      />
       <Box
         display="flex"
         flexDirection="row"

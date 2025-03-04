@@ -1,9 +1,25 @@
-import { Box, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Stack,
+  TextField,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+} from "@mui/material";
 import { useFormik } from "formik";
 import {
   initialUserProfileValues,
   userProfileValidationSchema,
 } from "@/types/user";
+import dayjs, { Dayjs } from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useState } from "react";
+import AuthButton from "@/components/auth/AuthButton";
+import { useNavigate } from "react-router-dom";
 
 const ProfileFormPage = () => {
   const formik = useFormik({
@@ -13,6 +29,9 @@ const ProfileFormPage = () => {
       console.log(values);
     },
   });
+
+  const [value, setValue] = useState<Dayjs | null>(dayjs());
+  const navigate = useNavigate();
 
   return (
     <Box width="100%">
@@ -31,8 +50,56 @@ const ProfileFormPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
-            size="small"
-          ></TextField>
+          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date of birth"
+              defaultValue={dayjs(new Date())}
+            />
+          </LocalizationProvider>
+          <Box display="flex">
+            <FormControl
+              sx={{
+                textAlign: "left",
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+              component="fieldset"
+            >
+              <FormLabel id="demo-row-radio-buttons-group-label">
+                Gender
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                  sx={{ flex: 1 }}
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                  sx={{ flex: 1 }}
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                  sx={{ flex: 1 }}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+          <AuthButton
+            onClick={() => navigate("/otp-verification")}
+            typography="Next"
+          />
         </Stack>
       </form>
     </Box>
