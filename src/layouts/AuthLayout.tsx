@@ -20,9 +20,6 @@ const AuthLayout = () => {
     if (location.pathname.includes("reset-password")) {
       return "reset-password";
     }
-    if (location.pathname.includes("fill-profile")) {
-      return "fill-profile";
-    }
   }, [location.pathname]);
   const formTitle = useMemo(() => {
     if (authPathName === "sign-up") {
@@ -39,9 +36,6 @@ const AuthLayout = () => {
     }
     if (authPathName === "reset-password") {
       return "Create new password";
-    }
-    if (authPathName === "fill-profile") {
-      return "Set up your user profile";
     }
   }, [authPathName]);
 
@@ -64,7 +58,7 @@ const AuthLayout = () => {
             alignItems: "center",
             flexDirection: "column",
             justifyContent: "center",
-            height: "80vh",
+            marginY: 5,
           }}
         >
           <Typography fontSize={24} fontWeight={700}>

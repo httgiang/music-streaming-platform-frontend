@@ -52,10 +52,27 @@ const SignUpPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
+            size="small"
           ></TextField>
           <TextField
             required
             fullWidth
+            autoFocus
+            placeholder="Enter name"
+            type="text"
+            name="name"
+            label="Name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            size="small"
+          ></TextField>
+          <TextField
+            required
+            fullWidth
+            autoFocus
             placeholder="Enter email"
             type="text"
             name="email"
@@ -65,11 +82,13 @@ const SignUpPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
+            size="small"
           ></TextField>
           <Box>
             <TextField
               required
               fullWidth
+              autoFocus
               placeholder="Enter password"
               type={showPassword ? "text" : "password"}
               name="password"
@@ -98,14 +117,15 @@ const SignUpPage = () => {
               onBlur={formik.handleBlur}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
+              size="small"
             />
           </Box>
           <AuthButton
             onClick={() => {
               formik.handleSubmit();
-              navigate("/fill-profile");
+              navigate("/otp-verification");
             }}
-            typography="Next"
+            typography="Sign up"
           />
           <Divider>or sign up with</Divider>
           <Button variant="outlined" size="large" fullWidth>

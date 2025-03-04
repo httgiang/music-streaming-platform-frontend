@@ -46,10 +46,12 @@ const LogInPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
+            size="small"
           ></TextField>
           <TextField
             required
             fullWidth
+            autoFocus
             placeholder="Enter password"
             type={showPassword ? "text" : "password"}
             name="password"
@@ -78,6 +80,7 @@ const LogInPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
+            size="small"
           />
           <Box display="flex" flexDirection="column" gap={1}>
             <AuthButton

@@ -43,6 +43,7 @@ const ForgotPasswordPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
+            size="small"
           ></TextField>
           <AuthButton
             onClick={() => {

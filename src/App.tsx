@@ -8,7 +8,6 @@ import LogInPage from "@/pages/auth/LogInPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import OTPVerficationPage from "@/pages/auth/OTPVerificationPage";
 import ResetPassword from "@/pages/auth/ResetPassword";
-import ProfileFormPage from "@/pages/auth/ProfileFormPage";
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/fill-profile" element={<ProfileFormPage />} />
           <Route path="/log-in" element={<LogInPage />} />
           <Route path="/otp-verification" element={<OTPVerficationPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
