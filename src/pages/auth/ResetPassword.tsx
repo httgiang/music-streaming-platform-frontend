@@ -97,7 +97,6 @@ const ResetPassword = () => {
           onBlur={formik.handleBlur}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
-          size="small"
         />
         <FormControl>
           <RadioGroup
@@ -165,7 +164,6 @@ const ResetPassword = () => {
         helperText={
           formik.touched.confirmPassword && formik.errors.confirmPassword
         }
-        size="small"
       />
       <AuthButton
         onClick={() => {
