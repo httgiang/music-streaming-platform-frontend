@@ -9,6 +9,7 @@ import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import OTPVerficationPage from "@/pages/auth/OTPVerificationPage";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import ProfileFormPage from "@/pages/auth/ProfileFormPage";
+import AccountPage from "./pages/Account";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/account" element={<AccountPage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUpPage />} />
