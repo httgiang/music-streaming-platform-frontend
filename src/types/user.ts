@@ -2,12 +2,20 @@ import { Dayjs } from "dayjs";
 import * as Yup from "yup";
 
 export interface UserProfileProps {
+  address: unknown;
+  phoneNumber: number;
+  email: string;
+  avatar: string;
   name: string;
   dob: Dayjs | null;
   gender: string;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
+  address: "",
+  phoneNumber: 0,
+  email: "",
+  avatar: "",
   name: "",
   dob: null,
   gender: "",
