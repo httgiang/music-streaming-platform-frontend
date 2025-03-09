@@ -5,6 +5,7 @@ export interface UserProfileProps {
   phoneNumber: number;
   email: string;
   avatar: string;
+  avatarUrl?: string;
   name: string;
   dob: Dayjs | null;
   gender: string;

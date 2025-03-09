@@ -1,9 +1,15 @@
 import { Card, CardMedia, Box, Typography } from "@mui/material";
 import { SongProps } from "@/types/song";
+import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import { useState } from "react";
 
-const SongPreviewCard = ({ song }: { song: SongProps }) => {
+export interface MusicPreviewCardProps {
+  type: "song" | "artist";
+  item: SongProps | ArtistProps;
+}
+
+const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const [isPlayButtonVisible, setPlayButtonVisible] = useState(false);
   const handleMouseEnter = () => {
     setPlayButtonVisible(true);
@@ -33,8 +39,13 @@ const SongPreviewCard = ({ song }: { song: SongProps }) => {
       onMouseLeave={handleMouseLeave}
     >
       <CardMedia
-        sx={{ height: 150, width: 150, objectFit: "cover" }}
-        image={song.cover}
+        sx={{
+          height: 150,
+          width: 150,
+          objectFit: "cover",
+          borderRadius: type === "artist" ? "50%" : "0%",
+        }}
+        image={item.image}
         title="Sailor Song"
       />
       <Box
@@ -46,8 +57,14 @@ const SongPreviewCard = ({ song }: { song: SongProps }) => {
           paddingLeft: 1,
         }}
       >
-        <Typography fontSize={16}>{song.title}</Typography>
-        <Typography fontSize={14}>{song.artist}</Typography>
+        <Typography variant="body1">
+          {type === "song"
+            ? (item as SongProps).title
+            : (item as ArtistProps).name}
+        </Typography>
+        <Typography fontSize={14}>
+          {type === "song" ? (item as SongProps).artist : "Artist"}
+        </Typography>
         {isPlayButtonVisible && (
           <Box
             sx={{
@@ -64,4 +81,4 @@ const SongPreviewCard = ({ song }: { song: SongProps }) => {
   );
 };
 
-export default SongPreviewCard;
+export default MusicPreviewCard;

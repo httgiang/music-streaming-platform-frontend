@@ -1,59 +1,21 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import SongPreviewCard from "@/components/slider/SongPreviewCard";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import { NextButton, PrevButton } from "@/components/iconbuttons/IconButtons";
 import { useEffect, useRef, useState } from "react";
+import MusicPreviewCard, {
+  MusicPreviewCardProps,
+} from "@/components/slider/MusicPreviewCard";
 
-const SongCardsSlider = () => {
+interface MusicCardsSliderProps {
+  cardChildren: MusicPreviewCardProps[];
+}
+const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
   const [showArrows, setShowArrows] = useState(false);
   const sliderRef = useRef<Slider>(null);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
-  const demoSongs = [
-    {
-      id: 1,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-    {
-      id: 2,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-    {
-      id: 3,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-    {
-      id: 4,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-    {
-      id: 5,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-    {
-      id: 6,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-    {
-      id: 7,
-      title: "Sailor Song",
-      artist: "Gigi Perez",
-      cover: SailorSongPic,
-    },
-  ];
+
   var settings = {
     infinite: false,
     speed: 500,
@@ -104,12 +66,16 @@ const SongCardsSlider = () => {
       }}
     >
       <Slider ref={sliderRef} {...settings}>
-        {demoSongs.map((song) => (
-          <SongPreviewCard key={song.id} song={song} />
+        {cardChildren.map((cardProps) => (
+          <MusicPreviewCard
+            key={cardProps.item.id}
+            item={cardProps.item}
+            type={cardProps.type}
+          />
         ))}
       </Slider>
     </div>
   );
 };
 
-export default SongCardsSlider;
+export default MusicCardsSlider;
