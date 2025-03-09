@@ -1,10 +1,10 @@
 import { Container } from "@mui/material";
-import SongPreviewCard from "@/components/home/SongPreviewCard";
+import SongCardsSlider from "@/components/slider/SongCardsSlider";
 
 const HomePage = () => {
   return (
     <Container>
-      <SongPreviewCard />
+      <SongCardsSlider />
     </Container>
   );
 };
