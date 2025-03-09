@@ -7,11 +7,11 @@ import { IconButton } from "@mui/material";
 import { NavigateNext, NavigateBefore } from "@mui/icons-material";
 import { useEffect, useRef, useState } from "react";
 
-interface ButtonProps {
+interface SliderButtonProps {
   onClick: () => void;
 }
 
-const NextButton: React.FC<ButtonProps> = ({ onClick }) => {
+const NextButton: React.FC<SliderButtonProps> = ({ onClick }) => {
   return (
     <IconButton
       onClick={onClick}
@@ -29,7 +29,7 @@ const NextButton: React.FC<ButtonProps> = ({ onClick }) => {
   );
 };
 
-const PrevButton: React.FC<ButtonProps> = ({ onClick }) => {
+const PrevButton: React.FC<SliderButtonProps> = ({ onClick }) => {
   return (
     <IconButton
       onClick={onClick}
@@ -84,7 +84,6 @@ const SongCardsSlider = () => {
     },
   ];
   var settings = {
-    dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
