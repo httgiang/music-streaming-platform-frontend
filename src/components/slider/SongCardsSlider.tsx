@@ -41,12 +41,24 @@ const SongCardsSlider = () => {
       artist: "Gigi Perez",
       cover: SailorSongPic,
     },
+    {
+      id: 6,
+      title: "Sailor Song",
+      artist: "Gigi Perez",
+      cover: SailorSongPic,
+    },
+    {
+      id: 7,
+      title: "Sailor Song",
+      artist: "Gigi Perez",
+      cover: SailorSongPic,
+    },
   ];
   var settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     arrows: showArrows,
     nextArrow: <NextButton onClick={() => sliderRef.current?.slickNext()} />,
     prevArrow: <PrevButton onClick={() => sliderRef.current?.slickPrev()} />,
@@ -88,7 +100,7 @@ const SongCardsSlider = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
       }}
     >
       <Slider ref={sliderRef} {...settings}>
