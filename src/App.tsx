@@ -9,8 +9,8 @@ import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import OTPVerficationPage from "@/pages/auth/OTPVerificationPage";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import ProfileFormPage from "@/pages/auth/ProfileFormPage";
-import AccountPage from "./pages/Account";
-import ProfilePage from "./pages/Profile";
+import AccountPage from "./pages/user/Account";
+import ProfilePage from "./pages/user/Profile";
 
 function App() {
   return (

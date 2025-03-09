@@ -33,12 +33,13 @@ const NavBar = () => {
 
   return (
     <AppBar
-      color="transparent"
       sx={{
         position: "fixed",
+        top: 0,
         boxShadow:
           "0px 2px 3px rgba(0, 0, 0, 0.1), 0px 1px 5px rgba(0, 0, 0, 0.08)",
-        zIndex: 1,
+        zIndex: 9999,
+        backgroundColor: "black",
       }}
     >
       <Toolbar disableGutters>

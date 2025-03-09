@@ -56,6 +56,7 @@ const ProfileFormPage = () => {
               onChange={(value) => formik.setFieldValue("dob", value)}
               slotProps={{
                 textField: {
+                  fullWidth: true,
                   name: "dob",
                   onBlur: formik.handleBlur,
                   error: formik.touched.dob && Boolean(formik.errors.dob),

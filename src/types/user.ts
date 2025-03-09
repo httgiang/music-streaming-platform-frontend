@@ -2,7 +2,6 @@ import { Dayjs } from "dayjs";
 import * as Yup from "yup";
 
 export interface UserProfileProps {
-  address: unknown;
   phoneNumber: number;
   email: string;
   avatar: string;
@@ -12,7 +11,6 @@ export interface UserProfileProps {
 }
 
 export const initialUserProfileValues: UserProfileProps = {
-  address: "",
   phoneNumber: 0,
   email: "",
   avatar: "",
@@ -24,6 +22,7 @@ export const initialUserProfileValues: UserProfileProps = {
 export const userProfileValidationSchema = Yup.object().shape({
   name: Yup.string().required("This name will appear on your profile"),
   dob: Yup.date()
+    .typeError("Invalid date format")
     .max(new Date(), "Date of birth cannot be in the future")
     .min(new Date("1900-01-01"), "Date of birth cannot be before 1900"),
   gender: Yup.string().oneOf(

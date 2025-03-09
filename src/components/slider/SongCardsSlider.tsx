@@ -3,49 +3,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SongPreviewCard from "@/components/slider/SongPreviewCard";
 import SailorSongPic from "@/assets/sailor-song.jpg";
-import { IconButton } from "@mui/material";
-import { NavigateNext, NavigateBefore } from "@mui/icons-material";
+import { NextButton, PrevButton } from "@/components/iconbuttons/IconButtons";
 import { useEffect, useRef, useState } from "react";
-
-interface SliderButtonProps {
-  onClick: () => void;
-}
-
-const NextButton: React.FC<SliderButtonProps> = ({ onClick }) => {
-  return (
-    <IconButton
-      onClick={onClick}
-      sx={{
-        position: "absolute",
-        right: 0,
-        top: "50%",
-        zIndex: 1,
-        color: "white",
-        backgroundColor: "rgba(0,0,0, 0.5)",
-      }}
-    >
-      <NavigateNext />
-    </IconButton>
-  );
-};
-
-const PrevButton: React.FC<SliderButtonProps> = ({ onClick }) => {
-  return (
-    <IconButton
-      onClick={onClick}
-      sx={{
-        position: "absolute",
-        left: 0,
-        top: "50%",
-        zIndex: 1,
-        color: "white",
-        backgroundColor: "rgba(0,0,0, 0.5)",
-      }}
-    >
-      <NavigateBefore />
-    </IconButton>
-  );
-};
 
 const SongCardsSlider = () => {
   const [showArrows, setShowArrows] = useState(false);

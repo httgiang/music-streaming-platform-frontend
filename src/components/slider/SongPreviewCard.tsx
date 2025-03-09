@@ -1,16 +1,7 @@
 import { Card, CardMedia, Box, Typography } from "@mui/material";
 import { SongProps } from "@/types/song";
-import { IconButton } from "@mui/material";
-import { PlayCircle } from "@mui/icons-material";
+import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import { useState } from "react";
-
-const PlayButtons = () => {
-  return (
-    <IconButton>
-      <PlayCircle sx={{ color: "red" }} />
-    </IconButton>
-  );
-};
 
 const SongPreviewCard = ({ song }: { song: SongProps }) => {
   const [isPlayButtonVisible, setPlayButtonVisible] = useState(false);
@@ -65,7 +56,7 @@ const SongPreviewCard = ({ song }: { song: SongProps }) => {
               transform: "scale(2.0)",
             }}
           >
-            <PlayButtons />
+            <PlayButtons onClick={() => console.log("to be implemented")} />
           </Box>
         )}
       </Box>
