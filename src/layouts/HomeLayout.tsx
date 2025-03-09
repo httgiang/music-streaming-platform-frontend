@@ -8,7 +8,7 @@ const HomeLayout = () => {
       <NavBar />
       <Container
         sx={{
-          paddingTop: "4rem",
+          paddingTop: 10,
         }}
       >
         <Outlet />

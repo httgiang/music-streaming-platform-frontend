@@ -2,3 +2,12 @@
   margin: 0 auto;
   text-align: center;
 }
+.slick-prev::before,
+.slick-next::before {
+  color: black !important;
+}
+
+.slick-slide > div {
+  display: grid;
+  place-items: center;
+}

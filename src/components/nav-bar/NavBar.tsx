@@ -33,11 +33,13 @@ const NavBar = () => {
 
   return (
     <AppBar
-      color="transparent"
       sx={{
         position: "fixed",
+        top: 0,
         boxShadow:
           "0px 2px 3px rgba(0, 0, 0, 0.1), 0px 1px 5px rgba(0, 0, 0, 0.08)",
+        zIndex: 9999,
+        backgroundColor: "black",
       }}
     >
       <Toolbar disableGutters>
@@ -102,8 +104,23 @@ const NavBar = () => {
                 open={openMenu}
                 onClose={handleCloseMenu}
               >
-                <MenuItem onClick={handleCloseMenu}>Account</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu();
+                    navigate("/account");
+                  }}
+                >
+                  Account
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu();
+                    navigate("/profile");
+                  }}
+                >
+                  Profile
+                </MenuItem>
                 <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
               </Menu>
             </Box>

@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeLayout from "@/layouts/HomeLayout";
-import HomePage from "@/pages/HomePage";
+import HomePage from "@/pages/home/HomePage";
 import AuthLayout from "@/layouts/AuthLayout";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import LogInPage from "@/pages/auth/LogInPage";
@@ -9,6 +9,8 @@ import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import OTPVerficationPage from "@/pages/auth/OTPVerificationPage";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import ProfileFormPage from "@/pages/auth/ProfileFormPage";
+import AccountPage from "./pages/user/Account";
+import ProfilePage from "./pages/user/Profile";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUpPage />} />
