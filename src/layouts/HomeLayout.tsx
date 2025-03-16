@@ -1,6 +1,7 @@
 import NavBar from "@/components/nav-bar/NavBar";
 import { Outlet } from "react-router-dom";
 import { Container } from "@mui/material";
+import PlaybackControl from "@/components/PlaybackControl";
 
 const HomeLayout = () => {
   return (
@@ -12,6 +13,7 @@ const HomeLayout = () => {
         }}
       >
         <Outlet />
+        <PlaybackControl />
       </Container>
     </Container>
   );
