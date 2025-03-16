@@ -1,13 +1,15 @@
 import {
+  Autocomplete,
   Box,
   Stack,
   TextField,
   FormControl,
-  FormLabel,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
+import countryList from "react-select-country-list";
+
 import { useFormik } from "formik";
 import {
   initialUserProfileValues,
@@ -19,6 +21,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AuthButton from "@/components/auth/AuthButton";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
 const ProfileFormPage = () => {
   const formik = useFormik({
@@ -28,6 +31,8 @@ const ProfileFormPage = () => {
       console.log(values);
     },
   });
+
+  const countries = useMemo(() => countryList().getData(), []);
 
   const navigate = useNavigate();
 
@@ -65,41 +70,54 @@ const ProfileFormPage = () => {
               }}
             />
           </LocalizationProvider>
-          <Box display="flex">
-            <FormControl
-              sx={{
-                textAlign: "left",
-              }}
-              component="fieldset"
+          <FormControl fullWidth sx={{ textAlign: "left" }}>
+            <InputLabel id="gender-label">Gender</InputLabel>
+            <Select
+              labelId="gender-label"
+              label="Gender"
+              id="gender-select"
+              name="gender"
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.gender && Boolean(formik.errors.gender)}
             >
-              <FormLabel id="gender-radio-buttons-form-label">Gender</FormLabel>
-              <RadioGroup
-                aria-labelledby="gender-radio-buttons-group"
-                name="gender"
-                value={formik.values.gender}
+              <MenuItem value="MALE">Male</MenuItem>
+              <MenuItem value="FEMALE">Female</MenuItem>
+              <MenuItem value="CUSTOM">Rather not say</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            required
+            fullWidth
+            autoFocus
+            placeholder="Enter your contact number"
+            type="text"
+            name="phoneNumber"
+            label="Contact number"
+            value={formik.values.phoneNumber}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+            }
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+          />
+          <Autocomplete
+            disablePortal
+            id="country-select"
+            options={countries}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Country"
+                value={formik.values.country}
                 onChange={formik.handleChange}
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                  sx={{ flex: 1 }}
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                  sx={{ flex: 1 }}
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                  sx={{ flex: 1 }}
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
+                onBlur={formik.handleBlur}
+              />
+            )}
+            fullWidth
+          ></Autocomplete>
           <AuthButton
             onClick={() => navigate("/otp-verification")}
             typography="Next"
