@@ -3,6 +3,7 @@ import SongCardsSlider from "@/components/slider/SongCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
+import HomeFooter from "@/components/HomeFooter";
 
 const HomePage = () => {
   const demoSongs = [
@@ -112,7 +113,7 @@ const HomePage = () => {
     },
   ];
   return (
-    <Container>
+    <Container sx={{ paddingBottom: '64px' }}>
       <Stack spacing={4}>
         <HomeSection title="Trending Songs">
           <SongCardsSlider cardChildren={demoSongs} />
@@ -121,7 +122,9 @@ const HomePage = () => {
           <SongCardsSlider cardChildren={demoArtists} />
         </HomeSection>
       </Stack>
+      <HomeFooter />
     </Container>
+    
   );
 };
 
