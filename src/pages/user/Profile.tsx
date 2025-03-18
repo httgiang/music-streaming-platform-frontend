@@ -47,7 +47,7 @@ const Profile = () => {
           background:
             "linear-gradient(185deg,rgba(132, 22, 196, 0.81),rgba(241, 231, 84, 0.8))",
           padding: "1rem 5rem",
-          margin: "1rem 10rem",
+          margin: "1rem 20rem",
           borderRadius: "10px",
         }}
       >
@@ -84,7 +84,7 @@ const Profile = () => {
         sx={{
           display: "flex",
           justifyContent: "flex-start",
-          margin: "0 10rem",
+          margin: "0 20rem",
         }}
       >
         <IconButton
@@ -101,7 +101,7 @@ const Profile = () => {
       </Box>
       <Stack
         flexDirection="column"
-        margin="0 10rem"
+        margin="0 20rem"
         marginTop="3rem"
         gap="15rem"
       >
@@ -239,6 +239,26 @@ const Profile = () => {
                   }
                   fullWidth
                 />
+              </Box>
+            </Grid2>
+            <Grid2 size={{ lg: 12 }}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                gap={1}
+                textAlign="left"
+              >
+                <Typography fontSize={18} fontWeight={500}>
+                  Country
+                </Typography>
+                <Select
+                  id="country-select"
+                  value={formik.values.country}
+                  name={formik.values.country}
+                  fullWidth
+                >
+                  <MenuItem>Vietnam</MenuItem>
+                </Select>
               </Box>
             </Grid2>
             <Grid2 size={{ lg: 12 }}>

@@ -5,7 +5,7 @@ import { NextButton, PrevButton } from "@/components/iconbuttons/IconButtons";
 import { useEffect, useRef, useState } from "react";
 import MusicPreviewCard, {
   MusicPreviewCardProps,
-} from "@/components/slider/MusicPreviewCard";
+} from "@/components/music/MusicPreviewCard";
 
 interface MusicCardsSliderProps {
   cardChildren: MusicPreviewCardProps[];

@@ -1,5 +1,5 @@
 import { Container, Stack } from "@mui/material";
-import SongCardsSlider from "@/components/slider/SongCardsSlider";
+import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";

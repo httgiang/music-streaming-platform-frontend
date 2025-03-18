@@ -38,7 +38,7 @@ const NavBar = () => {
         top: 0,
         boxShadow:
           "0px 2px 3px rgba(0, 0, 0, 0.1), 0px 1px 5px rgba(0, 0, 0, 0.08)",
-        zIndex: 9999,
+        zIndex: 1201,
         backgroundColor: "black",
       }}
     >
