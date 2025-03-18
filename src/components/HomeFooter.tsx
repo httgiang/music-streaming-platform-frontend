@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
-import { Container, Stack, Typography, Link, Grid, Box, IconButton, Divider } from "@mui/material";
+import { Container, Stack, Typography, Link, Box, IconButton, Divider } from "@mui/material";
 
 const HomeFooter = () => {
   return (

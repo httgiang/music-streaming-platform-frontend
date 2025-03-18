@@ -4,11 +4,12 @@ import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
 import HomeFooter from "@/components/HomeFooter";
+import Elsa from "@/assets/let-it-go.jpg";
 
 const HomePage = () => {
   const demoSongs = [
     {
-      type: "song" as "song",
+      type: "song" as const,
       item: {
         id: 1,
         title: "Sailor Song",
@@ -17,16 +18,16 @@ const HomePage = () => {
       },
     },
     {
-      type: "song" as "song",
+      type: "song" as const,
       item: {
         id: 2,
         title: "Sailor Song",
         artist: "Gigi Perez",
-        image: SailorSongPic,
+        image: Elsa,
       },
     },
     {
-      type: "song" as "song",
+      type: "song" as const,
       item: {
         id: 3,
         title: "Sailor Song",
@@ -35,7 +36,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "song" as "song",
+      type: "song" as const,
       item: {
         id: 4,
         title: "Sailor Song",
@@ -44,7 +45,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "song" as "song",
+      type: "song" as const,
       item: {
         id: 5,
         title: "Sailor Song",
@@ -53,7 +54,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "song" as "song",
+      type: "song" as const,
       item: {
         id: 6,
         title: "Sailor Song",
@@ -64,7 +65,7 @@ const HomePage = () => {
   ];
   const demoArtists = [
     {
-      type: "artist" as "artist",
+      type: "artist" as const,
       item: {
         id: 1,
         name: "The Beatles",
@@ -72,7 +73,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "artist" as "artist",
+      type: "artist" as const,
       item: {
         id: 2,
         name: "The Beatles",
@@ -80,7 +81,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "artist" as "artist",
+      type: "artist" as const,
       item: {
         id: 3,
         name: "The Beatles",
@@ -88,7 +89,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "artist" as "artist",
+      type: "artist" as const,
       item: {
         id: 4,
         name: "The Beatles",
@@ -96,7 +97,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "artist" as "artist",
+      type: "artist" as const,
       item: {
         id: 5,
         name: "The Beatles",
@@ -104,7 +105,7 @@ const HomePage = () => {
       },
     },
     {
-      type: "artist" as "artist",
+      type: "artist" as const,
       item: {
         id: 6,
         name: "The Beatles",

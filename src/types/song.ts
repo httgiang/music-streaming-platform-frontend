@@ -4,3 +4,10 @@ export interface SongProps {
   artist: string;
   image: string;
 }
+
+export const initialSong : SongProps = {
+  id: 0,
+  title: "",
+  artist: "",
+  image: ""
+}

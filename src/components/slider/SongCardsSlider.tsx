@@ -1,7 +1,6 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import SailorSongPic from "@/assets/sailor-song.jpg";
 import { NextButton, PrevButton } from "@/components/iconbuttons/IconButtons";
 import { useEffect, useRef, useState } from "react";
 import MusicPreviewCard, {
@@ -16,7 +15,7 @@ const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
   const sliderRef = useRef<Slider>(null);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
 
-  var settings = {
+  const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 5,

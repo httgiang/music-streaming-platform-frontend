@@ -11,6 +11,7 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import ProfileFormPage from "@/pages/auth/ProfileFormPage";
 import AccountPage from "./pages/user/Account";
 import ProfilePage from "./pages/user/Profile";
+import SongPage from "@/pages/song/SongPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/song/:id" element={<SongPage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUpPage />} />

@@ -3,6 +3,7 @@ import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface MusicPreviewCardProps {
   type: "song" | "artist";
@@ -11,11 +12,20 @@ export interface MusicPreviewCardProps {
 
 const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const [isPlayButtonVisible, setPlayButtonVisible] = useState(false);
+  const navigate = useNavigate();
+
   const handleMouseEnter = () => {
     setPlayButtonVisible(true);
   };
+
   const handleMouseLeave = () => {
     setPlayButtonVisible(false);
+  };
+
+  const handleCardClick = () => {
+    if (type === "song") {
+      navigate(`/song/${(item as SongProps).id}`, { state: item });
+    }
   };
 
   return (
@@ -37,6 +47,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
     >
       <CardMedia
         sx={{
@@ -46,7 +57,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           borderRadius: type === "artist" ? "50%" : "0%",
         }}
         image={item.image}
-        title="Sailor Song"
+        title={type === "song" ? (item as SongProps).title : (item as ArtistProps).name}
       />
       <Box
         sx={{
