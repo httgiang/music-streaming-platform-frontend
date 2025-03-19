@@ -1,6 +1,24 @@
 import { createTheme } from "@mui/material";
 
+declare module "@mui/material" {
+  interface Theme {
+    custom: {
+      sideBarWidth: number;
+      navBarHeight: number;
+    };
+  }
+  interface ThemeOptions {
+    custom?: {
+      sideBarWidth?: number;
+      navBarHeight?: number;
+    };
+  }
+}
 const theme = createTheme({
+  custom: {
+    sideBarWidth: 38,
+    navBarHeight: 8,
+  },
   components: {
     MuiButton: {
       styleOverrides: {

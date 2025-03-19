@@ -15,13 +15,13 @@ const SearchBar = () => {
           backgroundColor: alpha("#E0E0E0", 0.75),
         },
         padding: "8px 16px",
-        width: "100%",
       }}
     >
       <SearchIcon />
       <InputBase
         placeholder="Search for music..."
         inputProps={{ "aria-label": "search" }}
+        sx={{ width: "100%" }}
       />
     </Box>
   );

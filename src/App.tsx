@@ -18,8 +18,6 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUpPage />} />
@@ -29,6 +27,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );

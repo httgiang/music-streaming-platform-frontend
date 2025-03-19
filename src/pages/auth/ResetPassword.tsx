@@ -59,7 +59,7 @@ const ResetPassword = () => {
   return (
     <Stack flexDirection="column" spacing={3}>
       <Typography variant="subtitle1">
-        Please enter your new password below for your Groovity account
+        Please enter your password below for your Groovity account
       </Typography>
       <Stack flexDirection="column" spacing={1}>
         <TextField
@@ -100,8 +100,8 @@ const ResetPassword = () => {
         />
         <FormControl>
           <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
+            aria-labelledby="password-conditions-group"
+            name="password-conditions-group"
           >
             <Typography variant="subtitle1" color="textSecondary">
               Your password must contain at least...
