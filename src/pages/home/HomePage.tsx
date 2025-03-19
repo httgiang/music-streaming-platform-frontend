@@ -21,8 +21,8 @@ const HomePage = () => {
       type: "song" as const,
       item: {
         id: 2,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
+        title: "Let It Go",
+        artist: "Indina Menzel",
         image: Elsa,
       },
     },

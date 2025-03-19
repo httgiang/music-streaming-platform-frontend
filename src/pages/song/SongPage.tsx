@@ -1,11 +1,10 @@
-import { useLocation} from "react-router-dom";
-import { Container, Typography, Box, Avatar } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import { Container, Typography, Box } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { useEffect, useState } from "react";
 import ColorThief from "colorthief";
 
 const SongPage = () => {
-  
   const location = useLocation();
   const song = location.state as SongProps;
   const [bgColor, setBgColor] = useState<string>("rgba(0, 0, 0, 0.8)");
@@ -34,14 +33,21 @@ const SongPage = () => {
           transition: "background 0.3s ease",
         }}
       >
-        <Box>
-          <Avatar
+        <Box
+          sx={{
+            width: 150,
+            height: 150,
+            overflow: "hidden",
+            borderRadius: "10px",
+          }}
+        >
+          <img
             src={song.image}
-            alt="Avatar"
-            sx={{
-              width: 150,
-              height: 150,
-              transition: "opacity 0.3s ease",
+            alt="Song"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
           />
         </Box>
