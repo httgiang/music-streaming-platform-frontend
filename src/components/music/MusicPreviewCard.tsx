@@ -3,6 +3,9 @@ import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { playSong } from "@/features/music/playerSlice";
+import { RootState } from "@/store";
 
 export interface MusicPreviewCardProps {
   type: "song" | "artist";
@@ -11,11 +14,23 @@ export interface MusicPreviewCardProps {
 
 const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const [isPlayButtonVisible, setPlayButtonVisible] = useState(false);
+  const currentSong = useSelector(
+    (state: RootState) => state.player.currentSong,
+  );
+  const dispatch = useDispatch();
+
   const handleMouseEnter = () => {
     setPlayButtonVisible(true);
   };
   const handleMouseLeave = () => {
     setPlayButtonVisible(false);
+  };
+
+  const handlePlayButtonClick = () => {
+    if (type === "song") {
+      dispatch(playSong(item as SongProps));
+      console.log(currentSong);
+    }
   };
 
   return (
@@ -73,7 +88,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
               transform: "scale(2.0)",
             }}
           >
-            {type === "song" && <PlayButtons onClick={() => {}} />}
+            {type === "song" && <PlayButtons onClick={handlePlayButtonClick} />}
           </Box>
         )}
       </Box>

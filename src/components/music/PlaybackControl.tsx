@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IconButton,
   Slider,
@@ -12,20 +12,34 @@ import {
   Pause,
   SkipNext,
   SkipPrevious,
-  VolumeUp,
-  VolumeDown,
   VolumeDownRounded,
 } from "@mui/icons-material";
-import SailorSongPic from "@/assets/sailor-song.jpg";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
+import { playSong, pauseSong } from "@/features/music/playerSlice";
 
-const PlaybackControl: React.FC = ({}) => {
-  const duration = 2311; //dummy
-  const [isPlaying, setIsPlaying] = useState(false);
+const PlaybackControl = () => {
+  const currentSong = useSelector(
+    (state: RootState) => state.player.currentSong,
+  );
+
+  const dispatch = useDispatch();
+  const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
+
   const [position, setPosition] = React.useState(32);
+
+  if (!currentSong) return null;
+
   const togglePlayPause = () => {
-    setIsPlaying((prev) => !prev);
+    if (isPlaying) {
+      dispatch(pauseSong());
+    } else {
+      dispatch(playSong(currentSong));
+    }
   };
+
+  const duration = 2311; //dummy
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -48,16 +62,17 @@ const PlaybackControl: React.FC = ({}) => {
       position="fixed"
       bottom={0}
       left={0}
+      zIndex={9999}
     >
       <Box flex={3} display="flex" alignItems="center" gap={1} ml={1}>
         <img
-          src={SailorSongPic}
+          src={currentSong.image}
           alt="Album Cover"
           style={{ width: 40, height: 40, borderRadius: 5 }}
         />
         <Box>
           <Typography variant="body2" fontWeight="bold">
-            Sailor Song
+            {currentSong.title}
           </Typography>
           <Typography
             variant="subtitle1"
@@ -65,7 +80,7 @@ const PlaybackControl: React.FC = ({}) => {
             fontSize="small"
             marginRight="15px"
           >
-            Gigi Perez
+            {currentSong.artist}
           </Typography>
         </Box>
 
@@ -92,7 +107,7 @@ const PlaybackControl: React.FC = ({}) => {
             <SkipPrevious />
           </IconButton>
           <IconButton color="inherit" onClick={togglePlayPause} size="small">
-            {isPlaying ? <Pause /> : <PlayArrow />}
+            {!isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
           <IconButton color="inherit" size="small">
             <SkipNext />

@@ -3,7 +3,7 @@ import SideBar from "@/components/side-bar/SideBar";
 import theme from "@/theme/theme";
 import { Outlet } from "react-router-dom";
 import { Container } from "@mui/material";
-import PlaybackControl from "@/components/PlaybackControl";
+import PlaybackControl from "@/components/music/PlaybackControl";
 
 const HomeLayout = () => {
   return (
@@ -15,11 +15,12 @@ const HomeLayout = () => {
         sx={{
           paddingTop: theme.custom.navBarHeight,
           marginLeft: theme.custom.sideBarWidth,
+          alignItems: "center",
         }}
       >
         <Outlet />
-        <PlaybackControl />
       </Container>
+      <PlaybackControl />
     </Container>
   );
 };
