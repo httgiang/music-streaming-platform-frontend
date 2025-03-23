@@ -8,119 +8,119 @@ const HomeFooter = () => {
         <Box sx={{ display: 'flex', flexDirection: 'row'}} flex={10}>
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="h6" gutterBottom >
+        <Typography variant="body1" gutterBottom >
             Company
         </Typography>
         <Stack spacing={1}>
             <Link 
                 href="#" 
                 color="textSecondary" 
-                sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' }}}
             >
                 About
             </Link>
             <Link 
                 href="#" 
                 color="textSecondary" 
-                sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
             >
                 Jobs
             </Link>
             <Link 
                 href="#" 
                 color="textSecondary" 
-                sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
             >
                 For the Record
             </Link>
         </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="h6" gutterBottom >
+        <Typography variant="body1" gutterBottom >
             Communites
         </Typography>
         <Stack spacing={1}>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           For Artists
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Developers
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Advertising
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Investors
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Vendors
         </Link>
       </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="h6" gutterBottom >
+        <Typography variant="body1" gutterBottom >
            Usefull Links
         </Typography>
         <Stack spacing={1}>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Support
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Free Mobile App
         </Link>
       </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="h6" gutterBottom >
+        <Typography variant="body1" gutterBottom >
             Groovity Plans
         </Typography>
         <Stack spacing={1}>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Noble Individual
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Noble Student
         </Link>
         <Link 
             href="#" 
             color="textSecondary" 
-            sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+            sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Groovity Commoners
         </Link>
@@ -151,7 +151,7 @@ const HomeFooter = () => {
                 <Link
                     href="#"
                     color="textSecondary"
-                    sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                    sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Legal
                 </Link>
@@ -159,7 +159,7 @@ const HomeFooter = () => {
                 <Link
                     href="#"
                     color="textSecondary"
-                    sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                    sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Safety & Privacy Center
                 </Link>
@@ -167,7 +167,7 @@ const HomeFooter = () => {
                 <Link
                     href="#"
                     color="textSecondary"
-                    sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                    sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Privacy Policy
                 </Link>
@@ -175,7 +175,7 @@ const HomeFooter = () => {
                 <Link
                     href="#"
                     color="textSecondary"
-                    sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                    sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Cookies
                 </Link>
@@ -183,7 +183,7 @@ const HomeFooter = () => {
                 <Link
                     href="#"
                     color="textSecondary"
-                    sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                    sx={{fontSize: '14px',textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     About Ads
                 </Link>
@@ -191,7 +191,7 @@ const HomeFooter = () => {
                 <Link
                     href="#"
                     color="textSecondary"
-                    sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                    sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Accessibility
                 </Link>

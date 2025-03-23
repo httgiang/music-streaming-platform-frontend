@@ -5,7 +5,7 @@ import { NextButton, PrevButton } from "@/components/iconbuttons/IconButtons";
 import { useEffect, useRef, useState } from "react";
 import MusicPreviewCard, {
   MusicPreviewCardProps,
-} from "@/components/slider/MusicPreviewCard";
+} from "@/components/music/MusicPreviewCard";
 
 interface MusicCardsSliderProps {
   cardChildren: MusicPreviewCardProps[];
@@ -70,6 +70,7 @@ const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
             key={cardProps.item.id}
             item={cardProps.item}
             type={cardProps.type}
+            
           />
         ))}
       </Slider>

@@ -1,12 +1,16 @@
 import { Container, Stack } from "@mui/material";
-import SongCardsSlider from "@/components/slider/SongCardsSlider";
+import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
-import HomeFooter from "@/components/HomeFooter";
 import Elsa from "@/assets/let-it-go.jpg";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+  
   const demoSongs = [
     {
       type: "song" as const,
@@ -15,6 +19,7 @@ const HomePage = () => {
         title: "Sailor Song",
         artist: "Gigi Perez",
         image: SailorSongPic,
+        duration: 2311,
       },
     },
     {
@@ -24,6 +29,7 @@ const HomePage = () => {
         title: "Let It Go",
         artist: "Indina Menzel",
         image: Elsa,
+        duration: 243,
       },
     },
     {
@@ -33,6 +39,7 @@ const HomePage = () => {
         title: "Sailor Song",
         artist: "Gigi Perez",
         image: SailorSongPic,
+        duration: 2311,
       },
     },
     {
@@ -42,6 +49,7 @@ const HomePage = () => {
         title: "Sailor Song",
         artist: "Gigi Perez",
         image: SailorSongPic,
+        duration: 2311,
       },
     },
     {
@@ -51,6 +59,7 @@ const HomePage = () => {
         title: "Sailor Song",
         artist: "Gigi Perez",
         image: SailorSongPic,
+        duration: 2311,
       },
     },
     {
@@ -60,6 +69,7 @@ const HomePage = () => {
         title: "Sailor Song",
         artist: "Gigi Perez",
         image: SailorSongPic,
+        duration: 2311,
       },
     },
   ];
@@ -114,7 +124,7 @@ const HomePage = () => {
     },
   ];
   return (
-    <Container sx={{ paddingBottom: '64px' }}>
+    <Container >
       <Stack spacing={4}>
         <HomeSection title="Trending Songs">
           <SongCardsSlider cardChildren={demoSongs} />
@@ -123,7 +133,6 @@ const HomePage = () => {
           <SongCardsSlider cardChildren={demoArtists} />
         </HomeSection>
       </Stack>
-      <HomeFooter />
     </Container>
     
   );

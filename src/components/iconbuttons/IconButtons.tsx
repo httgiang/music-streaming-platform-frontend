@@ -1,8 +1,11 @@
 import { IconButton } from "@mui/material";
 import { NavigateNext, NavigateBefore, PlayCircle } from "@mui/icons-material";
+import { SongProps } from "@/types/song";
+
 
 interface SliderButtonProps {
   onClick: () => void;
+    item: SongProps ;
 }
 
 export const NextButton: React.FC<SliderButtonProps> = ({ onClick }) => {
@@ -42,8 +45,13 @@ export const PrevButton: React.FC<SliderButtonProps> = ({ onClick }) => {
 };
 
 export const PlayButtons: React.FC<SliderButtonProps> = ({ onClick }) => {
+
+  const handlePlayButtonClick = (event: React.MouseEvent) => {
+    event.stopPropagation();  
+  };
+
   return (
-    <IconButton onClick={onClick}>
+    <IconButton onClick={(event) => { handlePlayButtonClick(event); onClick(); }}>
       <PlayCircle sx={{ color: "red" }} />
     </IconButton>
   );

@@ -3,11 +3,13 @@ export interface SongProps {
   title: string;
   artist: string;
   image: string;
+  duration: number;
 }
 
 export const initialSong : SongProps = {
   id: 0,
   title: "",
   artist: "",
-  image: ""
+  image: "",
+  duration: 0
 }

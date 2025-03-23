@@ -84,7 +84,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
               transform: "scale(2.0)",
             }}
           >
-            <PlayButtons onClick={() => console.log("to be implemented")} />
+            {type === "song" && <PlayButtons onClick={() => { }} item={item as SongProps} />}
           </Box>
         )}
       </Box>
