@@ -8,7 +8,7 @@ const HomeFooter = () => {
         <Box sx={{ display: 'flex', flexDirection: 'row'}} flex={10}>
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom >
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}}>
             Company
         </Typography>
         <Stack spacing={1}>
@@ -36,7 +36,7 @@ const HomeFooter = () => {
         </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom >
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}} >
             Communites
         </Typography>
         <Stack spacing={1}>
@@ -78,7 +78,7 @@ const HomeFooter = () => {
       </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom >
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}}>
            Usefull Links
         </Typography>
         <Stack spacing={1}>
@@ -99,7 +99,7 @@ const HomeFooter = () => {
       </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom >
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}}>
             Groovity Plans
         </Typography>
         <Stack spacing={1}>
@@ -128,14 +128,14 @@ const HomeFooter = () => {
     </Box>
             </Box>
 <Box display="flex" flex={2} alignItems={"flex-start"} justifyContent={"flex-end"} flexDirection={'row'} sx={{ padding: '20px', gap: '10px' }} >
-    <IconButton sx={{ bgcolor: "#333", "&:hover": { bgcolor: "#555" } }}>
-        <Instagram sx={{ color: "white" }} />
+    <IconButton sx={{ bgcolor: "#333", "&:hover": { bgcolor: "#555" } ,height:"30px" ,width:"30px"}}>
+        <Instagram sx={{ color: "white",height:"20px" ,width:"20px" }} />
     </IconButton>
-    <IconButton sx={{ bgcolor: "#333", "&:hover": { bgcolor: "#555" } }}>
-        <Twitter sx={{ color: "white" }} />
+    <IconButton sx={{ bgcolor: "#333", "&:hover": { bgcolor: "#555" },height:"30px" ,width:"30px" }}>
+        <Twitter sx={{ color: "white" ,height:"20px" ,width:"20px"}} />
     </IconButton>
-    <IconButton sx={{ bgcolor: "#333", "&:hover": { bgcolor: "#555" } }}>
-        <Facebook sx={{ color: "white" }} />
+    <IconButton sx={{ bgcolor: "#333", "&:hover": { bgcolor: "#555" },height:"30px" ,width:"30px" }}>
+        <Facebook sx={{ color: "white",height:"20px" ,width:"20px" }} />
     </IconButton>
 </Box>
         </Box>
@@ -146,7 +146,7 @@ const HomeFooter = () => {
             <Box >      
             <Typography
                 variant="body2"
-                sx={{ marginTop: 4, display: 'flex', gap: 2 }}
+                sx={{ marginTop: 0, display: 'flex', gap: 2 }}
             >
                 <Link
                     href="#"
@@ -198,11 +198,10 @@ const HomeFooter = () => {
             </Typography>
 
             </Box>
-<Box display="flex"  flex={2} alignItems={"flex-start"} justifyContent={"flex-end"}  flexDirection={'row'} sx={{ padding: '20px' }}>
+<Box display="flex"  flex={2}  justifyContent={"flex-end"}    >
 <Typography
         variant="body2"
         align="center"
-        sx={{ marginTop: 2 }}
       >
         © 2025 Groovity AB
       </Typography>

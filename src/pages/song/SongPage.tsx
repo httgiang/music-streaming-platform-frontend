@@ -103,10 +103,13 @@ const SongPage = () => {
         </Tooltip>
       </Box>
 
-      <Box sx={{ marginTop: "1rem", display: "flex", flexDirection: "column", alignItems: "start", gap: "0.5rem" }}>
-        <Typography variant="h6" sx={{ marginTop: "1rem" }}>
-          Lyrics
-        </Typography>
+
+<Box display={"flex"} flexDirection={"row"} gap={"8rem"} >
+
+  <Box sx={{ marginTop: "1rem", display: "flex", flexDirection: "column", alignItems: "start", gap: "0.5rem" }}>
+    <Typography variant="h6" sx={{ marginTop: "1rem", fontWeight: "bold", textAlign: "start" }}>
+      Lyrics
+    </Typography>
         <Typography variant="body2" sx={{ fontSize: "0.875rem", color: "text.secondary", maxWidth: "600px", textAlign: "start" }}>
         The snow glows white on the mountain tonight <br />
 Not a footprint to be seen<br />
@@ -150,6 +153,42 @@ Let the storm rage on<br />
 The cold never bothered me anyway
         </Typography>
       </Box>
+
+<Box>
+  
+</Box>
+<Box
+          display={"flex"}
+          flexDirection={"row"}
+
+        >
+          <img
+      
+            src={song.artistImage}
+            alt="Song"
+            style={{
+              width: 80,
+            height: 80,
+            overflow: "hidden",
+            borderRadius: "50%",
+            marginTop: "1rem",
+              objectFit: "cover",
+            }}
+            
+          />
+            <Box display={"flex"} flexDirection={"column"} marginTop={"2rem"} marginLeft={"1rem"}  alignItems={"start"}>
+        <Typography fontSize={14} >
+            Artist
+          </Typography>
+          <Typography fontSize={14} fontWeight={'bold'}>
+            {song.artist}
+          </Typography>
+        </Box>
+        </Box>
+      
+</Box>
+
+     
     </Container>
   );
 };

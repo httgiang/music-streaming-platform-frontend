@@ -4,7 +4,9 @@ import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
 import Elsa from "@/assets/let-it-go.jpg";
+import Gigi from "@/assets/gigi-perez.jpg";
 import { useEffect } from "react";
+import Indina from "@/assets/indina-menzel.jpg";
 
 const HomePage = () => {
   useEffect(() => {
@@ -20,6 +22,7 @@ const HomePage = () => {
         artist: "Gigi Perez",
         image: SailorSongPic,
         duration: 2311,
+        artistImage:Gigi
       },
     },
     {
@@ -30,6 +33,7 @@ const HomePage = () => {
         artist: "Indina Menzel",
         image: Elsa,
         duration: 243,
+        artistImage:Indina 
       },
     },
     {
@@ -40,6 +44,7 @@ const HomePage = () => {
         artist: "Gigi Perez",
         image: SailorSongPic,
         duration: 2311,
+        artistImage:Gigi
       },
     },
     {
@@ -50,6 +55,7 @@ const HomePage = () => {
         artist: "Gigi Perez",
         image: SailorSongPic,
         duration: 2311,
+        artistImage:Gigi
       },
     },
     {
@@ -60,6 +66,7 @@ const HomePage = () => {
         artist: "Gigi Perez",
         image: SailorSongPic,
         duration: 2311,
+        artistImage:Gigi
       },
     },
     {
@@ -70,6 +77,7 @@ const HomePage = () => {
         artist: "Gigi Perez",
         image: SailorSongPic,
         duration: 2311,
+        artistImage:Gigi
       },
     },
   ];
