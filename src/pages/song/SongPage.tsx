@@ -2,16 +2,20 @@ import { useLocation } from "react-router-dom";
 import { Container, Typography, Box, Tooltip, IconButton } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import ColorThief from "colorthief";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { playSong } from "@/features/music/playerSlice";
 
 const SongPage = () => {
-  const location = useLocation();
-  const song = location.state as SongProps;
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
   const [showMore, setShowMore] = useState(false);
   const maxLines = 10;
+
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const song = location.state as SongProps;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,32 +31,31 @@ const SongPage = () => {
       if (palette.length >= 2) {
         const [color1, color2] = palette;
         setBgGradient(
-          `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.8), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.8))`,
+          `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.7), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.9))`,
         );
       }
     };
   }, [song.coverImageUrl]);
 
   return (
-    <Container sx={{ padding: "10px 0", textAlign: "center" }}>
+    <Container sx={{ padding: "10px", textAlign: "center" }}>
       <Box
         display={"flex"}
         flexDirection={"row"}
         sx={{
           background: bgColor,
-          padding: "1rem 2rem",
-          borderRadius: "10px",
+          padding: "1rem ",
+          borderRadius: "5px",
           transition: "background 0.3s ease",
-          width: "100%",
-          maxWidth: "90%",
+          backdropFilter: "blur(10px)",
         }}
       >
         <Box
           sx={{
-            width: 150,
-            height: 150,
+            width: 270,
+            height: 270,
             overflow: "hidden",
-            borderRadius: "10px",
+            borderRadius: "5px",
           }}
         >
           <img
@@ -70,12 +73,12 @@ const SongPage = () => {
           alignItems={"flex-start"}
           display={"flex"}
           flexDirection={"column"}
-          marginLeft={"2rem"}
+          marginLeft={"3rem"}
         >
           <Typography fontSize={12} fontWeight={400}>
             Single
           </Typography>
-          <Typography variant="h3" fontWeight={600}>
+          <Typography variant="h2" fontWeight={600}>
             {song.name}
           </Typography>
           <Typography fontSize={18} fontWeight={400}>
@@ -83,7 +86,6 @@ const SongPage = () => {
           </Typography>
         </Box>
       </Box>
-      {/* <Box sx={{ display: "flex", flexDirection: "column" }}> </Box> */}
       <Box
         sx={{
           marginTop: "2rem",
@@ -94,7 +96,11 @@ const SongPage = () => {
         }}
       >
         <Box sx={{ transform: "scale(2.0)" }}>
-          <PlayButtons onClick={() => {}} />
+          <PlayButtons
+            onClick={() => {
+              dispatch(playSong(song));
+            }}
+          />
         </Box>
         <Tooltip
           title={<span style={{ fontSize: "1em" }}>Add to favorite</span>}

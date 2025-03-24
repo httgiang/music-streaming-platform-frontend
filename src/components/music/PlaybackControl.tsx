@@ -68,7 +68,7 @@ const PlaybackControl = () => {
           src={currentSong?.coverImageUrl}
           style={{ width: 40, height: 40, borderRadius: 5 }}
         />
-        <Box>
+        <Box textAlign="left">
           <Typography variant="body2" fontWeight="bold">
             {currentSong?.name}
           </Typography>
