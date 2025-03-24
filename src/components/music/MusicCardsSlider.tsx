@@ -15,7 +15,7 @@ const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
   const sliderRef = useRef<Slider>(null);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
 
-  var settings = {
+  const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 5,
@@ -70,6 +70,7 @@ const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
             key={cardProps.item.id}
             item={cardProps.item}
             type={cardProps.type}
+            
           />
         ))}
       </Slider>

@@ -4,6 +4,7 @@ import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { playSong } from "@/features/music/playerSlice";
 import { RootState } from "@/store";
 
@@ -18,10 +19,12 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
     (state: RootState) => state.player.currentSong,
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setPlayButtonVisible(true);
   };
+
   const handleMouseLeave = () => {
     setPlayButtonVisible(false);
   };
@@ -30,6 +33,11 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
     if (type === "song") {
       dispatch(playSong(item as SongProps));
       console.log(currentSong);
+    }
+  };
+  const handleCardClick = () => {
+    if (type === "song") {
+      navigate(`/song/${(item as SongProps).id}`, { state: item });
     }
   };
 
@@ -52,6 +60,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
     >
       <CardMedia
         sx={{
@@ -65,7 +74,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
             ? (item as SongProps).coverImageUrl
             : (item as ArtistProps).image
         }
-        title="Sailor Song"
+        title={item.name}
       />
       <Box
         sx={{

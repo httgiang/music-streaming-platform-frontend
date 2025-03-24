@@ -27,6 +27,8 @@ const PlaybackControl = () => {
   const dispatch = useDispatch();
   const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
 
+  const duration = currentSong?.duration || 0;
+
   const [position, setPosition] = React.useState(32);
 
   if (!currentSong) return null;
@@ -38,8 +40,6 @@ const PlaybackControl = () => {
       dispatch(playSong(currentSong));
     }
   };
-
-  const duration = 2311; //dummy
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -57,22 +57,20 @@ const PlaybackControl = () => {
       bgcolor="#1e1e1e"
       color="white"
       p={0.8}
-      borderRadius={2}
       boxShadow={3}
       position="fixed"
       bottom={0}
       left={0}
-      zIndex={9999}
+      zIndex={1300}
     >
       <Box flex={3} display="flex" alignItems="center" gap={1} ml={1}>
         <img
-          src={currentSong.image}
-          alt="Album Cover"
+          src={currentSong?.coverImageUrl}
           style={{ width: 40, height: 40, borderRadius: 5 }}
         />
         <Box>
           <Typography variant="body2" fontWeight="bold">
-            {currentSong.title}
+            {currentSong?.name}
           </Typography>
           <Typography
             variant="subtitle1"
@@ -80,25 +78,27 @@ const PlaybackControl = () => {
             fontSize="small"
             marginRight="15px"
           >
-            {currentSong.artist}
+            {currentSong?.artist}
           </Typography>
         </Box>
 
         <Box>
-          <Tooltip
-            title={<span style={{ fontSize: "16px" }}>Add to favorite</span>}
-            componentsProps={{
-              tooltip: { sx: { backgroundColor: "gray" } },
-              popper: {
-                modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-              },
-            }}
-            placement="top"
-          >
-            <IconButton color="inherit">
-              <AddCircleOutlineIcon sx={{ height: "18px" }} />
-            </IconButton>
-          </Tooltip>
+          {currentSong && (
+            <Tooltip
+              title={<span style={{ fontSize: "16px" }}>Add to favorite</span>}
+              componentsProps={{
+                tooltip: { sx: { backgroundColor: "gray" } },
+                popper: {
+                  modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+                },
+              }}
+              placement="top"
+            >
+              <IconButton color="inherit">
+                <AddCircleOutlineIcon sx={{ height: "18px" }} />
+              </IconButton>
+            </Tooltip>
+          )}
         </Box>
       </Box>
       <Box flex={7} display="flex" flexDirection="column" alignItems="center">

@@ -4,6 +4,7 @@ import theme from "@/theme/theme";
 import { Outlet } from "react-router-dom";
 import { Container, Box } from "@mui/material";
 import PlaybackControl from "@/components/music/PlaybackControl";
+import HomeFooter from "@/components/HomeFooter";
 
 const HomeLayout = () => {
   return (
@@ -19,11 +20,13 @@ const HomeLayout = () => {
           alignItems: "center",
           paddingTop: theme.custom.navBarHeight,
           marginLeft: theme.custom.sideBarWidth,
+          paddingBottom: "64px",
         }}
       >
         <Outlet />
+        <HomeFooter />
+        <PlaybackControl />
       </Box>
-      <PlaybackControl />
     </Container>
   );
 };
