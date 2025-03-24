@@ -24,9 +24,9 @@ const HomePage = () => {
         duration: 210,
         artistImage:Gigi,
         lyrics: `Snow glows white on the mountain tonight
-        Not a footprint to be seen
-        A kingdom of isolation
-        And it looks like I'm the queen...`,
+Not a footprint to be seen
+A kingdom of isolation
+And it looks like I'm the queen...`,
       },
     },
     {
@@ -102,9 +102,9 @@ The cold never bothered me anyway`,
         duration: 2311,
         artistImage:Gigi,
         lyrics: `Snow glows white on the mountain tonight
-        Not a footprint to be seen
-        A kingdom of isolation
-        And it looks like I'm the queen...`,
+Not a footprint to be seen
+A kingdom of isolation
+And it looks like I'm the queen...`,
       },
     },
     {
@@ -117,9 +117,9 @@ The cold never bothered me anyway`,
         duration: 2311,
         artistImage:Gigi,
         lyrics: `Snow glows white on the mountain tonight
-        Not a footprint to be seen
-        A kingdom of isolation
-        And it looks like I'm the queen...`,
+Not a footprint to be seen
+A kingdom of isolation
+And it looks like I'm the queen...`,
       },
     },
     {
@@ -132,9 +132,9 @@ The cold never bothered me anyway`,
         duration: 2311,
         artistImage:Gigi,
         lyrics: `Snow glows white on the mountain tonight
-        Not a footprint to be seen
-        A kingdom of isolation
-        And it looks like I'm the queen...`,
+Not a footprint to be seen
+A kingdom of isolation
+And it looks like I'm the queen...`,
       },
     },
     {
@@ -147,9 +147,9 @@ The cold never bothered me anyway`,
         duration: 2311,
         artistImage:Gigi,  
         lyrics: `Snow glows white on the mountain tonight
-        Not a footprint to be seen
-        A kingdom of isolation
-        And it looks like I'm the queen...`,
+Not a footprint to be seen
+A kingdom of isolation
+And it looks like I'm the queen...`,
       },
     },
   ];
