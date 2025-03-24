@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import {
   initialUserProfileValues,
   userProfileValidationSchema,
-} from "@/types/user";
+} from "@/types/user-profile";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

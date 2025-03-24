@@ -42,8 +42,22 @@ export const PrevButton: React.FC<SliderButtonProps> = ({ onClick }) => {
 };
 
 export const PlayButtons: React.FC<SliderButtonProps> = ({ onClick }) => {
+  const handlePlayButtonClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
+
   return (
-    <IconButton onClick={onClick}>
+    <IconButton
+      sx={{
+        "&:hover": {
+          backgroundColor: "transparent",
+        },
+      }}
+      onClick={(event) => {
+        handlePlayButtonClick(event);
+        onClick();
+      }}
+    >
       <PlayCircle sx={{ color: "red" }} />
     </IconButton>
   );

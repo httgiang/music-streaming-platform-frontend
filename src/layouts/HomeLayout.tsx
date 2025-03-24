@@ -2,8 +2,9 @@ import NavBar from "@/components/nav-bar/NavBar";
 import SideBar from "@/components/side-bar/SideBar";
 import theme from "@/theme/theme";
 import { Outlet } from "react-router-dom";
-import { Container } from "@mui/material";
-import PlaybackControl from "@/components/PlaybackControl";
+import { Container, Box } from "@mui/material";
+import PlaybackControl from "@/components/music/PlaybackControl";
+import HomeFooter from "@/components/HomeFooter";
 
 const HomeLayout = () => {
   return (
@@ -11,15 +12,21 @@ const HomeLayout = () => {
       <NavBar />
       <SideBar />
 
-      <Container
+      <Box
         sx={{
+          flexGrow: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
           paddingTop: theme.custom.navBarHeight,
           marginLeft: theme.custom.sideBarWidth,
+          paddingBottom: "64px",
         }}
       >
         <Outlet />
+        <HomeFooter />
         <PlaybackControl />
-      </Container>
+      </Box>
     </Container>
   );
 };

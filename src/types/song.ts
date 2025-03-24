@@ -1,6 +1,19 @@
 export interface SongProps {
   id: number;
-  title: string;
+  name: string;
+  coverImageUrl: string;
+  lyrics: string;
+  duration: number;
   artist: string;
-  image: string;
+  artistImage: string;
 }
+
+export const initialSong: SongProps = {
+  id: 0,
+  name: "",
+  coverImageUrl: "",
+  lyrics: "",
+  duration: 0,
+  artist: "",
+  artistImage: "",
+};

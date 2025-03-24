@@ -103,7 +103,7 @@ const SignUpPage = () => {
           <AuthButton
             onClick={() => {
               formik.handleSubmit();
-              navigate("/reset-password");
+              navigate("/fill-profile");
             }}
             typography="Next"
           />

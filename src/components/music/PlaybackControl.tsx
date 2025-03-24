@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IconButton,
   Slider,
@@ -12,19 +12,33 @@ import {
   Pause,
   SkipNext,
   SkipPrevious,
-  VolumeUp,
-  VolumeDown,
   VolumeDownRounded,
 } from "@mui/icons-material";
-import SailorSongPic from "@/assets/sailor-song.jpg";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
+import { playSong, pauseSong } from "@/features/music/playerSlice";
 
-const PlaybackControl: React.FC = ({}) => {
-  const duration = 2311; //dummy
-  const [isPlaying, setIsPlaying] = useState(false);
+const PlaybackControl = () => {
+  const currentSong = useSelector(
+    (state: RootState) => state.player.currentSong,
+  );
+
+  const dispatch = useDispatch();
+  const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
+
+  const duration = currentSong?.duration || 0;
+
   const [position, setPosition] = React.useState(32);
+
+  if (!currentSong) return null;
+
   const togglePlayPause = () => {
-    setIsPlaying((prev) => !prev);
+    if (isPlaying) {
+      dispatch(pauseSong());
+    } else {
+      dispatch(playSong(currentSong));
+    }
   };
 
   const formatTime = (time: number) => {
@@ -43,21 +57,20 @@ const PlaybackControl: React.FC = ({}) => {
       bgcolor="#1e1e1e"
       color="white"
       p={0.8}
-      borderRadius={2}
       boxShadow={3}
       position="fixed"
       bottom={0}
       left={0}
+      zIndex={1300}
     >
       <Box flex={3} display="flex" alignItems="center" gap={1} ml={1}>
         <img
-          src={SailorSongPic}
-          alt="Album Cover"
+          src={currentSong?.coverImageUrl}
           style={{ width: 40, height: 40, borderRadius: 5 }}
         />
-        <Box>
+        <Box textAlign="left">
           <Typography variant="body2" fontWeight="bold">
-            Sailor Song
+            {currentSong?.name}
           </Typography>
           <Typography
             variant="subtitle1"
@@ -65,25 +78,27 @@ const PlaybackControl: React.FC = ({}) => {
             fontSize="small"
             marginRight="15px"
           >
-            Gigi Perez
+            {currentSong?.artist}
           </Typography>
         </Box>
 
         <Box>
-          <Tooltip
-            title={<span style={{ fontSize: "16px" }}>Add to favorite</span>}
-            componentsProps={{
-              tooltip: { sx: { backgroundColor: "gray" } },
-              popper: {
-                modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-              },
-            }}
-            placement="top"
-          >
-            <IconButton color="inherit">
-              <AddCircleOutlineIcon sx={{ height: "18px" }} />
-            </IconButton>
-          </Tooltip>
+          {currentSong && (
+            <Tooltip
+              title={<span style={{ fontSize: "16px" }}>Add to favorite</span>}
+              componentsProps={{
+                tooltip: { sx: { backgroundColor: "gray" } },
+                popper: {
+                  modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+                },
+              }}
+              placement="top"
+            >
+              <IconButton color="inherit">
+                <AddCircleOutlineIcon sx={{ height: "18px" }} />
+              </IconButton>
+            </Tooltip>
+          )}
         </Box>
       </Box>
       <Box flex={7} display="flex" flexDirection="column" alignItems="center">
@@ -92,7 +107,7 @@ const PlaybackControl: React.FC = ({}) => {
             <SkipPrevious />
           </IconButton>
           <IconButton color="inherit" onClick={togglePlayPause} size="small">
-            {isPlaying ? <Pause /> : <PlayArrow />}
+            {!isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
           <IconButton color="inherit" size="small">
             <SkipNext />
