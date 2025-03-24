@@ -3,62 +3,23 @@ import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
+import { useEffect, useState } from "react";
+import { fetchSongs } from "@/api/music/song-api";
 
 const HomePage = () => {
+  const [songs, setSongs] = useState([]);
+
+  useEffect(() => {
+    fetchSongs();
+  }, []);
   const demoSongs = [
     {
       type: "song" as "song",
-      item: {
-        id: 1,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
-        image: SailorSongPic,
-      },
+      item: songs[0],
     },
     {
       type: "song" as "song",
-      item: {
-        id: 2,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
-        image: SailorSongPic,
-      },
-    },
-    {
-      type: "song" as "song",
-      item: {
-        id: 3,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
-        image: SailorSongPic,
-      },
-    },
-    {
-      type: "song" as "song",
-      item: {
-        id: 4,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
-        image: SailorSongPic,
-      },
-    },
-    {
-      type: "song" as "song",
-      item: {
-        id: 5,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
-        image: SailorSongPic,
-      },
-    },
-    {
-      type: "song" as "song",
-      item: {
-        id: 6,
-        title: "Sailor Song",
-        artist: "Gigi Perez",
-        image: SailorSongPic,
-      },
+      item: songs[1],
     },
   ];
   const demoArtists = [

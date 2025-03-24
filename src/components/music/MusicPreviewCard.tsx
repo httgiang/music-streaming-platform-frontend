@@ -60,7 +60,11 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           objectFit: "cover",
           borderRadius: type === "artist" ? "50%" : "0%",
         }}
-        image={item.image}
+        image={
+          type === "song"
+            ? (item as SongProps).coverImageUrl
+            : (item as ArtistProps).image
+        }
         title="Sailor Song"
       />
       <Box
@@ -74,7 +78,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
       >
         <Typography variant="body1">
           {type === "song"
-            ? (item as SongProps).title
+            ? (item as SongProps).name
             : (item as ArtistProps).name}
         </Typography>
         <Typography fontSize={14}>

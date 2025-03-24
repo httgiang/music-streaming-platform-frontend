@@ -1,6 +1,6 @@
 export interface SongProps {
-  id: number;
-  title: string;
+  id: string;
+  name: string;
   artist: string;
-  image: string;
+  coverImageUrl: string;
 }

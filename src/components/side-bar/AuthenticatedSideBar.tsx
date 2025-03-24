@@ -113,7 +113,7 @@ const AuthenticatedSideBar = () => {
               label="Your uploads"
             ></Tab>
           </Tabs>
-          <Stack spacing={2} sx={{ maxHeight: 220, overflowY: "auto" }}>
+          <Stack spacing={2} sx={{ maxHeight: 230, overflowY: "auto" }}>
             {dummyPlaylists.map((playlist) => (
               <PlaylistHorizontalCard key={playlist.id} playlist={playlist} />
             ))}
@@ -125,7 +125,7 @@ const AuthenticatedSideBar = () => {
             Recently played
           </Typography>
 
-          <Stack spacing={2} sx={{ maxHeight: 220, overflowY: "auto" }}>
+          <Stack spacing={2} sx={{ maxHeight: 230, overflowY: "auto" }}>
             {dummyPlaylists.map((playlist) => (
               <PlaylistHorizontalCard key={playlist.id} playlist={playlist} />
             ))}

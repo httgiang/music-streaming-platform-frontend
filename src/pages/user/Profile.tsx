@@ -1,7 +1,7 @@
 import {
   initialUserProfileValues,
   userProfileValidationSchema,
-} from "@/types/user";
+} from "@/types/user-profile";
 import {
   Avatar,
   Box,

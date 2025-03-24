@@ -9,7 +9,7 @@ interface authState {
 }
 
 const initialState: authState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   loading: false,
   user: { username: "", email: "" },
   error: null,
@@ -41,4 +41,6 @@ const authSlice = createSlice({
   },
 });
 
+export const { loginRequest, loginSuccess, loginFailure, logout } =
+  authSlice.actions;
 export default authSlice.reducer;

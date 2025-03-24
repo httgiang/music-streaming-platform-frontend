@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import { phoneRegex } from "./auth/regex";
 
 export interface UserProfileProps {
-  email: string;
   avatar: string;
   avatarUrl?: string;
   name: string;
@@ -14,7 +13,6 @@ export interface UserProfileProps {
 }
 
 export const initialUserProfileValues: UserProfileProps = {
-  email: "",
   avatar: "",
   name: "",
   dob: null,
