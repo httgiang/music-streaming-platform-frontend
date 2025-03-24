@@ -5,6 +5,7 @@ export interface SongProps {
   image: string;
   duration: number;
   artistImage: string;
+  lyrics: string;
 }
 
 export const initialSong : SongProps = {
@@ -13,5 +14,6 @@ export const initialSong : SongProps = {
   artist: "",
   image: "",
   duration: 0,
-  artistImage: ""
+  artistImage: "",
+  lyrics: ""
 }

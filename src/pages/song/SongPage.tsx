@@ -10,6 +10,8 @@ const SongPage = () => {
   const location = useLocation();
   const song = location.state as SongProps;
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
+  const [showMore, setShowMore] = useState(false);
+  const maxLines = 5;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -104,54 +106,33 @@ const SongPage = () => {
       </Box>
 
 
-<Box display={"flex"} flexDirection={"row"} gap={"8rem"} >
+<Box display={"flex"} flexDirection={"row"} gap={"12rem"} >
 
   <Box sx={{ marginTop: "1rem", display: "flex", flexDirection: "column", alignItems: "start", gap: "0.5rem" }}>
     <Typography variant="h6" sx={{ marginTop: "1rem", fontWeight: "bold", textAlign: "start" }}>
       Lyrics
     </Typography>
-        <Typography variant="body2" sx={{ fontSize: "0.875rem", color: "text.secondary", maxWidth: "600px", textAlign: "start" }}>
-        The snow glows white on the mountain tonight <br />
-Not a footprint to be seen<br />
-A kingdom of isolation<br />
-And it looks like I'm the queen<br /><br />
-The wind is howling like this swirling storm inside<br />
-Couldn't keep it in, heaven knows I tried<br />
-Don't let them in, don't let them see<br />
-Be the good girl you always have to be<br />
-Conceal, don't feel, don't let them know<br />
-Well, now they know<br /><br />
-Let it go, let it go<br />
-Can't hold it back anymore<br />
-Let it go, let it go<br />
-Turn away and slam the door<br />
-I don't care what they're going to say<br />
-Let the storm rage on<br />
-The cold never bothered me anyway<br /><br />
-It's funny how some distance makes everything seem small<br />
-And the fears that once controlled me can't get to me at all<br />
-It's time to see what I can do<br />
-To test the limits and break through<br />
-No right, no wrong, no rules for me<br />
-I'm free<br /><br />
-Let it go, let it go<br />
-I am one with the wind and sky<br />
-Let it go, let it go<br />
-You'll never see me cry<br />
-Here I stand and here I stay<br />
-Let the storm rage on<br /><br />
-My power flurries through the air into the ground<br />
-My soul is spiraling in frozen fractals all around<br />
-And one thought crystallizes like an icy blast<br />
-I'm never going back, the past is in the past<br /><br />
-Let it go, let it go<br />
-And I'll rise like the break of dawn<br />
-Let it go, let it go<br />
-That perfect girl is gone<br />
-Here I stand in the light of day<br />
-Let the storm rage on<br />
-The cold never bothered me anyway
-        </Typography>
+          {song.lyrics.split("\n").slice(0, showMore ? undefined : maxLines).map((line, index) => (
+            <Typography key={index} variant="body2" sx={{ fontSize: "0.875rem", color: "text.secondary", maxWidth: "600px", textAlign: "start" }}>
+              {line.replace(/ /g, '\u00A0')}
+            </Typography>
+          ))}
+          {song.lyrics.split("\n").length > maxLines && (
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: "0.75rem",
+                color: "black",
+                cursor: "pointer",
+                textAlign: "start",
+                fontWeight: "bold",
+              }}
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? "Show less" : "...Show more"}
+            </Typography>
+          )}
+  
       </Box>
 
 <Box>
@@ -167,8 +148,8 @@ The cold never bothered me anyway
             src={song.artistImage}
             alt="Song"
             style={{
-              width: 80,
-            height: 80,
+              width: 70,
+            height: 70,
             overflow: "hidden",
             borderRadius: "50%",
             marginTop: "1rem",
