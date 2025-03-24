@@ -15,11 +15,21 @@ const HomePage = () => {
   const demoSongs = [
     {
       type: "song" as "song",
-      item: songs[0],
+      item: {
+        id: 1,
+        name: "Sailor Song",
+        artist: "Gigi Perez",
+        coverImageUrl: SailorSongPic,
+      },
     },
     {
       type: "song" as "song",
-      item: songs[1],
+      item: {
+        id: 2,
+        name: "Sailor Song",
+        artist: "Gigi Perez",
+        coverImageUrl: SailorSongPic,
+      },
     },
   ];
   const demoArtists = [

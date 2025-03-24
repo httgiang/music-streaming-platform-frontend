@@ -1,5 +1,5 @@
 export interface SongProps {
-  id: string;
+  id: number;
   name: string;
   artist: string;
   coverImageUrl: string;
