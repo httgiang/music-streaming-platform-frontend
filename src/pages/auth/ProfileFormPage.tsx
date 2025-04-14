@@ -22,19 +22,38 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AuthButton from "@/components/auth/AuthButton";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
+import { setUserProfileData } from "@/features/auth/signUpSlice";
+import { signUp } from "@/api/auth-api";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useToast } from "@/contexts/ToastContext";
 
 const ProfileFormPage = () => {
+  const showToast = useToast();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const signUpData = useSelector((state: RootState) => state.signUp);
+
   const formik = useFormik({
     initialValues: initialUserProfileValues,
     validationSchema: userProfileValidationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      dispatch(setUserProfileData(values));
+      try {
+        const result = await signUp({ ...signUpData, ...values });
+        if (result?.status === 200) {
+          showToast("Sign up successfully", "success");
+          navigate("/verify-otp");
+        }
+      } catch (error) {
+        console.error("Sign up failed: ", error);
+        showToast("Sign up failed", "error");
+      }
     },
   });
 
   const countries = useMemo(() => countryList().getData(), []);
-
-  const navigate = useNavigate();
 
   return (
     <Box width="100%">
@@ -88,7 +107,6 @@ const ProfileFormPage = () => {
             </Select>
           </FormControl>
           <TextField
-            required
             fullWidth
             autoFocus
             placeholder="Enter your contact number"
@@ -119,7 +137,10 @@ const ProfileFormPage = () => {
             fullWidth
           ></Autocomplete>
           <AuthButton
-            onClick={() => navigate("/otp-verification")}
+            // onClick={() => navigate("/otp-verification")}
+            onClick={() => {
+              formik.handleSubmit();
+            }}
             typography="Next"
           />
         </Stack>

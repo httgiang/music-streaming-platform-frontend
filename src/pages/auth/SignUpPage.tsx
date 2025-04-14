@@ -19,13 +19,16 @@ import {
   signUpValidationSchema,
 } from "@/types/auth/signup";
 import AuthButton from "@/components/auth/AuthButton";
+import { setCredentialsData } from "@/features/auth/signUpSlice";
+import { useDispatch } from "react-redux";
 
 const SignUpPage = () => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: initialSignUpValues,
     validationSchema: signUpValidationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(setCredentialsData(values));
     },
   });
   const [showPassword, setShowPassword] = useState(false);

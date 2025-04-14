@@ -65,12 +65,11 @@ const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
       }}
     >
       <Slider ref={sliderRef} {...settings}>
-        {cardChildren.map((cardProps) => (
+        {cardChildren.map((cardProps, index) => (
           <MusicPreviewCard
-            key={cardProps.item.id}
+            key={index}
             item={cardProps.item}
             type={cardProps.type}
-            
           />
         ))}
       </Slider>
