@@ -44,5 +44,5 @@ export const userProfileValidationSchema = Yup.object().shape({
     ["male", "female", "other"],
     "Invalid gender selection",
   ),
-  phoneNumber: Yup.string().matches(phoneRegex, "Invalid phone number"),
+  // phoneNumber: Yup.string().matches(phoneRegex, "Invalid phone number"),
 });

@@ -3,14 +3,28 @@ import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Elsa from "@/assets/let-it-go.jpg";
 import Gigi from "@/assets/gigi-perez.jpg";
 import Indina from "@/assets/indina-menzel.jpg";
+import { fetchSongs } from "@/api/music/song-api";
+import { SongProps } from "@/types/song";
 
 const HomePage = () => {
+  const [loading, setLoading] = useState(true);
+  const [songs, setSongs] = useState<SongProps[]>([]);
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const fetchData = async () => {
+      try {
+        const data = await fetchSongs();
+        setSongs(data);
+      } catch (error) {
+        console.error("Error fetching songs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   const demoSongs = [
@@ -99,7 +113,7 @@ The cold never bothered me anyway`,
     {
       type: "artist" as const,
       item: {
-        id: 1,
+        id: "1",
         name: "The Beatles",
         image: TheBeatlesPic,
       },
@@ -107,7 +121,7 @@ The cold never bothered me anyway`,
     {
       type: "artist" as const,
       item: {
-        id: 2,
+        id: "2",
         name: "The Beatles",
         image: TheBeatlesPic,
       },
@@ -115,7 +129,7 @@ The cold never bothered me anyway`,
     {
       type: "artist" as const,
       item: {
-        id: 3,
+        id: "3",
         name: "The Beatles",
         image: TheBeatlesPic,
       },
@@ -123,7 +137,7 @@ The cold never bothered me anyway`,
     {
       type: "artist" as const,
       item: {
-        id: 4,
+        id: "4",
         name: "The Beatles",
         image: TheBeatlesPic,
       },
@@ -131,7 +145,7 @@ The cold never bothered me anyway`,
     {
       type: "artist" as const,
       item: {
-        id: 5,
+        id: "5",
         name: "The Beatles",
         image: TheBeatlesPic,
       },
@@ -139,18 +153,35 @@ The cold never bothered me anyway`,
     {
       type: "artist" as const,
       item: {
-        id: 6,
+        id: "6",
         name: "The Beatles",
         image: TheBeatlesPic,
       },
     },
   ];
+
+  const fetchedSongs = songs?.map((song) => ({
+    type: "song" as const,
+    item: {
+      id: song.id,
+      name: song.name,
+      coverImageUrl: song.coverImageUrl,
+      lyrics: song.lyrics ? song.lyrics : "",
+      duration: song.duration ? song.duration : 0,
+      artist: song.artist ? song.artist : "",
+      artistImage: song.artistImage ? song.artistImage : "",
+    },
+  }));
+
   return (
     <Container>
       <Stack spacing={4}>
-        <HomeSection title="Trending Songs">
-          <SongCardsSlider cardChildren={demoSongs} />
-        </HomeSection>
+        {!loading && (
+          <HomeSection title="Trending Songs">
+            <SongCardsSlider cardChildren={fetchedSongs} />
+          </HomeSection>
+        )}
+
         <HomeSection title="Popular Artists">
           <SongCardsSlider cardChildren={demoArtists} />
         </HomeSection>
