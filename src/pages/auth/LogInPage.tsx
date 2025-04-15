@@ -15,14 +15,33 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GoogleLogo from "@/assets/google-icon.svg";
 import { initialLogInValues, logInValidationSchema } from "@/types/auth/login";
 import AuthButton from "@/components/auth/AuthButton";
+import { logIn } from "@/api/auth-api";
+import { useToast } from "@/contexts/ToastContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "@/features/auth/authSlice";
 
 const LogInPage = () => {
+  const showToast = useToast();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: initialLogInValues,
     validationSchema: logInValidationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const response = await logIn(values);
+        if (response?.status === 200) {
+          showToast("Logged in successfully", "success");
+          dispatch(loginSuccess(response.data));
+          navigate("/");
+        }
+      } catch (error: any) {
+        const message = error?.response?.data?.message || "Log in failed";
+        showToast(message, "error");
+      }
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -80,10 +99,7 @@ const LogInPage = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Box display="flex" flexDirection="column" gap={1}>
-            <AuthButton
-              onClick={() => formik.handleSubmit()}
-              typography="Log in"
-            />
+            <AuthButton typography="Log in" />
             <Box display="flex" justifyContent="right">
               <Link href="/forgot-password" color="textSecondary">
                 Forgot password?

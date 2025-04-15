@@ -7,6 +7,8 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Button,
+  Typography,
 } from "@mui/material";
 import countryList from "react-select-country-list";
 
@@ -39,16 +41,32 @@ const ProfileFormPage = () => {
     initialValues: initialUserProfileValues,
     validationSchema: userProfileValidationSchema,
     onSubmit: async (values) => {
-      dispatch(setUserProfileData(values));
+      const transformedValues = {
+        ...values,
+        birth: values.birth ? dayjs(values.birth).format("YYYY-MM-DD") : null,
+      };
+      //temporary until backend is fixed
+      const { avatar, ...userProfileWithoutAvatar } = transformedValues;
+
+      const payload = {
+        ...signUpData.credentialsData,
+        userProfile: {
+          ...userProfileWithoutAvatar,
+        },
+      };
+      console.log("Payload: ", payload);
+
       try {
-        const result = await signUp({ ...signUpData, ...values });
+        const result = await signUp(payload);
         if (result?.status === 200) {
           showToast("Sign up successfully", "success");
           navigate("/verify-otp");
+        } else if (result?.status === 409) {
+          showToast("This account already exists", "error");
         }
-      } catch (error) {
-        console.error("Sign up failed: ", error);
-        showToast("Sign up failed", "error");
+      } catch (error: any) {
+        const message = error?.response?.data?.message || "Sign up failed";
+        showToast(message, "error");
       }
     },
   });
@@ -76,15 +94,15 @@ const ProfileFormPage = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date of birth"
-              value={formik.values.dob ? dayjs(formik.values.dob) : null}
-              onChange={(value) => formik.setFieldValue("dob", value)}
+              value={formik.values.birth ? dayjs(formik.values.birth) : null}
+              onChange={(value) => formik.setFieldValue("birth", value)}
               slotProps={{
                 textField: {
                   fullWidth: true,
-                  name: "dob",
+                  name: "birth",
                   onBlur: formik.handleBlur,
-                  error: formik.touched.dob && Boolean(formik.errors.dob),
-                  helperText: formik.touched.dob && formik.errors.dob,
+                  error: formik.touched.birth && Boolean(formik.errors.birth),
+                  helperText: formik.touched.birth && formik.errors.birth,
                 },
               }}
             />
@@ -101,9 +119,9 @@ const ProfileFormPage = () => {
               onBlur={formik.handleBlur}
               error={formik.touched.gender && Boolean(formik.errors.gender)}
             >
-              <MenuItem value="MALE">Male</MenuItem>
-              <MenuItem value="FEMALE">Female</MenuItem>
-              <MenuItem value="CUSTOM">Rather not say</MenuItem>
+              <MenuItem value="male">Male</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="other">Rather not say</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -111,17 +129,15 @@ const ProfileFormPage = () => {
             autoFocus
             placeholder="Enter your contact number"
             type="text"
-            name="phoneNumber"
+            name="phone"
             label="Contact number"
-            value={formik.values.phoneNumber}
+            value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={
-              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-            }
-            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
           />
-          <Autocomplete
+          {/* <Autocomplete
             disablePortal
             id="country-select"
             options={countries}
@@ -135,14 +151,21 @@ const ProfileFormPage = () => {
               />
             )}
             fullWidth
-          ></Autocomplete>
-          <AuthButton
-            // onClick={() => navigate("/otp-verification")}
-            onClick={() => {
-              formik.handleSubmit();
+          ></Autocomplete> */}
+          {/* <AuthButton typography="Next" /> */}
+          <Button
+            type="submit"
+            size="large"
+            fullWidth
+            variant="outlined"
+            sx={{
+              "&:hover": {
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
             }}
-            typography="Next"
-          />
+          >
+            <Typography fontWeight={600}>Next</Typography>
+          </Button>
         </Stack>
       </form>
     </Box>

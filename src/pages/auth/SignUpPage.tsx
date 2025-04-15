@@ -29,6 +29,7 @@ const SignUpPage = () => {
     validationSchema: signUpValidationSchema,
     onSubmit: (values) => {
       dispatch(setCredentialsData(values));
+      navigate("/fill-profile");
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -103,13 +104,7 @@ const SignUpPage = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
           </Box>
-          <AuthButton
-            onClick={() => {
-              formik.handleSubmit();
-              navigate("/fill-profile");
-            }}
-            typography="Next"
-          />
+          <AuthButton typography="Next" />
           <Divider>or sign up with</Divider>
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>

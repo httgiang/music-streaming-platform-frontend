@@ -19,12 +19,7 @@ const OTPVerficationPage = () => {
         We just sent the verifcation code to {userEmail}
       </Typography>
       <OTPInputs />
-      <AuthButton
-        onClick={() => {
-          navigate("/");
-        }}
-        typography="Verify"
-      />
+      <AuthButton typography="Verify" />
       <Box
         display="flex"
         flexDirection="row"
