@@ -19,7 +19,7 @@ import {
   signUpValidationSchema,
 } from "@/types/auth/signup";
 import AuthButton from "@/components/auth/AuthButton";
-import { setCredentialsData } from "@/features/auth/signUpSlice";
+import { setSignUpData } from "@/features/auth/signUpSlice";
 import { useDispatch } from "react-redux";
 
 const SignUpPage = () => {
@@ -28,7 +28,7 @@ const SignUpPage = () => {
     initialValues: initialSignUpValues,
     validationSchema: signUpValidationSchema,
     onSubmit: (values) => {
-      dispatch(setCredentialsData(values));
+      dispatch(setSignUpData(values));
       navigate("/fill-profile");
     },
   });

@@ -7,8 +7,6 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Button,
-  Typography,
 } from "@mui/material";
 import countryList from "react-select-country-list";
 
@@ -24,16 +22,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AuthButton from "@/components/auth/AuthButton";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import { setUserProfileData } from "@/features/auth/signUpSlice";
-import { signUp } from "@/api/auth-api";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useToast } from "@/contexts/ToastContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const ProfileFormPage = () => {
-  const showToast = useToast();
+  const signUp = useAuth().signUp;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const signUpData = useSelector((state: RootState) => state.signUp);
 
@@ -45,6 +40,7 @@ const ProfileFormPage = () => {
         ...values,
         birth: values.birth ? dayjs(values.birth).format("YYYY-MM-DD") : null,
       };
+
       //temporary until backend is fixed
       const { avatar, ...userProfileWithoutAvatar } = transformedValues;
 
@@ -54,20 +50,9 @@ const ProfileFormPage = () => {
           ...userProfileWithoutAvatar,
         },
       };
-      console.log("Payload: ", payload);
 
-      try {
-        const result = await signUp(payload);
-        if (result?.status === 200) {
-          showToast("Sign up successfully", "success");
-          navigate("/verify-otp");
-        } else if (result?.status === 409) {
-          showToast("This account already exists", "error");
-        }
-      } catch (error: any) {
-        const message = error?.response?.data?.message || "Sign up failed";
-        showToast(message, "error");
-      }
+      await signUp(payload);
+      navigate("/");
     },
   });
 
@@ -152,20 +137,7 @@ const ProfileFormPage = () => {
             )}
             fullWidth
           ></Autocomplete> */}
-          {/* <AuthButton typography="Next" /> */}
-          <Button
-            type="submit"
-            size="large"
-            fullWidth
-            variant="outlined"
-            sx={{
-              "&:hover": {
-                backgroundColor: "rgba(0, 0, 0, 0.04)",
-              },
-            }}
-          >
-            <Typography fontWeight={600}>Next</Typography>
-          </Button>
+          <AuthButton typography="Next" />
         </Stack>
       </form>
     </Box>

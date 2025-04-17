@@ -1,13 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface User {
+  username: string;
+  email: string;
+  avatar?: string;
+}
 interface authState {
   isAuthenticated: boolean;
-  user: { username: string; email: string } | null;
+  user: User | null;
 }
 
 const initialState: authState = {
   isAuthenticated: false,
-  user: { username: "", email: "" },
+  user: null,
 };
 
 const authSlice = createSlice({
@@ -21,6 +26,8 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     },
   },
 });
