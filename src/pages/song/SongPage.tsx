@@ -17,6 +17,8 @@ const SongPage = () => {
   const dispatch = useDispatch();
   const song = location.state as SongProps;
 
+ 
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -134,10 +136,10 @@ const SongPage = () => {
           >
             Lyrics
           </Typography>
-          {song.lyrics
-            .split("\n")
-            .slice(0, showMore ? undefined : maxLines)
-            .map((line, index) => (
+          {song?.lyrics
+            ?.split("\n")
+            ?.slice(0, showMore ? undefined : maxLines)
+            ?.map((line, index) => (
               <Typography
                 key={index}
                 variant="body2"
@@ -151,7 +153,7 @@ const SongPage = () => {
                 {line.replace(/ /g, "\u00A0")}
               </Typography>
             ))}
-          {song.lyrics.split("\n").length > maxLines && (
+          {song?.lyrics?.split("\n").length > maxLines && (
             <Typography
               variant="body2"
               sx={{
