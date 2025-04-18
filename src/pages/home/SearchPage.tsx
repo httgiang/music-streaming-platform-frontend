@@ -147,7 +147,7 @@ const SearchPage: React.FC = () => {
                   type="artist"
                   item={{
                     id: artist.id,
-                    name: artist.name,
+                    name: artist.name || "Unknown Artist",
                     image: artist.image,
                   }}
                 />

@@ -174,7 +174,7 @@ const SongPage = () => {
         <Box display={"flex"} flexDirection={"row"}>
           <img
             src={song.artistImage}
-            alt="Song"
+            alt="Artist image"
             style={{
               width: 70,
               height: 70,
