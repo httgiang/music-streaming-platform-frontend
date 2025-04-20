@@ -31,25 +31,21 @@ api.interceptors.response.use(
 
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 401 || !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       if (!isRefreshToken) {
         originalRequest._retry = true;
         isRefreshToken = true;
       }
       try {
         const { data } = await authService.refreshTokenApi();
-        localStorage.setItem("accessToken", data.data.accessToken);
-        localStorage.setItem("refreshToken", data.data.refreshToken);
 
         api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
         requestsToRefresh.forEach((callback) =>
           callback(data.data.accessToken),
         );
-
+        requestsToRefresh = [];
         return api(originalRequest);
       } catch (error) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
         return Promise.reject(error);
       } finally {
         isRefreshToken = false;

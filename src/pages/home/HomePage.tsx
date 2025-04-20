@@ -44,7 +44,6 @@ const HomePage = () => {
         id: 1,
         name: "Sailor Song",
         coverImageUrl: SailorSongPic,
-
         lyrics: `Snow glows white on the mountain tonight
 Not a footprint to be seen
 A kingdom of isolation

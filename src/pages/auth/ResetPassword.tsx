@@ -18,7 +18,6 @@ import {
   resetPasswordValidationSchema,
 } from "@/types/auth/resetpassword";
 import AuthButton from "@/components/auth/AuthButton";
-import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
   const formik = useFormik({
@@ -28,8 +27,6 @@ const ResetPassword = () => {
       console.log(values);
     },
   });
-
-  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {

@@ -15,10 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Notifications } from "@mui/icons-material";
 import { useState } from "react";
-import { logout } from "@/features/auth/authSlice";
 import { useAuth } from "@/contexts/AuthContext";
-import { log } from "console";
-
 const NavBar = () => {
   const navigate = useNavigate();
   const logOut = useAuth().logOut;
