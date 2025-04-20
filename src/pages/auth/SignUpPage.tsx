@@ -19,7 +19,7 @@ import {
   signUpValidationSchema,
 } from "@/types/auth/signup";
 import AuthButton from "@/components/auth/AuthButton";
-import { setCredentialsData } from "@/features/auth/signUpSlice";
+import { setSignUpData } from "@/features/auth/signUpSlice";
 import { useDispatch } from "react-redux";
 
 const SignUpPage = () => {
@@ -28,7 +28,8 @@ const SignUpPage = () => {
     initialValues: initialSignUpValues,
     validationSchema: signUpValidationSchema,
     onSubmit: (values) => {
-      dispatch(setCredentialsData(values));
+      dispatch(setSignUpData(values));
+      navigate("/fill-profile");
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -103,13 +104,7 @@ const SignUpPage = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
           </Box>
-          <AuthButton
-            onClick={() => {
-              formik.handleSubmit();
-              navigate("/fill-profile");
-            }}
-            typography="Next"
-          />
+          <AuthButton typography="Next" />
           <Divider>or sign up with</Divider>
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>

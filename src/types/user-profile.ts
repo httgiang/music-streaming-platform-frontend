@@ -1,29 +1,32 @@
-import { Dayjs } from "dayjs";
 import * as Yup from "yup";
 import { phoneRegex } from "./auth/regex";
 
+export interface User {
+  username: string;
+  email: string;
+  avatar?: string;
+}
 export interface UserProfileProps {
   avatar: string;
-  avatarUrl?: string;
   name: string;
-  dob: Dayjs | null;
+  birth: string | null;
   gender: string;
-  phoneNumber: number;
-  country: string;
+  phone: number;
+  // country: string;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
   avatar: "",
   name: "",
-  dob: null,
+  birth: "",
   gender: "",
-  phoneNumber: 0,
-  country: "",
+  phone: 0,
+  // country: "",
 };
 
 export const userProfileValidationSchema = Yup.object().shape({
   name: Yup.string().required("This name will appear on your profile"),
-  dob: Yup.date()
+  birth: Yup.date()
     .typeError("Invalid date format")
     .max(new Date(), "Date of birth cannot be in the future")
     .min(new Date("1900-01-01"), "Date of birth cannot be before 1900")
@@ -44,5 +47,5 @@ export const userProfileValidationSchema = Yup.object().shape({
     ["male", "female", "other"],
     "Invalid gender selection",
   ),
-  // phoneNumber: Yup.string().matches(phoneRegex, "Invalid phone number"),
+  phone: Yup.string().matches(phoneRegex, "Invalid phone number"),
 });

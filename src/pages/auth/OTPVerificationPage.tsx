@@ -1,11 +1,32 @@
 import { Box, Typography, Link } from "@mui/material";
-import AuthButton from "@/components/auth/AuthButton";
 import OTPInputs from "@/components/auth/OTPInputs";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { authService } from "@/api/auth-service";
+import { useEffect } from "react";
 
 const OTPVerficationPage = () => {
-  const userEmail = "hotrungthygiang@gmail.com"; //dummy value
-  const navigate = useNavigate();
+  const user = useAuth().user;
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const sendVerificationCode = async () => {
+      if (!user?.email) return;
+      try {
+        await authService.sendVerificationApi(user.email);
+      } catch (error) {
+        if (isMounted) {
+          console.error("Verification error:", error);
+        }
+      }
+    };
+
+    const timer = setTimeout(sendVerificationCode, 1000);
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
+  }, [user?.email]);
 
   return (
     <Box
@@ -16,15 +37,10 @@ const OTPVerficationPage = () => {
       gap={3}
     >
       <Typography variant="subtitle1" color="textSecondary">
-        We just sent the verifcation code to {userEmail}
+        We just sent the verifcation code to {user?.email}
       </Typography>
       <OTPInputs />
-      <AuthButton
-        onClick={() => {
-          navigate("/");
-        }}
-        typography="Verify"
-      />
+
       <Box
         display="flex"
         flexDirection="row"

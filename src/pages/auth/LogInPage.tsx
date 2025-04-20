@@ -16,15 +16,21 @@ import GoogleLogo from "@/assets/google-icon.svg";
 import { initialLogInValues, logInValidationSchema } from "@/types/auth/login";
 import AuthButton from "@/components/auth/AuthButton";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LogInPage = () => {
+  const logIn = useAuth().logIn;
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialLogInValues,
     validationSchema: logInValidationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      await logIn(values);
+      navigate("/");
     },
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -80,10 +86,7 @@ const LogInPage = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Box display="flex" flexDirection="column" gap={1}>
-            <AuthButton
-              onClick={() => formik.handleSubmit()}
-              typography="Log in"
-            />
+            <AuthButton typography="Log in" />
             <Box display="flex" justifyContent="right">
               <Link href="/forgot-password" color="textSecondary">
                 Forgot password?

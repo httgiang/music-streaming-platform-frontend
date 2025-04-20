@@ -15,6 +15,14 @@ declare module "@mui/material" {
   }
 }
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "rgb(97, 18, 96)",
+    },
+    secondary: {
+      main: "rgb(232, 155, 231)",
+    },
+  },
   custom: {
     sideBarWidth: 38,
     navBarHeight: 8,
@@ -25,16 +33,6 @@ const theme = createTheme({
         root: {
           textTransform: "none",
           borderRadius: "20px",
-          color: "inherit",
-        },
-      },
-    },
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          cursor: "pointer",
-          alignSelf: "center",
-          fontSize: 18,
           color: "inherit",
         },
       },

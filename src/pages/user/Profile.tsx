@@ -29,6 +29,7 @@ const user = {
 };
 
 const Profile = () => {
+  // const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialUserProfileValues,
@@ -166,16 +167,17 @@ const Profile = () => {
                 </Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    value={formik.values.dob}
-                    name="dob"
+                    value={formik.values.birth}
+                    name="birth"
                     onChange={(date) => formik.setFieldValue("dob", date)}
                     slotProps={{
                       textField: {
                         fullWidth: true,
-                        name: "dob",
+                        name: "birth",
                         onBlur: formik.handleBlur,
-                        error: formik.touched.dob && Boolean(formik.errors.dob),
-                        helperText: formik.touched.dob && formik.errors.dob,
+                        error:
+                          formik.touched.birth && Boolean(formik.errors.birth),
+                        helperText: formik.touched.birth && formik.errors.birth,
                       },
                     }}
                   />
@@ -228,20 +230,16 @@ const Profile = () => {
                 <TextField
                   autoFocus
                   name="phoneNumber"
-                  value={formik.values.phoneNumber}
+                  value={formik.values.phone}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={
-                    !!(formik.touched.phoneNumber && formik.errors.phoneNumber)
-                  }
-                  helperText={
-                    formik.touched.phoneNumber && formik.errors.phoneNumber
-                  }
+                  error={!!(formik.touched.phone && formik.errors.phone)}
+                  helperText={formik.touched.phone && formik.errors.phone}
                   fullWidth
                 />
               </Box>
             </Grid2>
-            <Grid2 size={{ lg: 12 }}>
+            {/* <Grid2 size={{ lg: 12 }}>
               <Box
                 display="flex"
                 flexDirection="column"
@@ -260,7 +258,7 @@ const Profile = () => {
                   <MenuItem>Vietnam</MenuItem>
                 </Select>
               </Box>
-            </Grid2>
+            </Grid2> */}
             <Grid2 size={{ lg: 12 }}>
               <Box display="flex" justifyContent="flex-end" gap={2}>
                 <Button

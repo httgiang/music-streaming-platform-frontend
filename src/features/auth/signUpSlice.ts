@@ -3,7 +3,7 @@ import {
   UserProfileProps,
   initialUserProfileValues,
 } from "@/types/user-profile";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface SignUpState {
   credentialsData: SignUpProps;
   userProfileData: UserProfileProps;
@@ -18,15 +18,14 @@ const signUpSlice = createSlice({
   name: "signUp",
   initialState,
   reducers: {
-    setCredentialsData: (state, action) => {
+    setSignUpData: (state, action: PayloadAction<SignUpProps>) => {
       state.credentialsData = action.payload;
     },
-    setUserProfileData: (state, action) => {
-      state.userProfileData = action.payload;
+    clearSignUpData: (state) => {
+      state.credentialsData = initialSignUpValues;
+      state.userProfileData = initialUserProfileValues;
     },
-    clearSignUpData: () => initialState,
   },
 });
-export const { setCredentialsData, setUserProfileData, clearSignUpData } =
-  signUpSlice.actions;
+export const { setSignUpData, clearSignUpData } = signUpSlice.actions;
 export default signUpSlice.reducer;

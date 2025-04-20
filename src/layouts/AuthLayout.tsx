@@ -11,8 +11,8 @@ const AuthLayout = () => {
     if (location.pathname.includes("log-in")) {
       return "log-in";
     }
-    if (location.pathname.includes("verification")) {
-      return "otp-verification";
+    if (location.pathname.includes("verify-otp")) {
+      return "verify-otp";
     }
     if (location.pathname.includes("forgot-password")) {
       return "forgot-password";
@@ -31,7 +31,7 @@ const AuthLayout = () => {
     if (authPathName === "log-in") {
       return "Welcome back";
     }
-    if (authPathName === "otp-verification") {
+    if (authPathName === "verify-otp") {
       return "Verification";
     }
     if (authPathName === "forgot-password") {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IconButton,
   Slider,
@@ -18,6 +18,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { playSong, pauseSong } from "@/features/music/playerSlice";
+import LogInSuggestionDialog from "../home/LogInSuggestionDialog";
 
 const PlaybackControl = () => {
   const currentSong = useSelector(
@@ -26,12 +27,13 @@ const PlaybackControl = () => {
 
   const dispatch = useDispatch();
   const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated,
+  );
 
   const duration = currentSong?.duration || 0;
 
   const [position, setPosition] = React.useState(32);
-
-  if (!currentSong) return null;
 
   const togglePlayPause = () => {
     if (isPlaying) {
@@ -46,6 +48,8 @@ const PlaybackControl = () => {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
+
+  if (!currentSong) return null;
 
   return (
     <Box

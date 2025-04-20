@@ -3,7 +3,6 @@ export interface SongProps {
   name: string;
   coverImageUrl: string;
   lyrics: string;
-
   duration: number;
   artist: string;
   artistImage: string;

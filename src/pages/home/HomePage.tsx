@@ -14,17 +14,27 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState<SongProps[]>([]);
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
         const data = await fetchSongs();
-        setSongs(data);
+        if (isMounted) {
+          setSongs(data);
+        }
       } catch (error) {
         console.error("Error fetching songs:", error);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
+
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const demoSongs = [
@@ -34,7 +44,6 @@ const HomePage = () => {
         id: 1,
         name: "Sailor Song",
         coverImageUrl: SailorSongPic,
-
         lyrics: `Snow glows white on the mountain tonight
 Not a footprint to be seen
 A kingdom of isolation

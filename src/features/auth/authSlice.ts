@@ -1,38 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { User } from "@/types/user-profile";
 interface authState {
   isAuthenticated: boolean;
-  loading: boolean;
-  user: { username: string; email: string } | null;
-  error: string | null;
-  success: boolean;
+  user: User | null;
 }
 
 const initialState: authState = {
   isAuthenticated: false,
-  loading: false,
-  user: { username: "", email: "" },
-  error: null,
-  success: false,
+  user: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loginRequest: (state) => {
-      state.loading = true;
-    },
     loginSuccess: (state, action) => {
-      state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
-      state.error = null;
-    },
-    loginFailure: (state, action) => {
-      state.loading = false;
-      state.user = null;
-      state.error = action.payload;
     },
     logout: (state) => {
       state.isAuthenticated = false;
@@ -41,6 +25,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
+export const { loginSuccess, logout } = authSlice.actions;
 export default authSlice.reducer;
