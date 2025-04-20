@@ -26,7 +26,7 @@ export const signUpValidationSchema = Yup.object().shape({
   password: Yup.string()
     .matches(
       passwordRegex,
-      "Password should contain at least 8 characters, 1 letter, and 1 number or 1 special character.",
+      "Password should contain at least 8 characters, 1 letter, and 1 number and 1 special character.",
     )
     .required("Password is required"),
 });

@@ -1,6 +1,11 @@
 import * as Yup from "yup";
 import { phoneRegex } from "./auth/regex";
 
+export interface User {
+  username: string;
+  email: string;
+  avatar?: string;
+}
 export interface UserProfileProps {
   avatar: string;
   name: string;

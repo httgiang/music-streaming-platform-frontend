@@ -44,12 +44,7 @@ const ForgotPasswordPage = () => {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           ></TextField>
-          <AuthButton
-            onClick={() => {
-              navigate("/reset-password");
-            }}
-            typography="Send verification"
-          />
+          <AuthButton typography="Send verification" />
           <Box
             sx={{
               display: "flex",

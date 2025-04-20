@@ -52,7 +52,7 @@ const ProfileFormPage = () => {
       };
 
       await signUp(payload);
-      navigate("/");
+      navigate("/verify-otp");
     },
   });
 

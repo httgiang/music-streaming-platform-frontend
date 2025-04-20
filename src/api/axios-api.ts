@@ -1,5 +1,5 @@
 import axios from "axios";
-import { authService } from "@/api/authService";
+import { authService } from "@/api/auth-service";
 
 let isRefreshToken = false;
 let requestsToRefresh: Array<(token: string | null) => void> = []; //queue for requests to be retried after token refresh

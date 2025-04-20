@@ -57,4 +57,42 @@ export const authService = {
       };
     }
   },
+
+  async sendVerificationApi(email: string) {
+    try {
+      const response = await api.post(
+        "/auth/send-verification",
+        { email },
+        { withCredentials: true },
+      );
+      return {
+        success: true,
+        status: response.status,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        status: error.response?.status,
+        message: error.response?.data?.message || error.message,
+      };
+    }
+  },
+
+  async verifyOtpApi(otp: string) {
+    try {
+      const response = await api.post("/auth/verify", { otp });
+      return {
+        success: true,
+        status: response.status,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        status: error.response?.status,
+        message: error.response?.data?.message || error.message,
+      };
+    }
+  },
 };

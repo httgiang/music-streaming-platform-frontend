@@ -15,12 +15,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Notifications } from "@mui/icons-material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
+import { useAuth } from "@/contexts/AuthContext";
+import { log } from "console";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const logOut = useAuth().logOut;
 
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
@@ -128,7 +129,7 @@ const NavBar = () => {
                 <MenuItem
                   onClick={() => {
                     handleCloseMenu();
-                    dispatch(logout());
+                    logOut();
                   }}
                 >
                   Logout

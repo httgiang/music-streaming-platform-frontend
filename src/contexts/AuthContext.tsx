@@ -1,13 +1,14 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess, logout } from "@/features/auth/authSlice";
-import { authService } from "@/api/authService";
+import { authService } from "@/api/auth-service";
 import { useToast } from "@/contexts/ToastContext";
 import { LogInProps } from "@/types/auth/login";
+import { User } from "@/types/user-profile";
 
 export const AuthContext = createContext<any>(null);
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       showToast(message, "error");
     }
   };
+
   const logIn = async (logInData: LogInProps) => {
     try {
       setLoading(true);
@@ -42,6 +44,24 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       throw error;
     } finally {
       setLoading(false);
+    }
+  };
+
+  const verifyOtp = async (otp: string) => {
+    try {
+      const response = await authService.verifyOtpApi(otp);
+      if (response?.status === 200) {
+        setUser(response.data.data.user);
+        setAccessToken(response.data.accessToken);
+        showToast("Verified successfully", "success");
+        dispatch(loginSuccess(response.data.data.user));
+      } else if (response?.status === 400) {
+        showToast("User is already verified", "error");
+      }
+    } catch (error: any) {
+      const message = error?.response?.data?.message || "Verification failed";
+      showToast(message, "error");
+      throw error;
     }
   };
 
@@ -72,7 +92,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, accessToken, loading, logIn, logOut, restoreSession }}
+      value={{
+        user,
+        accessToken,
+        loading,
+        signUp,
+        logIn,
+        logOut,
+        restoreSession,
+        verifyOtp,
+      }}
     >
       {children}
     </AuthContext.Provider>
