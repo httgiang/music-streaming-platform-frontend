@@ -39,3 +39,22 @@ export const getSongById = async (id: string) => {
     throw error;
   }
 };
+
+export const searchSongsOrArtists = async (query: string) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/songs/many?name=${encodeURIComponent(query)}`,
+    );
+    const results = response.data?.data || [];
+    return results.map((item: any) => ({
+      id: item.song.id,
+      name: item.song.name,
+      type: "song", 
+      coverImageUrl: item.song.coverImageUrl,
+      description: item.song.lyric || "No description available",
+    }));
+  } catch (error) {
+    console.error("Search failed: ", error);
+    throw error;
+  }
+};

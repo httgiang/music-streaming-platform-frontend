@@ -47,6 +47,9 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const handleCardClick = () => {
     if (type === "song") {
       navigate(`/song/${(item as SongProps).id}`, { state: item });
+
+    } else if (type === "artist") {
+      navigate(`/artist/${(item as ArtistProps).id}`, { state: item });
     }
   };
 

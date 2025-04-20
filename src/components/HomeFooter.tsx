@@ -13,21 +13,21 @@ const HomeFooter = () => {
         </Typography>
         <Stack spacing={1}>
             <Link 
-                href="#" 
+                  
                 color="textSecondary" 
                 sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' }}}
             >
                 About
             </Link>
             <Link 
-                href="#" 
+                  
                 color="textSecondary" 
                 sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
             >
                 Jobs
             </Link>
             <Link 
-                href="#" 
+                  
                 color="textSecondary" 
                 sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
             >
@@ -41,35 +41,35 @@ const HomeFooter = () => {
         </Typography>
         <Stack spacing={1}>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           For Artists
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Developers
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Advertising
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Investors
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
@@ -83,14 +83,14 @@ const HomeFooter = () => {
         </Typography>
         <Stack spacing={1}>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Support
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
@@ -104,21 +104,21 @@ const HomeFooter = () => {
         </Typography>
         <Stack spacing={1}>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Noble Individual
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Noble Student
         </Link>
         <Link 
-            href="#" 
+              
             color="textSecondary" 
             sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
@@ -149,7 +149,7 @@ const HomeFooter = () => {
                 sx={{ marginTop: 0, display: 'flex', gap: 2 }}
             >
                 <Link
-                    href="#"
+                     
                     color="textSecondary"
                     sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
@@ -157,7 +157,7 @@ const HomeFooter = () => {
                 </Link>
 
                 <Link
-                    href="#"
+                     
                     color="textSecondary"
                     sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
@@ -165,7 +165,7 @@ const HomeFooter = () => {
                 </Link>
 
                 <Link
-                    href="#"
+                     
                     color="textSecondary"
                     sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
@@ -173,7 +173,7 @@ const HomeFooter = () => {
                 </Link>
 
                 <Link
-                    href="#"
+                     
                     color="textSecondary"
                     sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
@@ -181,7 +181,7 @@ const HomeFooter = () => {
                 </Link>
 
                 <Link
-                    href="#"
+                     
                     color="textSecondary"
                     sx={{fontSize: '14px',textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
@@ -189,7 +189,7 @@ const HomeFooter = () => {
                 </Link>
 
                 <Link
-                    href="#"
+                    
                     color="textSecondary"
                     sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
@@ -203,7 +203,7 @@ const HomeFooter = () => {
         variant="body2"
         align="center"
       >
-        © 2025 Groovity AB
+        © 2025 Groovity
       </Typography>
     </Box>
         </Box>

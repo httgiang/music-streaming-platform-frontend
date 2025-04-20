@@ -12,6 +12,8 @@ import ProfileFormPage from "@/pages/auth/ProfileFormPage";
 import AccountPage from "./pages/user/Account";
 import ProfilePage from "./pages/user/Profile";
 import SongPage from "@/pages/song/SongPage";
+import SearchPage from "@/pages/home/SearchPage";
+import ArtistPage from "./pages/song/ArtistPage";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/song/:id" element={<SongPage />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="/artist/:id" element={<ArtistPage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUpPage />} />
