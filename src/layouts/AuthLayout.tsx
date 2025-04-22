@@ -49,15 +49,44 @@ const AuthLayout = () => {
     <Box
       sx={{
         display: "flex",
+        height: "100vh",
+        backgroundColor: "background.default",
       }}
     >
       <Box
         sx={{
           margin: "auto",
           alignItems: "center",
+
           width: "400px",
         }}
       >
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img width={20} height={20} alt="GroovityLogo" />
+          <Typography
+            fontWeight="800"
+            fontFamily="AMORIA"
+            fontSize={30}
+            letterSpacing={2}
+            sx={{
+              background: "linear-gradient(180deg, #d14eff 0%, #ffe600 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow:
+                "0 0 10px rgba(255, 230, 0, 0.6), 0 0 20px rgba(186, 57, 255, 0.4)",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            GROOVITY
+          </Typography>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -67,7 +96,7 @@ const AuthLayout = () => {
             height: "80vh",
           }}
         >
-          <Typography fontSize={24} fontWeight={700}>
+          <Typography fontSize={24} fontWeight={700} color="text.primary">
             {formTitle}
           </Typography>
           <Box

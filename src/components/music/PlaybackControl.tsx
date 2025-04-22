@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   IconButton,
   Slider,
@@ -18,7 +18,6 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { playSong, pauseSong } from "@/features/music/playerSlice";
-import LogInSuggestionDialog from "../home/LogInSuggestionDialog";
 
 const PlaybackControl = () => {
   const currentSong = useSelector(
@@ -27,9 +26,6 @@ const PlaybackControl = () => {
 
   const dispatch = useDispatch();
   const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated,
-  );
 
   const duration = currentSong?.duration || 0;
 

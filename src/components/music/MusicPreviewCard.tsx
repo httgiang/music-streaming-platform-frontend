@@ -1,4 +1,4 @@
-import { Card, CardMedia, Box, Typography } from "@mui/material";
+import { Card, Box, Typography, alpha } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
@@ -64,8 +64,9 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           paddingY: 2,
           width: 150,
           height: 200,
-          backgroundColor: "black",
-          color: "white",
+          backgroundColor: "rgba(255, 255, 255, 0.01)",
+          backdropFilter: "blur(12px)",
+
           "&:hover": {
             cursor: "pointer",
             transform: "scale(1.05)",

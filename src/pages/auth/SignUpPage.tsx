@@ -109,7 +109,9 @@ const SignUpPage = () => {
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>
               <img src={GoogleLogo} alt="Google Logo" width={20} height={20} />
-              <Typography fontWeight="700">Continue with Google</Typography>
+              <Typography fontWeight="700" color="text.primary">
+                Continue with Google
+              </Typography>
             </Box>
           </Button>
         </Stack>

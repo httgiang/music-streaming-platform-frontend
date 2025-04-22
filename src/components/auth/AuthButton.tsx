@@ -18,7 +18,9 @@ const AuthButton: React.FC<AuthButtonProps> = ({ typography }) => {
         },
       }}
     >
-      <Typography fontWeight={600}>{typography}</Typography>
+      <Typography fontWeight={600} color="text.primary">
+        {typography}
+      </Typography>
     </Button>
   );
 };
