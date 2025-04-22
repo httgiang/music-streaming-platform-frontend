@@ -8,6 +8,12 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import store from "@/store";
 
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", () => {
+//     navigator.serviceWorker.register("/service-worker.js", { scope: "/" });
+//   });
+// }
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>

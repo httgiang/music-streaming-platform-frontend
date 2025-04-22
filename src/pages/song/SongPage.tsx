@@ -17,16 +17,18 @@ const SongPage = () => {
   const dispatch = useDispatch();
   const song = location.state as SongProps;
 
- 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
+    if (song.coverImageUrl === "") return;
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = song.coverImageUrl;
+    img.src =
+      song.coverImageUrl !== ""
+        ? song.coverImageUrl
+        : "https://via.placeholder.com/150";
     img.onload = () => {
       const colorThief = new ColorThief();
       const palette = colorThief.getPalette(img, 2);
@@ -36,6 +38,11 @@ const SongPage = () => {
           `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.7), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.9))`,
         );
       }
+    };
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+      img.src = "";
     };
   }, [song.coverImageUrl]);
 

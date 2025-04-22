@@ -21,6 +21,8 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
     (state: RootState) => state.auth.isAuthenticated,
   );
 
+  const [loadedImage, setLoadedImage] = useState(false);
+
   const [showLogInDialog, setShowLogInDialog] = useState(false);
 
   const dispatch = useDispatch();
@@ -47,7 +49,6 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const handleCardClick = () => {
     if (type === "song") {
       navigate(`/song/${(item as SongProps).id}`, { state: item });
-
     } else if (type === "artist") {
       navigate(`/artist/${(item as ArtistProps).id}`, { state: item });
     }
@@ -75,20 +76,35 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
         onMouseLeave={handleMouseLeave}
         onClick={handleCardClick}
       >
-        <CardMedia
+        <Box
           sx={{
             height: 150,
             width: 150,
-            objectFit: "cover",
+            backgroundImage: `url(${
+              type === "song"
+                ? (item as SongProps).coverImageUrl
+                : (item as ArtistProps).image
+            })`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             borderRadius: type === "artist" ? "50%" : "0%",
+            filter: loadedImage ? "none" : "blur(10px)",
+            transition: "filter 0.3s ease-out",
           }}
-          image={
-            type === "song"
-              ? (item as SongProps).coverImageUrl
-              : (item as ArtistProps).image
-          }
-          title={item.name}
-        />
+          component="div"
+        >
+          <img
+            src={
+              type === "song"
+                ? (item as SongProps).coverImageUrl
+                : (item as ArtistProps).image
+            }
+            alt={item.name}
+            style={{ display: "none" }}
+            onLoad={() => setLoadedImage(true)}
+          />
+        </Box>
+
         <Box
           sx={{
             display: "flex",

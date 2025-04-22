@@ -16,9 +16,6 @@ declare module "@mui/material" {
 }
 const theme = createTheme({
   palette: {
-    primary: {
-      main: "rgb(97, 18, 96)",
-    },
     secondary: {
       main: "rgb(232, 155, 231)",
     },

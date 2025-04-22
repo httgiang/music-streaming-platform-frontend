@@ -6,11 +6,16 @@ import { useEffect, useRef, useState } from "react";
 import MusicPreviewCard, {
   MusicPreviewCardProps,
 } from "@/components/music/MusicPreviewCard";
+import { Skeleton, Box } from "@mui/material";
 
 interface MusicCardsSliderProps {
   cardChildren: MusicPreviewCardProps[];
+  isLoading?: boolean;
 }
-const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
+const MusicCardsSlider = ({
+  cardChildren,
+  isLoading,
+}: MusicCardsSliderProps) => {
   const [showArrows, setShowArrows] = useState(false);
   const sliderRef = useRef<Slider>(null);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
@@ -65,13 +70,31 @@ const MusicCardsSlider = ({ cardChildren }: MusicCardsSliderProps) => {
       }}
     >
       <Slider ref={sliderRef} {...settings}>
-        {cardChildren.map((cardProps, index) => (
-          <MusicPreviewCard
-            key={index}
-            item={cardProps.item}
-            type={cardProps.type}
-          />
-        ))}
+        {isLoading
+          ? [...Array(5)].map((_, index) => (
+              <Box
+                key={index}
+                sx={{
+                  display: "flex",
+                  padding: 1,
+                  width: "100%",
+                }}
+              >
+                <Skeleton
+                  variant="rectangular"
+                  height={200}
+                  width={150}
+                  sx={{ paddingX: 3, paddingY: 2 }}
+                />
+              </Box>
+            ))
+          : cardChildren.map((cardProps, index) => (
+              <MusicPreviewCard
+                key={index}
+                item={cardProps.item}
+                type={cardProps.type}
+              />
+            ))}
       </Slider>
     </div>
   );

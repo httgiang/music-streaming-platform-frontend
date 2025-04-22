@@ -1,41 +1,26 @@
-import { Container, Stack } from "@mui/material";
+import { Container, Skeleton, Stack } from "@mui/material";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import SailorSongPic from "@/assets/sailor-song.jpg";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
-import { useEffect, useState } from "react";
 import Elsa from "@/assets/let-it-go.jpg";
 import Gigi from "@/assets/gigi-perez.jpg";
 import Indina from "@/assets/indina-menzel.jpg";
 import { fetchSongs } from "@/api/music/song-api";
 import { SongProps } from "@/types/song";
+import { useQuery } from "@tanstack/react-query";
 
 const HomePage = () => {
-  const [loading, setLoading] = useState(true);
-  const [songs, setSongs] = useState<SongProps[]>([]);
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchData = async () => {
-      try {
-        const data = await fetchSongs();
-        if (isMounted) {
-          setSongs(data);
-        }
-      } catch (error) {
-        console.error("Error fetching songs:", error);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const {
+    isLoading,
+    isFetching,
+    data: songs,
+  } = useQuery<SongProps[]>({
+    queryKey: ["songs"],
+    queryFn: fetchSongs,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+  });
 
   const demoSongs = [
     {
@@ -185,11 +170,12 @@ The cold never bothered me anyway`,
   return (
     <Container>
       <Stack spacing={4}>
-        {!loading && (
-          <HomeSection title="Trending Songs">
-            <SongCardsSlider cardChildren={fetchedSongs} />
-          </HomeSection>
-        )}
+        <HomeSection title="Trending Songs">
+          <SongCardsSlider
+            cardChildren={fetchedSongs || []}
+            isLoading={isLoading}
+          />
+        </HomeSection>
 
         <HomeSection title="Popular Artists">
           <SongCardsSlider cardChildren={demoArtists} />
