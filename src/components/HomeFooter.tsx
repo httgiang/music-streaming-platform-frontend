@@ -8,27 +8,26 @@ const HomeFooter = () => {
         <Box sx={{ display: 'flex', flexDirection: 'row'}} flex={10}>
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}}>
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}} color="White">
             Company
         </Typography>
         <Stack spacing={1}>
             <Link 
                   
-                color="textSecondary" 
                 sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' }}}
             >
                 About
             </Link>
             <Link 
                   
-                color="textSecondary" 
+               
                 sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
             >
                 Jobs
             </Link>
             <Link 
                   
-                color="textSecondary" 
+           
                 sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
             >
                 For the Record
@@ -36,41 +35,41 @@ const HomeFooter = () => {
         </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}} >
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}} color="white"  >
             Communites
         </Typography>
         <Stack spacing={1}>
         <Link 
               
-            color="textSecondary" 
+           
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           For Artists
         </Link>
         <Link 
               
-            color="textSecondary" 
+           
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Developers
         </Link>
         <Link 
               
-            color="textSecondary" 
+          
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Advertising
         </Link>
         <Link 
               
-            color="textSecondary" 
+   
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Investors
         </Link>
         <Link 
               
-            color="textSecondary" 
+
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Vendors
@@ -78,20 +77,20 @@ const HomeFooter = () => {
       </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}}>
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}} color="white">
            Usefull Links
         </Typography>
         <Stack spacing={1}>
         <Link 
               
-            color="textSecondary" 
+           
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Support
         </Link>
         <Link 
               
-            color="textSecondary" 
+    
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Free Mobile App
@@ -99,27 +98,27 @@ const HomeFooter = () => {
       </Stack>
     </Box>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px' }}>
-        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}}>
+        <Typography variant="body1" gutterBottom sx={{fontWeight: 'bold'}} color="white">
             Groovity Plans
         </Typography>
         <Stack spacing={1}>
         <Link 
               
-            color="textSecondary" 
+   
             sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Noble Individual
         </Link>
         <Link 
               
-            color="textSecondary" 
+  
             sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Noble Student
         </Link>
         <Link 
               
-            color="textSecondary" 
+
             sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
         >
           Groovity Commoners
@@ -150,7 +149,7 @@ const HomeFooter = () => {
             >
                 <Link
                      
-                    color="textSecondary"
+                 
                     sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Legal
@@ -158,7 +157,7 @@ const HomeFooter = () => {
 
                 <Link
                      
-                    color="textSecondary"
+                 
                     sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Safety & Privacy Center
@@ -166,7 +165,7 @@ const HomeFooter = () => {
 
                 <Link
                      
-                    color="textSecondary"
+               
                     sx={{ fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Privacy Policy
@@ -174,7 +173,7 @@ const HomeFooter = () => {
 
                 <Link
                      
-                    color="textSecondary"
+                   
                     sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Cookies
@@ -182,7 +181,7 @@ const HomeFooter = () => {
 
                 <Link
                      
-                    color="textSecondary"
+                 
                     sx={{fontSize: '14px',textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     About Ads
@@ -190,7 +189,7 @@ const HomeFooter = () => {
 
                 <Link
                     
-                    color="textSecondary"
+              
                     sx={{fontSize: '14px', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                 >
                     Accessibility
@@ -202,6 +201,7 @@ const HomeFooter = () => {
 <Typography
         variant="body2"
         align="center"
+        color="white"
       >
         © 2025 Groovity
       </Typography>

@@ -18,8 +18,8 @@ const MusicCard: React.FC<{ song: Song }> = ({ song }) => {
       display="flex"
       alignItems="center"
       justifyContent="space-between"
-      onMouseEnter={() => setIsHovered(true)} 
-      onMouseLeave={() => setIsHovered(false)} 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Box display="flex" alignItems="center" gap={1}>
         <img
@@ -28,26 +28,25 @@ const MusicCard: React.FC<{ song: Song }> = ({ song }) => {
           style={{ width: 40, height: 40, borderRadius: 5 }}
         />
         <Box textAlign="left">
-          <Typography variant="body2" fontWeight="bold">
+          <Typography variant="body2" fontWeight="bold" color="white">
             {song.name}
           </Typography>
           <Typography
             variant="subtitle2"
-            color="gray"
+            color="white"
             fontSize="small"
             marginRight="15px"
           >
             {song.artist}
           </Typography>
         </Box>
-        
       </Box>
       <Box
         display="flex"
         alignItems="center"
         justifyContent="space-between"
         gap={1}
-        sx={{ width: "120px" }} 
+        sx={{ width: "120px" }}
       >
         {isHovered && (
           <Tooltip
@@ -60,26 +59,25 @@ const MusicCard: React.FC<{ song: Song }> = ({ song }) => {
             }}
             placement="top"
           >
-            <IconButton color="inherit">
+            <IconButton sx={{ color: "white" }} size="small">
               <AddCircleOutlineIcon sx={{ height: "18px" }} />
             </IconButton>
           </Tooltip>
         )}
         <Typography
           variant="body2"
-          color="gray"
+          color="white"
           textAlign="center"
-          sx={{ flexGrow: 1, textAlign: "center" }} 
+          sx={{ flexGrow: 1, textAlign: "center" }}
         >
           {song.duration}
         </Typography>
         {isHovered && (
-          <IconButton color="inherit">
+          <IconButton sx={{ color: "white" }} size="small">
             <MoreHorizIcon sx={{ height: "18px" }} />
           </IconButton>
         )}
       </Box>
-    
     </Box>
   );
 };

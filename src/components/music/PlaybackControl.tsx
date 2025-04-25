@@ -74,7 +74,7 @@ const PlaybackControl = () => {
           </Typography>
           <Typography
             variant="subtitle1"
-            color="gray"
+            color="white"
             fontSize="small"
             marginRight="15px"
           >

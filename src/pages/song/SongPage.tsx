@@ -121,7 +121,7 @@ const SongPage = () => {
           }}
           placement="top"
         >
-          <IconButton color="inherit">
+          <IconButton sx={{ color: "white" }}>
             <AddCircleOutlineIcon sx={{ fontSize: "2rem" }} />
           </IconButton>
         </Tooltip>
@@ -140,6 +140,7 @@ const SongPage = () => {
           <Typography
             variant="h6"
             sx={{ marginTop: "1rem", fontWeight: "bold", textAlign: "start" }}
+            color="white"
           >
             Lyrics
           </Typography>
@@ -165,7 +166,7 @@ const SongPage = () => {
               variant="body2"
               sx={{
                 fontSize: "0.75rem",
-                color: "black",
+                color: "white",
                 cursor: "pointer",
                 textAlign: "start",
                 fontWeight: "bold",
@@ -198,8 +199,8 @@ const SongPage = () => {
             marginLeft={"1rem"}
             alignItems={"start"}
           >
-            <Typography fontSize={14}>Artist</Typography>
-            <Typography fontSize={14} fontWeight={"bold"}>
+            <Typography fontSize={14} color="white">Artist</Typography>
+            <Typography fontSize={14} fontWeight={"bold"} color="white">
               {song.artist}
             </Typography>
           </Box>

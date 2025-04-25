@@ -87,7 +87,7 @@ const SearchPage: React.FC = () => {
             variant="h5"
             sx={{
               marginBottom: 1,
-              color: "black",
+              color: "White",
               fontWeight: 600,
               alignSelf: "flex-start",
             }}
@@ -96,12 +96,12 @@ const SearchPage: React.FC = () => {
           </Typography>
           {results.length > 0 ? (
             <Stack spacing={2}>
-              {results.slice(0, 4).map((result) => (
+              {results.slice(0, filter === "Song" ? 10 : 4).map((result) => (
                 <Box
                   key={result.id}
                   sx={{
                     "&:hover": {
-                      backgroundColor: "lightgray",
+                      backgroundColor: "#484848",
                       borderRadius: "8px",
                       transition: "background-color 0.3s ease",
                     },
@@ -133,7 +133,7 @@ const SearchPage: React.FC = () => {
             sx={{
               marginTop: 2,
               marginBottom: 1,
-              color: "black",
+              color: "White",
               fontWeight: 600,
               alignSelf: "flex-start",
             }}
