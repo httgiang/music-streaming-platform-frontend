@@ -1,4 +1,4 @@
-import { Card, Box, Typography, alpha } from "@mui/material";
+import { Card, Box, Typography } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
