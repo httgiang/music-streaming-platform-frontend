@@ -10,13 +10,13 @@ export const fetchSongs = async () => {
     );
     const songs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
-          id: item.song.id,
-          name: item.song.name,
-          lyrics: item.song.lyric,
-          coverImageUrl: item.song.coverImageUrl,
+          id: item.id,
+          name: item.name,
+          lyrics: item.lyric,
+          coverImageUrl: item.coverImageUrl,
           duration: 0,
-          artist: item.song.user.username,
-          artistImage: item.song.user.userAvatar,
+          artist: item.user.username,
+          artistImage: item.user.userAvatar,
         }))
       : [];
 
@@ -47,11 +47,12 @@ export const searchSongsOrArtists = async (query: string) => {
     );
     const results = response.data?.data || [];
     return results.map((item: any) => ({
-      id: item.song.id,
-      name: item.song.name,
+      id: item.id,
+      name: item.name,
       type: "song", 
-      coverImageUrl: item.song.coverImageUrl,
-      description: item.song.lyric || "No description available",
+      artist: item.user.username,
+      coverImageUrl: item.coverImageUrl,
+      description: item.lyric || "No description available",
     }));
   } catch (error) {
     console.error("Search failed: ", error);
