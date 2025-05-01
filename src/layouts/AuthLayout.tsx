@@ -11,6 +11,9 @@ const AuthLayout = () => {
     if (location.pathname.includes("log-in")) {
       return "log-in";
     }
+    if (location.pathname.includes("send-email")) {
+      return "send-email";
+    }
     if (location.pathname.includes("verify-otp")) {
       return "verify-otp";
     }
@@ -31,8 +34,11 @@ const AuthLayout = () => {
     if (authPathName === "log-in") {
       return "Welcome back";
     }
+    if (authPathName === "send-email") {
+      return "Verify your email";
+    }
     if (authPathName === "verify-otp") {
-      return "Verification";
+      return "Check your email";
     }
     if (authPathName === "forgot-password") {
       return "Reset password";

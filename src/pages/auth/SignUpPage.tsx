@@ -50,6 +50,7 @@ const SignUpPage = () => {
             placeholder="Enter username"
             type="text"
             name="username"
+            autoComplete="username"
             label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
@@ -63,6 +64,7 @@ const SignUpPage = () => {
             placeholder="Enter email"
             type="text"
             name="email"
+            autoComplete="email"
             label="Email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -77,6 +79,7 @@ const SignUpPage = () => {
               placeholder="Enter password"
               type={showPassword ? "text" : "password"}
               name="password"
+              autoComplete="new-password"
               label="Password"
               slotProps={{
                 input: {

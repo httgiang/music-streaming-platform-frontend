@@ -1,59 +1,42 @@
-import { Box, Typography, Link } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import OTPInputs from "@/components/auth/OTPInputs";
 import { useAuth } from "@/contexts/AuthContext";
-import { authService } from "@/api/auth-service";
-import { useEffect } from "react";
-
+import LoadingScreen from "@/components/home/LoadingScreen";
 const OTPVerficationPage = () => {
   const user = useAuth().user;
+  const sendVerificationEmail = useAuth().sendVerificationEmail;
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const sendVerificationCode = async () => {
-      if (!user?.email) return;
-      try {
-        await authService.sendVerificationApi(user.email);
-      } catch (error) {
-        if (isMounted) {
-          console.error("Verification error:", error);
-        }
-      }
-    };
-
-    const timer = setTimeout(sendVerificationCode, 1000);
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
-  }, [user?.email]);
+  const sendCode = async () => {
+    if (!user?.email) return;
+    try {
+      await sendVerificationEmail(user.email);
+    } catch (error) {
+      console.error("Failed to send verification email:", error);
+    }
+  };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      textAlign="center"
-      gap={3}
-    >
-      <Typography variant="subtitle1" color="textSecondary">
-        We just sent the verifcation code to {user?.email}
-      </Typography>
-      <OTPInputs />
-
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="center"
-        gap={0.5}
-      >
+    <>
+      <Box display="flex" flexDirection="column" gap={3} width="100%">
         <Typography variant="subtitle1" color="textSecondary">
-          Haven't received code?{" "}
+          We just sent the verifcation code to {user?.email}
         </Typography>
-        <Link>Resend</Link>
+        <OTPInputs />
+
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          gap={0.5}
+        >
+          <Typography variant="subtitle1" color="textSecondary">
+            Haven't received code?{" "}
+          </Typography>
+          <Button onClick={sendCode}>Resend</Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

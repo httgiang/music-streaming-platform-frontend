@@ -26,8 +26,12 @@ const LogInPage = () => {
     initialValues: initialLogInValues,
     validationSchema: logInValidationSchema,
     onSubmit: async (values) => {
-      await logIn(values);
-      navigate("/");
+      try {
+        await logIn(values);
+        navigate("/");
+      } catch (error) {
+        console.error("Login error:", error);
+      }
     },
   });
 
@@ -37,7 +41,7 @@ const LogInPage = () => {
   };
   return (
     <Box width="100%">
-      <form onSubmit={formik.handleSubmit}>
+      <form autoComplete="on" onSubmit={formik.handleSubmit}>
         <Stack flexDirection="column" spacing={3}>
           <TextField
             required
@@ -46,6 +50,7 @@ const LogInPage = () => {
             placeholder="Enter username"
             type="text"
             name="username"
+            autoComplete="username"
             label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
@@ -57,6 +62,7 @@ const LogInPage = () => {
             required
             fullWidth
             placeholder="Enter password"
+            autoComplete="current-password"
             type={showPassword ? "text" : "password"}
             name="password"
             label="Password"
