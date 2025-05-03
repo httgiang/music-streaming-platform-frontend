@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import OTPInputs from "@/components/auth/OTPInputs";
 import { useAuth } from "@/contexts/AuthContext";
-import LoadingScreen from "@/components/home/LoadingScreen";
+
 const OTPVerficationPage = () => {
   const user = useAuth().user;
   const sendVerificationEmail = useAuth().sendVerificationEmail;
@@ -19,7 +19,7 @@ const OTPVerficationPage = () => {
     <>
       <Box display="flex" flexDirection="column" gap={3} width="100%">
         <Typography variant="subtitle1" color="textSecondary">
-          We just sent the verifcation code to {user?.email}
+          We just sent the verifcation code to your email address
         </Typography>
         <OTPInputs />
 
@@ -33,7 +33,9 @@ const OTPVerficationPage = () => {
           <Typography variant="subtitle1" color="textSecondary">
             Haven't received code?{" "}
           </Typography>
-          <Button onClick={sendCode}>Resend</Button>
+          <Button onClick={sendCode}>
+            <Typography color="white">Resend</Typography>
+          </Button>
         </Box>
       </Box>
     </>

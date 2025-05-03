@@ -1,13 +1,10 @@
-import axios from "axios";
+import api from "../axios-api";
 
 export const fetchSongs = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/songs/many",
-      {
-        withCredentials: true,
-      },
-    );
+    const response = await api.get("/songs/many", {
+      withCredentials: true,
+    });
     const songs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.song.id,
@@ -29,9 +26,7 @@ export const fetchSongs = async () => {
 
 export const getSongById = async (id: string) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/songs/${id}`,
-    );
+    const response = await api.get(`/songs/${id}`);
     const song = response.data?.data.song;
     return song;
   } catch (error) {
@@ -40,16 +35,36 @@ export const getSongById = async (id: string) => {
   }
 };
 
+export const streamSong = async (id: string) => {
+  try {
+    const response = await api.get(`/songs/stream/${id}`, {
+      headers: {
+        Range: "bytes=0-499999",
+      },
+      responseType: "blob",
+    });
+    const blob = response.data;
+    const url = URL.createObjectURL(blob);
+
+    const audio = new Audio(url);
+    audio.controls = true;
+    audio.play();
+  } catch (error) {
+    console.error("Stream song failed: ", error);
+    throw error;
+  }
+};
+
 export const searchSongsOrArtists = async (query: string) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/songs/many?name=${encodeURIComponent(query)}`,
+    const response = await api.get(
+      `/songs/many?name=${encodeURIComponent(query)}`,
     );
     const results = response.data?.data || [];
     return results.map((item: any) => ({
       id: item.song.id,
       name: item.song.name,
-      type: "song", 
+      type: "song",
       coverImageUrl: item.song.coverImageUrl,
       description: item.song.lyric || "No description available",
     }));

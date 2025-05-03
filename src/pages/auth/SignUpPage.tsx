@@ -108,7 +108,12 @@ const SignUpPage = () => {
             />
           </Box>
           <AuthButton typography="Next" />
-          <Divider>or sign up with</Divider>
+          <Divider>
+            {" "}
+            <Typography variant="subtitle2" color="textSecondary">
+              or sign up with
+            </Typography>
+          </Divider>
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>
               <img src={GoogleLogo} alt="Google Logo" width={20} height={20} />

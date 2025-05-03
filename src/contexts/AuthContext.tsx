@@ -68,6 +68,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const sendVerificationEmail = async (email: string) => {
+    console.trace("Sending email from context");
     try {
       const response = await api.post(
         "/auth/send-verification",

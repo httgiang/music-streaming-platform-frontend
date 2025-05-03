@@ -8,7 +8,6 @@ import SignUpPage from "@/pages/auth/SignUpPage";
 import LogInPage from "@/pages/auth/LogInPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import OTPVerficationPage from "@/pages/auth/OTPVerificationPage";
-import SendVerificationCode from "@/pages/auth/SendVerificationEmail";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import ProfileFormPage from "@/pages/auth/ProfileFormPage";
 import AccountPage from "@/pages/user/Account";
@@ -32,7 +31,6 @@ function App() {
           <Route path="/log-in" element={<LogInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/fill-profile" element={<ProfileFormPage />} />
-          <Route path="/send-email" element={<SendVerificationCode />} />
           <Route path="/verify-otp" element={<OTPVerficationPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPassword />} />

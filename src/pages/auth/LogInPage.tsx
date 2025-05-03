@@ -100,11 +100,26 @@ const LogInPage = () => {
             </Box>
           </Box>
 
-          <Divider>or log in with</Divider>
-          <Button variant="outlined" size="large" color="inherit">
+          <Divider>
+            <Typography variant="subtitle2" color="textSecondary">
+              or log in with
+            </Typography>
+          </Divider>
+          <Button
+            size="large"
+            fullWidth
+            variant="outlined"
+            sx={{
+              "&:hover": {
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
+            }}
+          >
             <Box display="flex" gap={1}>
               <img src={GoogleLogo} alt="Google Logo" width="20" height="20" />
-              <Typography fontWeight="700">Log in with Google</Typography>
+              <Typography fontWeight="700" color="textPrimary">
+                Log in with Google
+              </Typography>
             </Box>
           </Button>
         </Stack>

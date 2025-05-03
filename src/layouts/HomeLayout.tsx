@@ -3,7 +3,7 @@ import SideBar from "@/components/side-bar/SideBar";
 import theme from "@/theme/theme";
 import { Outlet } from "react-router-dom";
 import { Container, Box } from "@mui/material";
-import PlaybackControl from "@/components/music/PlaybackControl";
+import PlaybackControl from "@/components/music/AudioPlayer";
 import HomeFooter from "@/components/HomeFooter";
 
 const HomeLayout = () => {

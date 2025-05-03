@@ -17,6 +17,7 @@ import { Notifications } from "@mui/icons-material";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import theme from "@/theme/theme";
+import GroovityLogo from "@/assets/groovity-logo.png";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -70,7 +71,18 @@ const NavBar = () => {
               }}
               onClick={() => navigate("/")}
             >
-              <img width={20} height={20} alt="GroovityLogo" />
+              <img
+                width={28}
+                height={28}
+                alt="GroovityLogo"
+                src={GroovityLogo}
+                style={{
+                  filter:
+                    "drop-shadow(0 0 4px rgba(200, 120, 255, 0.5)) blur(0.2px)",
+                  opacity: 0.85,
+                  transition: "all 0.3s ease-in-out",
+                }}
+              />
               <Typography
                 fontWeight="800"
                 fontFamily="AMORIA"

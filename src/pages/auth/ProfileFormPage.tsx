@@ -54,7 +54,7 @@ const ProfileFormPage = () => {
       try {
         await signUp(payload);
 
-        navigate("/send-email");
+        navigate("/verify-otp");
       } catch (error) {
         console.error("Sign up error:", error);
       }
