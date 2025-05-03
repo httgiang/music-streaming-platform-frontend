@@ -72,7 +72,6 @@ const HomePage = () => {
       name: song.name,
       coverImageUrl: song.coverImageUrl,
       lyrics: song.lyrics ? song.lyrics : "",
-      duration: song.duration ? song.duration : 0,
       artist: song.artist ? song.artist : "",
       artistImage: song.artistImage ? song.artistImage : "",
     },

@@ -142,6 +142,9 @@ const NavBar = () => {
                     borderRadius: 2,
                     fontWeight: 700,
                   }}
+                  onClick={() => {
+                    navigate("/music-workspace");
+                  }}
                 >
                   Music workspace
                 </Button>

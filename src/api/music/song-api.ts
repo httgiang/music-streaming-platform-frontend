@@ -55,6 +55,19 @@ export const streamSong = async (id: string) => {
   }
 };
 
+export const uploadSong = async (songData: any) => {
+  try {
+    const response = await api.post("/users/upload", songData, {
+      withCredentials: true,
+    });
+    return response;
+  } catch (error: any) {
+    // Server responded with a status other than 2xx
+    console.error("Server Error Response:", error.response?.data);
+    throw error;
+  }
+};
+
 export const searchSongsOrArtists = async (query: string) => {
   try {
     const response = await api.get(

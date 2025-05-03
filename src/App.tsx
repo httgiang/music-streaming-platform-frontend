@@ -15,6 +15,8 @@ import ProfilePage from "@/pages/user/Profile";
 import SongPage from "@/pages/song/SongPage";
 import SearchPage from "@/pages/home/SearchPage";
 import ArtistPage from "@/pages/song/ArtistPage";
+import MusicWorkSpacePage from "@/pages/workspace/MusicWorkSpacePage";
+import UploadMusicPage from "@/pages/workspace/UploadMusicPage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -26,6 +28,7 @@ function App() {
           <Route path="/song/:id" element={<SongPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
+          <Route path="/music-workspace" element={<MusicWorkSpacePage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/log-in" element={<LogInPage />} />
