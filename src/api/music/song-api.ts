@@ -57,7 +57,7 @@ export const streamSong = async (id: string) => {
 
 export const uploadSong = async (songData: any) => {
   try {
-    const response = await api.post("/users/upload", songData, {
+    const response = await api.post("/users/songs", songData, {
       withCredentials: true,
     });
     return response;
