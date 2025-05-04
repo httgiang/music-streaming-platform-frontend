@@ -5,6 +5,7 @@ export interface User {
   username: string;
   email: string;
   avatar?: string;
+  isVerfified?: boolean;
 }
 export interface UserProfileProps {
   avatar: string;
@@ -44,7 +45,7 @@ export const userProfileValidationSchema = Yup.object().shape({
       },
     ),
   gender: Yup.string().oneOf(
-    ["male", "female", "other"],
+    ["male", "female", "others"],
     "Invalid gender selection",
   ),
   phone: Yup.string().matches(phoneRegex, "Invalid phone number"),

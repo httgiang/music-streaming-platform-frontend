@@ -12,7 +12,7 @@ const HomeSection: React.FC<HomeSectionProps> = ({ title, children }) => {
         justifyContent="space-between"
         mb="1rem"
       >
-        <Typography fontSize={25} fontWeight={700}>
+        <Typography fontSize={25} fontWeight={700} color="text.primary">
           {title}
         </Typography>
         <Link

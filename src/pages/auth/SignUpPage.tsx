@@ -50,6 +50,7 @@ const SignUpPage = () => {
             placeholder="Enter username"
             type="text"
             name="username"
+            autoComplete="username"
             label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
@@ -63,6 +64,7 @@ const SignUpPage = () => {
             placeholder="Enter email"
             type="text"
             name="email"
+            autoComplete="email"
             label="Email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -77,6 +79,7 @@ const SignUpPage = () => {
               placeholder="Enter password"
               type={showPassword ? "text" : "password"}
               name="password"
+              autoComplete="new-password"
               label="Password"
               slotProps={{
                 input: {
@@ -105,11 +108,18 @@ const SignUpPage = () => {
             />
           </Box>
           <AuthButton typography="Next" />
-          <Divider>or sign up with</Divider>
+          <Divider>
+            {" "}
+            <Typography variant="subtitle2" color="textSecondary">
+              or sign up with
+            </Typography>
+          </Divider>
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>
               <img src={GoogleLogo} alt="Google Logo" width={20} height={20} />
-              <Typography fontWeight="700">Continue with Google</Typography>
+              <Typography fontWeight="700" color="text.primary">
+                Continue with Google
+              </Typography>
             </Box>
           </Button>
         </Stack>

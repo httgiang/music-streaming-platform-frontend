@@ -3,9 +3,15 @@ export interface SongProps {
   name: string;
   coverImageUrl: string;
   lyrics: string;
-  duration: number;
   artist: string;
   artistImage: string;
+}
+
+export interface UploadedSongProps {
+  name: string;
+  coverImage: File | null;
+  audioFile: File | null;
+  lyric: string;
 }
 
 export const initialSong: SongProps = {
@@ -13,7 +19,6 @@ export const initialSong: SongProps = {
   name: "",
   coverImageUrl: "",
   lyrics: "",
-  duration: 0,
   artist: "",
   artistImage: "",
 };

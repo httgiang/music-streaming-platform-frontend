@@ -16,6 +16,9 @@ import { RootState } from "@/store";
 import { Notifications } from "@mui/icons-material";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import theme from "@/theme/theme";
+import GroovityLogo from "@/assets/groovity-logo.png";
+
 const NavBar = () => {
   const navigate = useNavigate();
   const logOut = useAuth().logOut;
@@ -41,7 +44,7 @@ const NavBar = () => {
         boxShadow:
           "0px 2px 3px rgba(0, 0, 0, 0.1), 0px 1px 5px rgba(0, 0, 0, 0.08)",
         zIndex: 1201,
-        backgroundColor: "black",
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Toolbar disableGutters>
@@ -68,16 +71,46 @@ const NavBar = () => {
               }}
               onClick={() => navigate("/")}
             >
-              <img width={20} height={20} alt="GroovityLogo" />
-              <Typography variant="h6" fontWeight={700}>
-                Groovity
+              <img
+                width={28}
+                height={28}
+                alt="GroovityLogo"
+                src={GroovityLogo}
+                style={{
+                  filter:
+                    "drop-shadow(0 0 4px rgba(200, 120, 255, 0.5)) blur(0.2px)",
+                  opacity: 0.85,
+                  transition: "all 0.3s ease-in-out",
+                }}
+              />
+              <Typography
+                fontWeight="800"
+                fontFamily="AMORIA"
+                fontSize={30}
+                letterSpacing={2}
+                sx={{
+                  background:
+                    "linear-gradient(180deg, #d14eff 0%, #ffe600 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textShadow:
+                    "0 0 10px rgba(255, 230, 0, 0.6), 0 0 20px rgba(186, 57, 255, 0.4)",
+                  transition: "all 0.3s ease-in-out",
+                }}
+              >
+                GROOVITY
               </Typography>
             </Box>
             <SearchBar />
           </Box>
+
           {!isAuthenticated ? (
-            <Box display="flex" flexDirection="row" gap={2}>
+            <Box display="flex" gap={2}>
               <Button
+                sx={{
+                  border: "solid 1px white",
+                  paddingX: 1,
+                }}
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/sign-up");
@@ -86,6 +119,11 @@ const NavBar = () => {
                 <Typography>Sign up</Typography>
               </Button>
               <Button
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  paddingX: 1,
+                }}
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/log-in");
@@ -96,6 +134,21 @@ const NavBar = () => {
             </Box>
           ) : (
             <Box display="flex" flexDirection="row" gap={3} alignItems="center">
+              <Box>
+                <Button
+                  sx={{
+                    background: theme.custom.gradient,
+                    paddingX: 2,
+                    borderRadius: 2,
+                    fontWeight: 700,
+                  }}
+                  onClick={() => {
+                    navigate("/music-workspace");
+                  }}
+                >
+                  Music workspace
+                </Button>
+              </Box>
               <Notifications sx={{ cursor: "pointer" }} />
               <IconButton onClick={handleClickMenu}>
                 <Avatar sx={{ width: 22, height: 22, cursor: "pointer" }} />

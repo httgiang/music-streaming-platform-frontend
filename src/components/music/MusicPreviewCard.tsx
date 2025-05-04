@@ -1,4 +1,4 @@
-import { Card, CardMedia, Box, Typography } from "@mui/material";
+import { Card, Box, Typography } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
@@ -20,6 +20,8 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
+
+  const [loadedImage, setLoadedImage] = useState(false);
 
   const [showLogInDialog, setShowLogInDialog] = useState(false);
 
@@ -47,7 +49,6 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   const handleCardClick = () => {
     if (type === "song") {
       navigate(`/song/${(item as SongProps).id}`, { state: item });
-
     } else if (type === "artist") {
       navigate(`/artist/${(item as ArtistProps).id}`, { state: item });
     }
@@ -63,8 +64,9 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           paddingY: 2,
           width: 150,
           height: 200,
-          backgroundColor: "black",
-          color: "white",
+          backgroundColor: "rgba(255, 255, 255, 0.01)",
+          backdropFilter: "blur(12px)",
+
           "&:hover": {
             cursor: "pointer",
             transform: "scale(1.05)",
@@ -75,20 +77,35 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
         onMouseLeave={handleMouseLeave}
         onClick={handleCardClick}
       >
-        <CardMedia
+        <Box
           sx={{
             height: 150,
             width: 150,
-            objectFit: "cover",
+            backgroundImage: `url(${
+              type === "song"
+                ? (item as SongProps).coverImageUrl
+                : (item as ArtistProps).image
+            })`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             borderRadius: type === "artist" ? "50%" : "0%",
+            filter: loadedImage ? "none" : "blur(10px)",
+            transition: "filter 0.3s ease-out",
           }}
-          image={
-            type === "song"
-              ? (item as SongProps).coverImageUrl
-              : (item as ArtistProps).image
-          }
-          title={item.name}
-        />
+          component="div"
+        >
+          <img
+            src={
+              type === "song"
+                ? (item as SongProps).coverImageUrl
+                : (item as ArtistProps).image
+            }
+            alt={item.name}
+            style={{ display: "none" }}
+            onLoad={() => setLoadedImage(true)}
+          />
+        </Box>
+
         <Box
           sx={{
             display: "flex",

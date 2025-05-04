@@ -68,6 +68,10 @@ const OTPInputs = () => {
       }
       event.target.previousSibling.focus();
     }
+    if (event.key === "Enter" && index === numInputs - 1) {
+      const otpCode = otp.join("");
+      verityOtpCode(otpCode);
+    }
   };
 
   const verityOtpCode = async (otpCode: string) => {
@@ -98,7 +102,6 @@ const OTPInputs = () => {
         ))}
       </Box>
       <Button
-        type="submit"
         size="large"
         fullWidth
         variant="outlined"
@@ -112,7 +115,9 @@ const OTPInputs = () => {
           verityOtpCode(otpCode);
         }}
       >
-        <Typography fontWeight={600}>Verify</Typography>
+        <Typography fontWeight={600} color="text.primary">
+          Verify
+        </Typography>
       </Button>
     </>
   );

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { authService } from "@/api/auth-service";
 
 let isRefreshToken = false;
 let requestsToRefresh: Array<(token: string | null) => void> = []; //queue for requests to be retried after token refresh
@@ -7,24 +6,20 @@ let requestsToRefresh: Array<(token: string | null) => void> = []; //queue for r
 const api = axios.create({
   baseURL: "http://localhost:3000/api/v1",
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
-export default api;
+// api.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("accessToken");
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   },
+// );
 
 api.interceptors.response.use(
   (response) => response,
@@ -37,7 +32,9 @@ api.interceptors.response.use(
         isRefreshToken = true;
       }
       try {
-        const { data } = await authService.refreshTokenApi();
+        const { data } = await api.post("/auth/refresh-token", {
+          withCredentials: true,
+        });
 
         api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
         requestsToRefresh.forEach((callback) =>
@@ -52,5 +49,8 @@ api.interceptors.response.use(
         requestsToRefresh = [];
       }
     }
+    return Promise.reject(error);
   },
 );
+
+export default api;

@@ -1,37 +1,56 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess, logout } from "@/features/auth/authSlice";
-import { authService } from "@/api/auth-service";
 import { useToast } from "@/contexts/ToastContext";
 import { LogInProps } from "@/types/auth/login";
 import { User } from "@/types/user-profile";
+import LoadingScreen from "@/components/home/LoadingScreen";
+import api from "@/api/axios-api";
 
-export const AuthContext = createContext<any>(null);
+interface AuthContextProps {
+  user: User | null;
+  accessToken: string | null;
+  loading: boolean;
+  signUp: (signUpData: any) => Promise<void>;
+  logIn: (logInData: LogInProps) => Promise<void>;
+  logOut: () => Promise<void>;
+  restoreSession: () => Promise<void>;
+  sendVerificationEmail: (email: string) => Promise<void>;
+  verifyOtp: (otp: string) => Promise<void>;
+}
+
+export const AuthContext = createContext<AuthContextProps | null>(null);
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const dispatch = useDispatch();
   const showToast = useToast();
-
   const signUp = async (signUpData: any) => {
     try {
-      const result = await authService.signUpApi(signUpData);
-      if (result?.status === 200) {
+      setLoading(true);
+      const response = await api.post("/auth/signup", signUpData);
+      if (response?.status === 201) {
+        const user = response.data.data.user;
+        setUser(user);
+        dispatch(loginSuccess(user));
         showToast("Sign up successfully", "success");
-      } else if (result?.status === 409) {
-        showToast("This account already exists", "error");
       }
     } catch (error: any) {
-      const message = error?.response?.data?.message || "Sign up failed";
+      const message = error?.response?.data?.error?.message || "Sign up failed";
       showToast(message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   const logIn = async (logInData: LogInProps) => {
     try {
       setLoading(true);
-      const response = await authService.logInApi(logInData);
+      const response = await api.post("/auth/signin", logInData, {
+        withCredentials: true,
+      });
+
       if (response?.status === 200) {
         setUser(response.data.data.user);
         setAccessToken(response.data.accessToken);
@@ -39,7 +58,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         showToast("Logged in successfully", "success");
       }
     } catch (error: any) {
-      const message = error?.response?.data?.message || "Log in failed";
+      const message =
+        error?.response?.data?.error?.message || "Invalid username or password";
       showToast(message, "error");
       throw error;
     } finally {
@@ -47,33 +67,61 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const verifyOtp = async (otp: string) => {
+  const sendVerificationEmail = async (email: string) => {
+    console.trace("Sending email from context");
     try {
-      const response = await authService.verifyOtpApi(otp);
+      const response = await api.post(
+        "/auth/send-verification",
+        { email },
+        { withCredentials: true },
+      );
       if (response?.status === 200) {
-        setUser(response.data.data.user);
-        setAccessToken(response.data.accessToken);
-        showToast("Verified successfully", "success");
-        dispatch(loginSuccess(response.data.data.user));
-      } else if (response?.status === 400) {
-        showToast("User is already verified", "error");
+        showToast("Verification email sent", "info");
       }
     } catch (error: any) {
-      const message = error?.response?.data?.message || "Verification failed";
+      const message =
+        error?.response?.data?.error?.message ||
+        "Failed to send verification email";
+      showToast(message, "error");
+      throw error;
+    }
+  };
+  const verifyOtp = async (code: string) => {
+    try {
+      const response = await api.post("/auth/verify", { code });
+      if (response?.status === 200) {
+        showToast("Verified successfully", "success");
+      }
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.error?.message ||
+        "Failed to verify OTP, please try again";
       showToast(message, "error");
       throw error;
     }
   };
 
   const logOut = async () => {
-    setUser(null);
-    setAccessToken(null);
-    dispatch(logout());
+    try {
+      setLoading(true);
+      setUser(null);
+      setAccessToken(null);
+      dispatch(logout());
+    } catch (error: any) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const restoreSession = async () => {
     try {
-      const response = await authService.refreshTokenApi();
+      setLoading(true);
+
+      const response = await api.post("/auth/refresh-token", {
+        withCredentials: true,
+      });
+
       if (response?.status === 200) {
         setUser(response.data.data.user);
         setAccessToken(response.data.accessToken);
@@ -100,10 +148,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logIn,
         logOut,
         restoreSession,
+        sendVerificationEmail,
         verifyOtp,
       }}
     >
-      {children}
+      {loading ? <LoadingScreen /> : children}
     </AuthContext.Provider>
   );
 };

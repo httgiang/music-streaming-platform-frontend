@@ -3,7 +3,7 @@ import InAuthenticatedSideBar from "@/components/side-bar/InAuthenticatedSideBar
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import AuthenticatedSideBar from "@/components/side-bar/AuthenticatedSideBar";
-
+import theme from "@/theme/theme";
 const SideBar = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
@@ -14,6 +14,7 @@ const SideBar = () => {
         flexShrink: 0,
 
         "& .MuiDrawer-paper": {
+          ...theme.custom.paperOverlay,
           boxSizing: "border-box",
           paddingTop: 10,
           width: 300,
