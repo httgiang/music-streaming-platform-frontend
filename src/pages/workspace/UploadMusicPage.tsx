@@ -20,8 +20,8 @@ const UploadMusicDialog = ({
   onClose: () => void;
 }) => {
   const [name, setName] = useState("");
-  const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [audioFile, setAudioFile] = useState<string | null>(null);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [audioFile, setAudioFile] = useState<File | null>(null);
   const [lyric, setLyric] = useState("");
   const showToast = useToast();
 
@@ -32,15 +32,14 @@ const UploadMusicDialog = ({
     }
 
     try {
-      const payload = {
-        name,
-        coverImage,
-        audioFile,
-        lyric,
-      };
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("lyric", lyric);
+      formData.append("coverImage", coverImage);
+      formData.append("audioFile", audioFile);
 
-      const response = await uploadSong(payload);
-      if (response?.status === 200) {
+      const response = await uploadSong(formData);
+      if (response?.status === 201) {
         showToast("Song uploaded successfully!", "success");
         onClose();
       }
@@ -50,18 +49,6 @@ const UploadMusicDialog = ({
     }
   };
 
-  const handleFileToBase64 = (
-    file: File,
-    callback: (result: string) => void,
-  ) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (reader.result) {
-        callback(reader.result.toString());
-      }
-    };
-    reader.readAsDataURL(file);
-  };
   const [openComfirmation, setOpenConfirmation] = useState(false);
   const handleCloseConfirmation = () => {
     setOpenConfirmation(false);
@@ -118,7 +105,7 @@ const UploadMusicDialog = ({
           onChange={(e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (file) {
-              handleFileToBase64(file, (result) => setCoverImage(result));
+              setCoverImage(file);
             }
           }}
           variant="outlined"
@@ -140,7 +127,7 @@ const UploadMusicDialog = ({
           onChange={(e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (file) {
-              handleFileToBase64(file, (result) => setAudioFile(result));
+              setAudioFile(file);
             }
           }}
           type="file"

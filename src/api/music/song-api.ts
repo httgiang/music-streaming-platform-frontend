@@ -59,11 +59,12 @@ export const uploadSong = async (songData: any) => {
   try {
     const response = await api.post("/users/songs", songData, {
       withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return response;
   } catch (error: any) {
-    // Server responded with a status other than 2xx
-    console.error("Server Error Response:", error.response?.data);
     throw error;
   }
 };
