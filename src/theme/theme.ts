@@ -23,7 +23,7 @@ const theme = createTheme({
     mode: "dark",
     primary: { main: "#FFFFFF" },
     background: {
-      default: " #000000",
+      default: "#000000",
     },
     text: {
       primary: "#FFFFFF",
@@ -39,7 +39,7 @@ const theme = createTheme({
     sideBarWidth: 38,
     navBarHeight: 8,
     gradient:
-      "linear-gradient(185deg,rgba(178, 84, 232, 0.81),rgba(241, 231, 84, 0.8))",
+      "linear-gradient(185deg,rgba(232, 69, 253, 0.81),rgba(241, 231, 84, 0.8))",
     paperOverlay: {
       backgroundColor: "#121212",
       WebkitBackdropFilter: "blur(12px)",

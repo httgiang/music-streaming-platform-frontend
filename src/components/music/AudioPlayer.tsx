@@ -19,22 +19,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { playSong, pauseSong } from "@/features/music/playerSlice";
 
-const PlaybackControl = () => {
+const AudioPlayer = () => {
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const currentSong = useSelector(
     (state: RootState) => state.player.currentSong,
   );
 
-  const dispatch = useDispatch();
   const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
+  const [position, setPosition] = React.useState(0);
+  const [duration, setDuration] = React.useState(0);
+  const [volume, setVolume] = React.useState(70);
+  const dispatch = useDispatch();
 
-  const duration = currentSong?.duration || 0;
+  const handleVolumeChange = (event: any) => {
+    const newVolume = event.target.value;
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume / 100;
+    }
+  };
 
-  const [position, setPosition] = React.useState(32);
-
-  const togglePlayPause = () => {
+  const startStreamingSong = () => {
+    if (!audioRef.current) return;
     if (isPlaying) {
+      audioRef.current.pause();
       dispatch(pauseSong());
     } else {
+      audioRef.current.play();
       dispatch(playSong(currentSong));
     }
   };
@@ -54,8 +65,14 @@ const PlaybackControl = () => {
       justifyContent="space-between"
       height="55px"
       width="100%"
-      bgcolor="#1e1e1e"
-      color="white"
+      // bgcolor="#1e1e1e"
+      sx={{
+        background:
+          "linear-gradient(185deg, rgba(245, 211, 253, 0.18), rgba(255, 240, 23, 0))",
+
+        backdropFilter: "blur(10px)",
+        color: "rgba(255, 255, 255, 0.85)",
+      }}
       p={0.8}
       boxShadow={3}
       position="fixed"
@@ -102,12 +119,17 @@ const PlaybackControl = () => {
         </Box>
       </Box>
       <Box flex={7} display="flex" flexDirection="column" alignItems="center">
+        <audio
+          ref={audioRef}
+          src={"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
+          autoPlay={isPlaying}
+        />
         <Box display="flex" alignItems="center" gap={1}>
           <IconButton color="inherit" size="small">
             <SkipPrevious />
           </IconButton>
-          <IconButton color="inherit" onClick={togglePlayPause} size="small">
-            {!isPlaying ? <Pause /> : <PlayArrow />}
+          <IconButton color="inherit" size="small" onClick={startStreamingSong}>
+            {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
           <IconButton color="inherit" size="small">
             <SkipNext />
@@ -146,6 +168,8 @@ const PlaybackControl = () => {
             </IconButton>
             <Slider
               size="small"
+              value={volume}
+              onChange={handleVolumeChange}
               defaultValue={70}
               aria-label="Small"
               valueLabelDisplay="auto"
@@ -172,4 +196,4 @@ const PlaybackControl = () => {
   );
 };
 
-export default PlaybackControl;
+export default AudioPlayer;

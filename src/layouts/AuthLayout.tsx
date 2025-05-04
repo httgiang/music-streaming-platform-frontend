@@ -1,6 +1,7 @@
 import { Box, Typography, Link } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { useMemo } from "react";
+import GroovityLogo from "@/assets/groovity-logo.png";
 
 const AuthLayout = () => {
   const location = useLocation();
@@ -32,7 +33,7 @@ const AuthLayout = () => {
       return "Welcome back";
     }
     if (authPathName === "verify-otp") {
-      return "Verification";
+      return "Check your email";
     }
     if (authPathName === "forgot-password") {
       return "Reset password";
@@ -69,11 +70,22 @@ const AuthLayout = () => {
             justifyContent: "center",
           }}
         >
-          <img width={20} height={20} alt="GroovityLogo" />
+          <img
+            width={32}
+            height={32}
+            alt="GroovityLogo"
+            src={GroovityLogo}
+            style={{
+              filter:
+                "drop-shadow(0 0 4px rgba(200, 120, 255, 0.5)) blur(0.2px)",
+              opacity: 0.85,
+              transition: "all 0.3s ease-in-out",
+            }}
+          />
           <Typography
             fontWeight="800"
             fontFamily="AMORIA"
-            fontSize={30}
+            fontSize={35}
             letterSpacing={2}
             sx={{
               background: "linear-gradient(180deg, #d14eff 0%, #ffe600 100%)",
@@ -110,11 +122,7 @@ const AuthLayout = () => {
             <Outlet />
             {authPathName === "sign-up" && (
               <Box display="flex" margin="2px auto" gap={0.5}>
-                <Typography
-                  component="span"
-                  variant="subtitle1"
-                  color="textSecondary"
-                >
+                <Typography component="span" color="textSecondary">
                   Already have an account?{" "}
                 </Typography>
                 <Link href="/log-in">Log in</Link>

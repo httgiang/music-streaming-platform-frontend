@@ -80,20 +80,34 @@ const ArtistPage = () => {
           </Typography>
         </Box>
       </Box>
-      <Typography variant="h4" color="white" fontWeight="bold" sx={{ marginBottom: 2 }}>
+      <Typography variant="h6" color="white" fontWeight="bold" sx={{ marginBottom: 2,textAlign: "left"  }}>
         Songs by Artist
       </Typography>
       <Stack spacing={2}>
+        
         {songs.map((song) => (
-          <MusicCard
-            key={song.id}
-            song={{
-              coverImageUrl: song.coverImageUrl,
-              name: song.name,
-              artist: song.artist,
-              duration: song.duration ? song.duration.toString() : "N/A",
-            }}
-          />
+           <Box
+                 key={song.id}
+                    sx={{
+                                "&:hover": {
+                                     backgroundColor: "#484848",
+                                          borderRadius: "8px",
+                                          transition: "background-color 0.3s ease",
+                                        },
+                                        padding: 1,
+                                      }}
+                              
+                                    ><MusicCard
+                                    key={song.id}
+                                    song={{
+                                      coverImageUrl: song.coverImageUrl,
+                                      name: song.name,
+                                      artist: song.artist,
+                                      duration: song.duration ? song.duration.toString() : "N/A",
+                                    }}
+                                  />
+                                  </Box>
+          
         ))}
       </Stack>
         </Container>

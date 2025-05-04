@@ -8,6 +8,13 @@ export interface SongProps {
   artistImage: string;
 }
 
+export interface UploadedSongProps {
+  name: string;
+  coverImage: File | null;
+  audioFile: File | null;
+  lyric: string;
+}
+
 export const initialSong: SongProps = {
   id: "",
   name: "",

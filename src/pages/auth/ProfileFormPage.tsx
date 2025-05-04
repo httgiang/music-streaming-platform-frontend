@@ -51,8 +51,13 @@ const ProfileFormPage = () => {
         },
       };
 
-      await signUp(payload);
-      navigate("/verify-otp");
+      try {
+        await signUp(payload);
+
+        navigate("/verify-otp");
+      } catch (error) {
+        console.error("Sign up error:", error);
+      }
     },
   });
 
@@ -83,6 +88,7 @@ const ProfileFormPage = () => {
               onChange={(value) => formik.setFieldValue("birth", value)}
               slotProps={{
                 textField: {
+                  required: true,
                   fullWidth: true,
                   name: "birth",
                   onBlur: formik.handleBlur,
@@ -98,6 +104,7 @@ const ProfileFormPage = () => {
               labelId="gender-label"
               label="Gender"
               id="gender-select"
+              required
               name="gender"
               value={formik.values.gender}
               onChange={formik.handleChange}
@@ -106,12 +113,12 @@ const ProfileFormPage = () => {
             >
               <MenuItem value="male">Male</MenuItem>
               <MenuItem value="female">Female</MenuItem>
-              <MenuItem value="other">Rather not say</MenuItem>
+              <MenuItem value="others">Rather not say</MenuItem>
             </Select>
           </FormControl>
           <TextField
             fullWidth
-            autoFocus
+            required
             placeholder="Enter your contact number"
             type="text"
             name="phone"

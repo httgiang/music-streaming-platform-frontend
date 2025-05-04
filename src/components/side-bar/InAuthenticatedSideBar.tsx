@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import LogInSuggestionDialog from "../home/LogInSuggestionDialog";
 import { useState } from "react";
+import theme from "@/theme/theme";
 
 const InAuthenticatedSideBar = () => {
   const [openLogInDialog, setOpenLogInDialog] = useState(false);
@@ -43,9 +44,7 @@ const InAuthenticatedSideBar = () => {
         sx={{
           padding: 2,
           height: 120,
-          background:
-            "linear-gradient(185deg,rgba(132, 22, 196, 0.81),rgba(241, 231, 84, 0.8))",
-          //   "linear-gradient(185deg, rgba(162, 1, 255, 0.81), rgba(253, 230, 25, 0.8))",
+          background: theme.custom.gradient,
           color: "white",
           cursor: "pointer",
           display: "flex",

@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { Container, Typography, Box, Stack } from "@mui/material";
 import { AlbumProps } from "@/types/album";
 import ColorThief from "colorthief";
-import { getSongsByAlbum } from "@/api/music/song-api";
+import { getSongsByAlbum } from "@/api/music/album-api";
 import { SongProps } from "@/types/song";
 import MusicCard from "@/components/music/MusicCard";
 
@@ -65,7 +65,7 @@ const AlbumPage: React.FC = () => {
       img.onerror = null;
       img.src = "";
     };
-  }, [coverImageUrl]);
+  }, [album, coverImageUrl]);
 
   return (
     <Container sx={{ padding: "10px", textAlign: "center" }}>
@@ -116,20 +116,38 @@ const AlbumPage: React.FC = () => {
           </Typography>
         </Box>
       </Box>
-      <Typography variant="h5" color="white" fontWeight="bold" sx={{ marginTop: 4, marginBottom: 2 }}>
+      <Typography
+        variant="h5"
+        color="white"
+        fontWeight="bold"
+        sx={{ marginTop: 4, marginBottom: 2, textAlign: "left" }}
+      >
         Songs in Album
       </Typography>
       <Stack spacing={2}>
         {        songs.map((song) => (
-            <MusicCard
-              key={song.id}
-              song={{
-                coverImageUrl: song.coverImageUrl,
-                name: song.name,
-                artist: song.artist,
-                duration: song.duration ? song.duration.toString() : "N/A",
-              }}
-            />
+            <Box
+                            key={song.id}
+                            sx={{
+                              "&:hover": {
+                                backgroundColor: "#484848",
+                                borderRadius: "8px",
+                                transition: "background-color 0.3s ease",
+                              },
+                              padding: 1,
+                            }}
+                    
+                          > <MusicCard
+                          key={song.id}
+                          song={{
+                            coverImageUrl: song.coverImageUrl,
+                            name: song.name,
+                            artist: song.artist,
+                            duration: song.duration ? song.duration.toString() : "N/A",
+                          }}
+                        />
+                        </Box>
+           
           ))}
       </Stack>
     </Container>
