@@ -1,4 +1,5 @@
 export interface AlbumProps {
+  image: string;
   id: string;
   name: string;
   coverImageUrl: string;

@@ -1,27 +1,26 @@
-import { Lyrics } from "@mui/icons-material";
 import axios from "axios";
 
 export const fetchSongs = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/songs/many",
-      {
-        withCredentials: true,
-      },
-    );
-    const songs = Array.isArray(response?.data?.data)
-      ? response.data.data.map((item: any) => ({
-          id: item.id,
-          name: item.name,
-          lyric: item.lyric,
-          coverImageUrl: item.coverImageUrl,
-          duration: 0,
-          artist: item.user.username,
-          artistImage: item.user.userAvatar,
-        }))
-      : [];
+          const response = await axios.get(
+        "http://localhost:3000/api/v1/songs/many",
+        {
+          withCredentials: true,
+        },
+      );
+      const songs = Array.isArray(response?.data?.data)
+        ? response.data.data.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            lyric: item.lyric,
+            coverImageUrl: item.coverImageUrl,
+            duration: 0,
+            artist: item.user.username,
+            artistImage: item.user.userAvatar,
+          }))
+        : [];
 
-    return songs;
+          return songs;
   } catch (error) {
     console.error("Fetch songs failed: ", error);
     throw error;
@@ -77,6 +76,57 @@ export const searchAlbums = async (query: string) => {
     }));
   } catch (error) {
     console.error("Search albums failed: ", error);
+    throw error;
+  }
+};
+
+export const getSongsByArtist = async (artistId: string, limit: number = 50) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/songs/many?artistId=${encodeURIComponent(artistId)}&limit=${limit}`,
+    );
+    console.log("getSongsByArtist response:", response.data);
+    const results = response.data?.data || [];
+    const filteredResults = results.filter((item: any) => item.user.username === artistId);
+    if (filteredResults.length === 0) {
+      console.warn("No songs found for artistId (username):", artistId);
+    }
+    return filteredResults.map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      lyric: item.lyric,
+      coverImageUrl: item.coverImageUrl,
+      duration: item.duration || 0,
+      artist: item.user.username,
+      artistImage: item.user.userAvatar,
+    }));
+  } catch (error) {
+    console.error("Fetch songs by artist failed: ", error);
+    throw error;
+  }
+};
+
+export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/songs/many?albumId=${encodeURIComponent(albumId)}&limit=${limit}`,
+    );
+    const results = response.data?.data || [];
+    return results
+      .filter((item: any) => {
+        return item.albumId === albumId; 
+      })
+      .map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        lyric: item.lyric,
+        coverImageUrl: item.coverImageUrl,
+        duration: item.duration || 0,
+        artist: item.user.username,
+        artistImage: item.user.userAvatar,
+      }));
+  } catch (error) {
+    console.error("Fetch songs by album failed: ", error);
     throw error;
   }
 };

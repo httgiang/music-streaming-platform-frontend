@@ -1,11 +1,28 @@
+import { getSongsByArtist } from '@/api/music/song-api';
+import MusicCard from '@/components/music/MusicCard';
 import { ArtistProps } from '@/types/artist';
-import { Box, Container, Typography } from '@mui/material';
-import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { SongProps } from '@/types/song';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 
 const ArtistPage = () => {
     const location = useLocation();
     const artist = location.state as ArtistProps;
+    const { id } = useParams<{ id: string }>();
+  const [songs, setSongs] = useState<SongProps[]>([]);
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      if (id) {
+        console.log("Fetching songs for artistId:", id); // Debugging log
+        const artistSongs = await getSongsByArtist(id, 50); // Request more songs
+        console.log("Fetched songs:", artistSongs); // Debugging log
+        setSongs(artistSongs);
+      }
+    };
+    fetchSongs();
+  }, [id]);
 
    useEffect(() => {
       window.scrollTo(0, 0);
@@ -63,6 +80,22 @@ const ArtistPage = () => {
           </Typography>
         </Box>
       </Box>
+      <Typography variant="h4" color="white" fontWeight="bold" sx={{ marginBottom: 2 }}>
+        Songs by Artist
+      </Typography>
+      <Stack spacing={2}>
+        {songs.map((song) => (
+          <MusicCard
+            key={song.id}
+            song={{
+              coverImageUrl: song.coverImageUrl,
+              name: song.name,
+              artist: song.artist,
+              duration: song.duration ? song.duration.toString() : "N/A",
+            }}
+          />
+        ))}
+      </Stack>
         </Container>
   )
 }

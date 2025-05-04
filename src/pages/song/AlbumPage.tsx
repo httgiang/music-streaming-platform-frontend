@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Container, Typography, Box } from "@mui/material";
+import { useLocation, useParams } from "react-router-dom";
+import { Container, Typography, Box, Stack } from "@mui/material";
 import { AlbumProps } from "@/types/album";
 import ColorThief from "colorthief";
+import { getSongsByAlbum } from "@/api/music/song-api";
+import { SongProps } from "@/types/song";
+import MusicCard from "@/components/music/MusicCard";
 
 const AlbumPage: React.FC = () => {
   const location = useLocation();
+  const [songs, setSongs] = useState<SongProps[]>([]);
+  const { id } = useParams<{ id: string }>();
   const album = location.state as AlbumProps;
   const coverImageUrl = album.coverImageUrl || album.image || "https://via.placeholder.com/150"; // Fallback for coverImageUrl
   console.log("Album Data:", album); // Debugging log
@@ -15,6 +20,27 @@ const AlbumPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      if (id) {
+        try {
+          const albumSongs = await getSongsByAlbum(id);
+          console.log("Filtered API Response for getSongsByAlbum:", albumSongs); // Debugging log
+          if (Array.isArray(albumSongs) && albumSongs.length > 0) {
+            setSongs(albumSongs);
+          } else {
+            console.warn("No songs found for album ID:", id);
+          }
+        } catch (error) {
+          console.error("Failed to fetch songs for album:", error);
+        }
+      } else {
+        console.error("Album ID is missing.");
+      }
+    };
+    fetchSongs();
+  }, [id]);
 
   useEffect(() => {
     if (!coverImageUrl) {
@@ -90,6 +116,22 @@ const AlbumPage: React.FC = () => {
           </Typography>
         </Box>
       </Box>
+      <Typography variant="h5" color="white" fontWeight="bold" sx={{ marginTop: 4, marginBottom: 2 }}>
+        Songs in Album
+      </Typography>
+      <Stack spacing={2}>
+        {        songs.map((song) => (
+            <MusicCard
+              key={song.id}
+              song={{
+                coverImageUrl: song.coverImageUrl,
+                name: song.name,
+                artist: song.artist,
+                duration: song.duration ? song.duration.toString() : "N/A",
+              }}
+            />
+          ))}
+      </Stack>
     </Container>
   );
 };
