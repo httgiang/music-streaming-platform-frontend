@@ -1,3 +1,4 @@
+import { Lyrics } from "@mui/icons-material";
 import axios from "axios";
 
 export const fetchSongs = async () => {
@@ -12,7 +13,7 @@ export const fetchSongs = async () => {
       ? response.data.data.map((item: any) => ({
           id: item.id,
           name: item.name,
-          lyrics: item.lyric,
+          lyric: item.lyric,
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           artist: item.user.username,
@@ -52,10 +53,30 @@ export const searchSongsOrArtists = async (query: string) => {
       type: "song", 
       artist: item.user.username,
       coverImageUrl: item.coverImageUrl,
-      description: item.lyric || "No description available",
+      lyric: item.lyric, 
     }));
   } catch (error) {
     console.error("Search failed: ", error);
+    throw error;
+  }
+};
+
+export const searchAlbums = async (query: string) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/albums/many?name=${encodeURIComponent(query)}`,
+    );
+    const results = response.data?.data || [];
+    return results.map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      coverImageUrl: item.coverImageUrl,
+      artist: item.user.username,
+      isPublic: item.isPublic,
+      type: "album",
+    }));
+  } catch (error) {
+    console.error("Search albums failed: ", error);
     throw error;
   }
 };

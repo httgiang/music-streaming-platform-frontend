@@ -84,13 +84,13 @@ const SongPage = () => {
           flexDirection={"column"}
           marginLeft={"3rem"}
         >
-          <Typography fontSize={12} fontWeight={400}>
+          <Typography fontSize="h6" color="white" fontWeight="bold">
             Single
           </Typography>
-          <Typography variant="h2" fontWeight={600}>
+          <Typography variant="h2" color="white" fontWeight="bold">
             {song.name}
           </Typography>
-          <Typography fontSize={18} fontWeight={400}>
+          <Typography fontSize="h6" color="white" fontWeight="bold">
             {song.artist}
           </Typography>
         </Box>
@@ -144,7 +144,7 @@ const SongPage = () => {
           >
             Lyrics
           </Typography>
-          {song?.lyrics
+          {song?.lyric
             ?.split("\n")
             ?.slice(0, showMore ? undefined : maxLines)
             ?.map((line, index) => (
@@ -161,7 +161,7 @@ const SongPage = () => {
                 {line.replace(/ /g, "\u00A0")}
               </Typography>
             ))}
-          {song?.lyrics?.split("\n").length > maxLines && (
+          {song?.lyric?.split("\n").length > maxLines && (
             <Typography
               variant="body2"
               sx={{

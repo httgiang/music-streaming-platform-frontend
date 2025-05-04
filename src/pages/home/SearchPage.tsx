@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Stack, Chip } from "@mui/material";
 import useQuery from "@/contexts/QueryContext";
-import { searchSongsOrArtists } from "@/api/music/song-api";
+import { searchSongsOrArtists, searchAlbums } from "@/api/music/song-api";
 import { SongProps } from "@/types/song";
 import MusicCard from "@/components/music/MusicCard";
 import MusicPreviewCard from "@/components/music/MusicPreviewCard";
@@ -13,6 +13,7 @@ const SearchPage: React.FC = () => {
   const [key, setKey] = useState<string>("");
   const [results, setResults] = useState<SongProps[]>([]);
   const [uniqueArtists, setUniqueArtists] = useState<ArtistProps[]>([]);
+  const [albums, setAlbums] = useState<any[]>([]);
   const [filter, setFilter] = useState<string>("All");
   const navigate = useNavigate();
 
@@ -30,20 +31,34 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     const fetchResults = async () => {
       if (key) {
-        const searchResults = await searchSongsOrArtists(key);
+        const [searchResults, albumResults] = await Promise.all([
+          searchSongsOrArtists(key),
+          searchAlbums(key),
+        ]);
         setResults(searchResults);
 
-        const uniqueArtistsMap = new Map();
+        const artistsArray: ArtistProps[] = [];
         searchResults.forEach((song: any) => {
-          if (!uniqueArtistsMap.has(song.userId)) {
-            uniqueArtistsMap.set(song.userId, {
-              id: song.userId,
+          // Check if the song has an artist and add it to the artistsArray
+          if (song.artist) {
+            artistsArray.push({
+              id: song.userId || song.artist, 
               name: song.artist,
               image: song.artistImage,
             });
           }
         });
-        setUniqueArtists(Array.from(uniqueArtistsMap.values()));
+
+        // Filter out duplicate artists based on their id
+        const uniqueArtistsArray = artistsArray.filter(
+          (artist, index, self) =>
+            index === self.findIndex((a) => a.id === artist.id)
+        );
+
+        setUniqueArtists(uniqueArtistsArray);
+
+        // Set albums
+        setAlbums(albumResults.slice(0, 4)); 
       }
     };
     fetchResults();
@@ -78,6 +93,11 @@ const SearchPage: React.FC = () => {
           label="Artist"
           color={filter === "Artist" ? "secondary" : "default"}
           onClick={() => setFilter("Artist")}
+        />
+        <Chip
+          label="Album"
+          color={filter === "Album" ? "secondary" : "default"}
+          onClick={() => setFilter("Album")}
         />
       </Box>
 
@@ -150,6 +170,39 @@ const SearchPage: React.FC = () => {
                     id: artist.id,
                     name: artist.name || "Unknown Artist",
                     image: artist.image,
+                  }}
+                />
+              ))}
+            </Stack>
+          ) : null}
+        </>
+      )}
+
+      {(filter === "All" || filter === "Album") && (
+        <>
+          <Typography
+            variant="h5"
+            sx={{
+              marginTop: 2,
+              marginBottom: 1,
+              color: "White",
+              fontWeight: 600,
+              alignSelf: "flex-start",
+            }}
+          >
+            Album
+          </Typography>
+          {albums.length > 0 ? (
+            <Stack direction="row" spacing={2}>
+              {albums.map((album) => (
+                <MusicPreviewCard
+                  key={album.id}
+                  type="album"
+                  item={{
+                    id: album.id,
+                    name: album.name,
+                    image: album.coverImageUrl, 
+                    artist: album.artist,
                   }}
                 />
               ))}

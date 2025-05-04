@@ -15,7 +15,7 @@ import ProfilePage from "./pages/user/Profile";
 import SongPage from "@/pages/song/SongPage";
 import SearchPage from "@/pages/home/SearchPage";
 import ArtistPage from "./pages/song/ArtistPage";
-
+import AlbumPage from "./pages/song/AlbumPage";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -27,6 +27,7 @@ function App() {
             <Route path="/song/:id" element={<SongPage />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="/artist/:id" element={<ArtistPage />} />
+            <Route path="/album/:id" element={<AlbumPage />} />
           </Route>
           <Route element={<AuthLayout />}>
             <Route path="/sign-up" element={<SignUpPage />} />

@@ -8,10 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { playSong } from "@/features/music/playerSlice";
 import { RootState } from "@/store";
 import LogInSuggestionDialog from "../home/LogInSuggestionDialog";
+import { AlbumProps } from "@/types/album";
 
 export interface MusicPreviewCardProps {
-  type: "song" | "artist";
-  item: SongProps | ArtistProps;
+  type: "song" | "artist" | "album";
+  item: SongProps | ArtistProps | AlbumProps;
 }
 
 const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
@@ -51,6 +52,8 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
       navigate(`/song/${(item as SongProps).id}`, { state: item });
     } else if (type === "artist") {
       navigate(`/artist/${(item as ArtistProps).id}`, { state: item });
+    } else if (type === "album") {
+      navigate(`/album/${(item as AlbumProps).id}`, { state: item }); 
     }
   };
 
@@ -118,10 +121,16 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           <Typography variant="body1">
             {type === "song"
               ? (item as SongProps).name
-              : (item as ArtistProps).name}
+              : type === "artist"
+              ? (item as ArtistProps).name
+              : item.name }
           </Typography>
           <Typography fontSize={14}>
-            {type === "song" ? (item as SongProps).artist : "Artist"}
+            {type === "song"
+              ? (item as SongProps).artist
+              : type === "artist"
+              ? "Artist"
+              : (item as AlbumProps).artist }
           </Typography>
           {isPlayButtonVisible && (
             <Box
