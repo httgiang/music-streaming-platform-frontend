@@ -11,11 +11,20 @@ import { AlbumProps } from "@/types/album";
 import { useState, useEffect } from "react";
 import UploadMusicDialog from "./UploadMusicPage";
 import ColorThief from "colorthief";
-import MusicCard, { MusicCardSongProps } from "@/components/music/MusicCard";
 import { SongProps } from "@/types/song";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import AddIcon from "@mui/icons-material/Add";
 import AlbumPublicSwitch from "@/components/music/AlbumPublicSwitch";
+import EditableSongCard from "./EditableSongCard";
+import { DndContext, useSensor } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import { DragOverlay } from "@dnd-kit/core";
+
+import {
+  TouchSensor,
+  KeyboardSensor,
+  PointerSensor,
+  useSensors,
+} from "@dnd-kit/core";
 const AddSongsToAlbumPage = () => {
   const album = useLocation().state as AlbumProps;
   const coverImageUrl =
@@ -26,9 +35,33 @@ const AddSongsToAlbumPage = () => {
   const [songs, setSongs] = useState<SongProps[]>([]);
   const [openUploadSong, setOpenUploadSong] = useState(false);
   const [isPublic, setIsPublic] = useState(album.isPublic);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
-  const label = { inputProps: { "aria-label": "Size switch demo" } };
-  console.log("Album cover:", coverImageUrl);
+  const getSongPos = (id: string) => songs.findIndex((song) => song.id === id);
+  const handleDragStart = (event: any) => {
+    setActiveId(event.active.id);
+  };
+
+  const handleDragSongEnd = (event: any) => {
+    const { active, over } = event;
+    if (active.id == over.id) return;
+    setSongs((songs) => {
+      const originalPos = getSongPos(active.id);
+      const newPos = getSongPos(over.id);
+      return arrayMove(songs, originalPos, newPos);
+    });
+    setActiveId(null);
+  };
+
+  const sensor = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor),
+  );
+
+  const handleDeleteSong = (songId: string) => {
+    setSongs((prev) => prev.filter((song) => song.id !== songId));
+  };
   useEffect(() => {
     if (!coverImageUrl) {
       console.error("coverImageUrl is missing:", album);
@@ -162,29 +195,49 @@ const AddSongsToAlbumPage = () => {
       >
         Songs in Album
       </Typography>
-      <Stack spacing={2}>
-        {songs.map((song) => (
-          <Box
-            sx={{
-              "&:hover": {
-                backgroundColor: "#484848",
-                borderRadius: "8px",
-                transition: "background-color 0.3s ease",
-              },
-              padding: 1,
-            }}
-          >
-            <MusicCard
-              song={{
-                coverImageUrl: song.coverImageUrl,
-                name: song.name,
-                artist: song.artist,
-                duration: song.duration ? song.duration.toString() : "N/A",
+      <DndContext
+        sensors={sensor}
+        onDragEnd={handleDragSongEnd}
+        onDragStart={handleDragStart}
+      >
+        <Stack spacing={2}>
+          {songs.map((song) => (
+            <Box
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#484848",
+                  borderRadius: "8px",
+                  transition: "background-color 0.3s ease",
+                },
+                padding: 1,
               }}
+            >
+              <EditableSongCard
+                key={song.id}
+                song={{
+                  id: song.id,
+                  duration: song.duration,
+                  coverImageUrl: song.coverImageUrl,
+                  name: song.name,
+                  artist: song.artist,
+                  lyric: song.lyric,
+                  artistImage: "",
+                }}
+                handleDelete={() => handleDeleteSong(song.id)}
+              />
+            </Box>
+          ))}
+        </Stack>
+        <DragOverlay>
+          {activeId ? (
+            <EditableSongCard
+              song={songs.find((s) => s.id === activeId)!}
+              handleDelete={handleDeleteSong}
             />
-          </Box>
-        ))}
-      </Stack>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+
       <Box display="flex" justifyContent={"flex-end"}>
         <Button
           variant="contained"
@@ -198,35 +251,6 @@ const AddSongsToAlbumPage = () => {
         </Button>
       </Box>
     </Container>
-    // <Stack>
-    //   <Typography variant="h4" sx={{ marginBottom: 2 }} color="textPrimary">
-    //     {album.name}
-    //   </Typography>
-    //   <img
-    //     src={album.coverImageUrl}
-    //     alt="Album Cover"
-    //     width="300"
-    //     height="300"
-    //   />
-    //   <Button
-    //     variant="contained"
-    //     onClick={() => {
-    //       setOpenUploadSong(true);
-    //     }}
-    //   >
-    //     Upload songs
-    //   </Button>
-    //   <UploadMusicDialog
-    //     open={openUploadSong}
-    //     onClose={() => setOpenUploadSong(false)}
-    //   />
-    //   <h1>Current songs in album</h1>
-    //   <Stack direction="column" spacing={2}>
-    //     {songs.map((song) => (
-    //       <MusicCard song={song} />
-    //     ))}
-    //   </Stack>
-    // </Stack>
   );
 };
 export default AddSongsToAlbumPage;

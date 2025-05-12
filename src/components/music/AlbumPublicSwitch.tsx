@@ -1,12 +1,11 @@
 import { Switch, styled } from "@mui/material";
-import theme from "@/theme/theme";
 
 const AlbumPublicSwitch = styled(
   (props: {
     checked: boolean;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   }) => <Switch {...props} />,
-)(({ checked }) => ({
+)(() => ({
   width: 28,
   height: 16,
   padding: 0,
