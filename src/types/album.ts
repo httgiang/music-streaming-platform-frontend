@@ -1,5 +1,4 @@
 export interface AlbumProps {
-  image: string;
   id: string;
   name: string;
   coverImageUrl: string;
@@ -13,6 +12,7 @@ export const initialAlbum: AlbumProps = {
   coverImageUrl: "",
   artist: "",
   isPublic: false,
+ 
 };  
 
 

@@ -35,7 +35,7 @@ const ArtistPage = () => {
             display={"flex"}
             flexDirection={"row"}
             sx={{
-                backgroundImage: `url(${artist.image})`, 
+                backgroundImage: `url(${artist.coverImageUrl})`, 
                 backgroundSize: "cover", 
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center", 

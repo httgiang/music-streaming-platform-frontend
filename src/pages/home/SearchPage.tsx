@@ -170,7 +170,7 @@ const SearchPage: React.FC = () => {
                   item={{
                     id: artist.id,
                     name: artist.name || "Unknown Artist",
-                    image: artist.image,
+                    coverImageUrl: artist.coverImageUrl,
                   }}
                 />
               ))}
@@ -202,8 +202,9 @@ const SearchPage: React.FC = () => {
                   item={{
                     id: album.id,
                     name: album.name,
-                    image: album.coverImageUrl, 
+                    coverImageUrl: album.coverImageUrl,
                     artist: album.artist,
+                    isPublic: album.isPublic,
                   }}
                 />
               ))}
