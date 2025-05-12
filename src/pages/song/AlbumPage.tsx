@@ -12,7 +12,8 @@ const AlbumPage: React.FC = () => {
   const [songs, setSongs] = useState<SongProps[]>([]);
   const { id } = useParams<{ id: string }>();
   const album = location.state as AlbumProps;
-  const coverImageUrl = album.coverImageUrl || album.image || "https://via.placeholder.com/150"; // Fallback for coverImageUrl
+  const coverImageUrl =
+    album.coverImageUrl || album.image || "https://via.placeholder.com/150"; // Fallback for coverImageUrl
   console.log("Album Data:", album); // Debugging log
 
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
@@ -56,7 +57,7 @@ const AlbumPage: React.FC = () => {
       if (palette.length >= 2) {
         const [color1, color2] = palette;
         setBgGradient(
-          `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.7), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.9))`
+          `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.7), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.9))`,
         );
       }
     };
@@ -105,7 +106,7 @@ const AlbumPage: React.FC = () => {
           flexDirection={"column"}
           marginLeft={"3rem"}
         >
-        <Typography fontSize="h6" color="white" fontWeight="bold">
+          <Typography fontSize="h6" color="white" fontWeight="bold">
             EP
           </Typography>
           <Typography variant="h2" color="white" fontWeight="bold">
@@ -125,30 +126,30 @@ const AlbumPage: React.FC = () => {
         Songs in Album
       </Typography>
       <Stack spacing={2}>
-        {        songs.map((song) => (
-            <Box
-                            key={song.id}
-                            sx={{
-                              "&:hover": {
-                                backgroundColor: "#484848",
-                                borderRadius: "8px",
-                                transition: "background-color 0.3s ease",
-                              },
-                              padding: 1,
-                            }}
-                    
-                          > <MusicCard
-                          key={song.id}
-                          song={{
-                            coverImageUrl: song.coverImageUrl,
-                            name: song.name,
-                            artist: song.artist,
-                            duration: song.duration ? song.duration.toString() : "N/A",
-                          }}
-                        />
-                        </Box>
-           
-          ))}
+        {songs.map((song) => (
+          <Box
+            key={song.id}
+            sx={{
+              "&:hover": {
+                backgroundColor: "#484848",
+                borderRadius: "8px",
+                transition: "background-color 0.3s ease",
+              },
+              padding: 1,
+            }}
+          >
+            {" "}
+            <MusicCard
+              key={song.id}
+              song={{
+                coverImageUrl: song.coverImageUrl,
+                name: song.name,
+                artist: song.artist,
+                duration: song.duration ? song.duration.toString() : "N/A",
+              }}
+            />
+          </Box>
+        ))}
       </Stack>
     </Container>
   );

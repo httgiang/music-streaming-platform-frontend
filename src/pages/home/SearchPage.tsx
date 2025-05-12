@@ -43,7 +43,7 @@ const SearchPage: React.FC = () => {
           // Check if the song has an artist and add it to the artistsArray
           if (song.artist) {
             artistsArray.push({
-              id: song.userId || song.artist, 
+              id: song.userId || song.artist,
               name: song.artist,
               image: song.artistImage,
             });
@@ -53,13 +53,13 @@ const SearchPage: React.FC = () => {
         // Filter out duplicate artists based on their id
         const uniqueArtistsArray = artistsArray.filter(
           (artist, index, self) =>
-            index === self.findIndex((a) => a.id === artist.id)
+            index === self.findIndex((a) => a.id === artist.id),
         );
 
         setUniqueArtists(uniqueArtistsArray);
 
         // Set albums
-        setAlbums(albumResults.slice(0, 4)); 
+        setAlbums(albumResults.slice(0, 4));
       }
     };
     fetchResults();
@@ -202,7 +202,7 @@ const SearchPage: React.FC = () => {
                   item={{
                     id: album.id,
                     name: album.name,
-                    image: album.coverImageUrl, 
+                    image: album.coverImageUrl,
                     artist: album.artist,
                   }}
                 />

@@ -16,7 +16,10 @@ import SongPage from "@/pages/song/SongPage";
 import SearchPage from "@/pages/home/SearchPage";
 import ArtistPage from "@/pages/song/ArtistPage";
 import MusicWorkSpacePage from "@/pages/workspace/MusicWorkSpacePage";
-import AlbumPage from "./pages/song/AlbumPage";
+
+import AlbumPage from "@/pages/song/AlbumPage";
+import PrivateRoute from "@/components/PrivateRoute";
+import AddSongsToAlbumPage from "./pages/workspace/AddSongsToAlbum";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -27,8 +30,9 @@ function App() {
           <Route path="/song/:id" element={<SongPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
+          <Route path="/album/:id" element={<AlbumPage />} />
           <Route path="/music-workspace" element={<MusicWorkSpacePage />} />
-            <Route path="/album/:id" element={<AlbumPage />} />
+          <Route path="/album/add-songs" element={<AddSongsToAlbumPage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/log-in" element={<LogInPage />} />

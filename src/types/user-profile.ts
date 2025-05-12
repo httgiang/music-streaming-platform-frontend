@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import { phoneRegex } from "./auth/regex";
 
 export interface User {
+  id: string;
   username: string;
   email: string;
   avatar?: string;

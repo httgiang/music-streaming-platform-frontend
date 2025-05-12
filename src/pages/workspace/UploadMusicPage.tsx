@@ -11,13 +11,16 @@ import { Help } from "@mui/icons-material";
 import { useState } from "react";
 import { uploadSong } from "@/api/music/song-api";
 import { useToast } from "@/contexts/ToastContext";
+import { SongProps } from "@/types/song";
 
 const UploadMusicDialog = ({
   open,
   onClose,
+  onMusicUploaded,
 }: {
   open: boolean;
   onClose: () => void;
+  onMusicUploaded: (song: SongProps) => void;
 }) => {
   const [name, setName] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -41,6 +44,7 @@ const UploadMusicDialog = ({
       const response = await uploadSong(formData);
       if (response?.status === 201) {
         showToast("Song uploaded successfully!", "success");
+        onMusicUploaded(response.data.data.song);
         onClose();
       }
     } catch (error) {

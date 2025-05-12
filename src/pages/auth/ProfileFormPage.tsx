@@ -52,8 +52,7 @@ const ProfileFormPage = () => {
       };
 
       try {
-        await signUp(payload);
-
+        const response = await signUp(payload);
         navigate("/verify-otp");
       } catch (error) {
         console.error("Sign up error:", error);

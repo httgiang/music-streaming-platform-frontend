@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "../axios-api";
 
 export const fetchSongs = async () => {
@@ -18,7 +17,7 @@ export const fetchSongs = async () => {
         }))
       : [];
 
-          return songs;
+    return songs;
   } catch (error) {
     console.error("Fetch songs failed: ", error);
     throw error;
@@ -57,7 +56,6 @@ export const streamSong = async (id: string) => {
 };
 
 export const uploadSong = async (songData: any) => {
-
   try {
     const response = await api.post("/users/songs", songData, {
       withCredentials: true,
@@ -69,7 +67,6 @@ export const uploadSong = async (songData: any) => {
   } catch (error: any) {
     console.error("Upload song failed: ", error);
     throw error;
-   
   }
 };
 
@@ -85,7 +82,7 @@ export const searchSongsOrArtists = async (query: string) => {
       type: "song",
       artist: item.user.username,
       coverImageUrl: item.coverImageUrl,
-      lyric: item.lyric, 
+      lyric: item.lyric,
     }));
   } catch (error) {
     console.error("Search failed: ", error);
@@ -93,16 +90,19 @@ export const searchSongsOrArtists = async (query: string) => {
   }
 };
 
-
-
-export const getSongsByArtist = async (artistId: string, limit: number = 50) => {
+export const getSongsByArtist = async (
+  artistId: string,
+  limit: number = 50,
+) => {
   try {
     const response = await api.get(
       `/songs/many?artistId=${encodeURIComponent(artistId)}&limit=${limit}`,
     );
     console.log("getSongsByArtist response:", response.data);
     const results = response.data?.data || [];
-    const filteredResults = results.filter((item: any) => item.user.username === artistId);
+    const filteredResults = results.filter(
+      (item: any) => item.user.username === artistId,
+    );
     if (filteredResults.length === 0) {
       console.warn("No songs found for artistId (username):", artistId);
     }
@@ -120,4 +120,3 @@ export const getSongsByArtist = async (artistId: string, limit: number = 50) => 
     throw error;
   }
 };
-

@@ -13,6 +13,7 @@ import { useState } from "react";
 import UploadMusicDialog from "./UploadMusicPage";
 import CreateAlbumDialog from "./CreateAlbumDialog";
 
+import { useAuth } from "@/contexts/AuthContext";
 const ToolCard = styled(Card)(() => ({
   width: 70,
   height: 70,
@@ -40,12 +41,40 @@ const MusicWorkSpacePage = () => {
     setOpenCreateAlbum(false);
   };
 
+  const userId = useAuth().user?.id;
+  // if (userId) {
+  //   const { isLoading, data: songs } = useQuery<SongProps[]>({
+  //     queryKey: ["songs", userId],
+  //     queryFn: () => getSongsByArtist(userId),
+  //     staleTime: 1000 * 60 * 5,
+  //     refetchOnWindowFocus: false,
+  //   });
+  // }
+  // const fetchedSongs = songs?.map((song) => ({
+  //   type: "song" as const,
+  //   item: {
+  //     id: song.id,
+  //     name: song.name,
+  //     coverImageUrl: song.coverImageUrl,
+  //     lyric: song.lyric ? song.lyric : "",
+  //     duration: song.duration ? song.duration : 0,
+  //     artist: song.artist ? song.artist : "",
+  //     artistImage: song.artistImage ? song.artistImage : "",
+  //   },
+  // }));
+
   return (
     <Box display="flex" width="100%" height="100vh" gap={2}>
       <Paper sx={{ flex: 2, padding: 2 }}>
         <Typography variant="h5" fontWeight={700} gutterBottom>
           Your uploads
         </Typography>
+        {/* <HomeSection title="Your songs">
+          <MusicCardsSlider
+            cardChildren={fetchedSongs || []}
+            isLoading={isLoading}
+          />
+        </HomeSection> */}
       </Paper>
       <Paper sx={{ flex: 1, padding: 2 }}>
         <Typography variant="h5" fontWeight={700} gutterBottom>
@@ -70,6 +99,7 @@ const MusicWorkSpacePage = () => {
           <UploadMusicDialog
             onClose={handleCloseUploadMusic}
             open={openUploadMusic}
+            onMusicUploaded={handleCloseUploadMusic}
           />
 
           <Tooltip
