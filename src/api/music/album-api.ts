@@ -72,3 +72,60 @@ export const searchAlbums = async (query: string) => {
     throw error;
   }
 };
+
+export const setSongsForAlbum = async (albumId: string, songIds: string[]) => {
+  try {
+    const response = await api.put(`users/albums/${albumId}/songs/set`, {
+      songIds,
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Set songs for album failed: ", error);
+    throw error;
+  }
+};
+
+export const appendSongsToAlbum = async (
+  albumId: string,
+  songIds: string[],
+) => {
+  try {
+    const response = await api.patch(
+      `users/albums/${albumId}/songs/append`,
+      songIds,
+    );
+    return response;
+  } catch (error: any) {
+    console.error("Set songs for album failed: ", error);
+    throw error;
+  }
+};
+
+export const insertSongToAnIndex = async (
+  albumId: string,
+  songId: string,
+  index: number,
+) => {
+  try {
+    const response = await api.patch(
+      `users/albums/${albumId}/songs/insert/${songId}`,
+      {
+        index,
+      },
+    );
+    return response;
+  } catch (error: any) {
+    console.error("Set songs for album failed: ", error);
+    throw error;
+  }
+};
+
+export const publicAlbum = async (albumId: string) => {
+  try {
+    const response = await api.patch(`users/albums/${albumId}/public`);
+    return response;
+  } catch (error: any) {
+    console.error("Set songs for album failed: ", error);
+    throw error;
+  }
+};

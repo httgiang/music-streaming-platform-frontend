@@ -18,13 +18,19 @@ import EditableSongCard from "./EditableSongCard";
 import { DndContext, useSensor } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { DragOverlay } from "@dnd-kit/core";
-
+import {
+  appendSongsToAlbum,
+  publicAlbum,
+  insertSongToAnIndex,
+} from "@/api/music/album-api";
 import {
   TouchSensor,
   KeyboardSensor,
   PointerSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { useToast } from "@/contexts/ToastContext";
+
 const AddSongsToAlbumPage = () => {
   const album = useLocation().state as AlbumProps;
   const coverImageUrl =
@@ -36,7 +42,9 @@ const AddSongsToAlbumPage = () => {
   const [openUploadSong, setOpenUploadSong] = useState(false);
   const [isPublic, setIsPublic] = useState(album.isPublic);
   const [activeId, setActiveId] = useState<string | null>(null);
-
+  const showToast = useToast();
+  let numMusic = 0;
+  let index = 0;
   const getSongPos = (id: string) => songs.findIndex((song) => song.id === id);
   const handleDragStart = (event: any) => {
     setActiveId(event.active.id);
@@ -61,6 +69,27 @@ const AddSongsToAlbumPage = () => {
 
   const handleDeleteSong = (songId: string) => {
     setSongs((prev) => prev.filter((song) => song.id !== songId));
+  };
+
+  const saveSongsToAlbum = async () => {
+    const songIds = songs.map((song) => song.id);
+    const albumId = album.id;
+    const response = await appendSongsToAlbum(albumId, songIds);
+    if (response?.status === 200) {
+      showToast("Songs updated successfully", "success");
+    } else {
+      showToast("Failed to update songs", "error");
+    }
+  };
+  const publishAlbum = async () => {
+    const albumId = album.id;
+    const response = await publicAlbum(albumId);
+    return response;
+  };
+  const handleSaveChanges = async () => {
+    if (isPublic) {
+      const publishAlbumRes = await publishAlbum();
+    }
   };
   useEffect(() => {
     if (!coverImageUrl) {
@@ -243,7 +272,7 @@ const AddSongsToAlbumPage = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            // Handle save changes
+            handleSaveChanges();
           }}
           sx={{ marginTop: 2 }}
         >
