@@ -95,10 +95,10 @@ export const searchSongsOrArtists = async (query: string) => {
 
 
 
-export const getSongsByArtist = async (artistId: string, limit: number = 50) => {
+export const getSongsByArtist = async (artistId: string, limit: number = 50, offset: number = 0) => {
   try {
     const response = await api.get(
-      `/songs/many?artistId=${encodeURIComponent(artistId)}&limit=${limit}`,
+      `/songs/many?artistId=${encodeURIComponent(artistId)}&limit=${limit}&offset=${offset}`,
     );
     console.log("getSongsByArtist response:", response.data);
     const results = response.data?.data || [];

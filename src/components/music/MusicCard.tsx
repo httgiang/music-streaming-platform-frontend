@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box, Typography, IconButton, Tooltip } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useNavigate } from 'react-router-dom';
+import { SongProps } from '@/types/song';
 
-interface Song {
-  coverImageUrl: string;
-  name: string;
-  artist: string;
-  duration: string;
-}
-
-const MusicCard: React.FC<{ song: Song }> = ({ song }) => {
+const MusicCard: React.FC<{ song: SongProps }> = ({ song }) => {
   const [isHovered, setIsHovered] = useState(false);
+   const navigate = useNavigate();
+  
+    const onSongDoubleClick = useCallback(
+      (song: SongProps) => {
+        navigate(`/song/${song.id}`, { state: song });
+      },
+      [navigate],
+    );
 
   return (
     <Box
@@ -20,6 +23,7 @@ const MusicCard: React.FC<{ song: Song }> = ({ song }) => {
       justifyContent="space-between"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onDoubleClick={() => onSongDoubleClick(song)}
     >
       <Box display="flex" alignItems="center" gap={1}>
         <img

@@ -4,7 +4,6 @@ import MusicCard from '@/components/music/MusicCard';
 import { ArtistProps } from '@/types/artist';
 import { SongProps } from '@/types/song';
 import { Box, Container, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,6 +22,8 @@ const ArtistPage = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(menuAnchorEl);
+    const [displayLimit, setDisplayLimit] = useState(5);
+    const [fetching] = useState(false);
 
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMenuAnchorEl(event.currentTarget);
@@ -179,7 +180,7 @@ const ArtistPage = () => {
                 Songs by Artist
             </Typography>
             <Stack spacing={2}>
-                {songs.map((song) => (
+                {songs.slice(0, displayLimit).map((song) => (
                     <Box
                         key={song.id}
                         sx={{
@@ -194,15 +195,36 @@ const ArtistPage = () => {
                         <MusicCard
                             key={song.id}
                             song={{
+                                id: song.id,
                                 coverImageUrl: song.coverImageUrl,
                                 name: song.name,
                                 artist: song.artist,
-                                duration: song.duration ? song.duration.toString() : "N/A",
+                                duration: song.duration ? song.duration : 0,
+                                lyric: song.lyric,
+                                artistImage: song.artistImage,
                             }}
                         />
                     </Box>
                 ))}
             </Stack>
+            {!fetching && songs.length > displayLimit && displayLimit < 10 && (
+                <Typography
+                    variant="body2"
+                    sx={{ mt: 2, color: '#fff', cursor: 'pointer', textAlign: 'left', fontWeight: 'bold', width: '100%' }}
+                    onClick={() => setDisplayLimit(10)}
+                >
+                    Show more
+                </Typography>
+            )}
+            {!fetching && displayLimit === 10 && songs.length > 5 && (
+                <Typography
+                    variant="body2"
+                    sx={{ mt: 2, color: '#fff', cursor: 'pointer', textAlign: 'left', fontWeight: 'bold', width: '100%' }}
+                    onClick={() => setDisplayLimit(5)}
+                >
+                    See less
+                </Typography>
+            )}
         </Container>
     )
 }
