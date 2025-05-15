@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Container, Typography, Box, Tooltip, IconButton } from "@mui/material";
+import { Container, Typography, Box, Tooltip, IconButton, MenuItem } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -7,15 +7,31 @@ import ColorThief from "colorthief";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { playSong } from "@/features/music/playerSlice";
+import Menu from '@mui/material/Menu';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import MoreHoriz from '@mui/icons-material/MoreHoriz';
+import ShareOutlined from '@mui/icons-material/ShareOutlined';
+import { Add, ArrowCircleDown, ArrowRight, QueueMusic } from "@mui/icons-material";
 
 const SongPage = () => {
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
   const [showMore, setShowMore] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(menuAnchorEl);
   const maxLines = 10;
 
   const location = useLocation();
   const dispatch = useDispatch();
   const song = location.state as SongProps;
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -125,8 +141,89 @@ const SongPage = () => {
             <AddCircleOutlineIcon sx={{ fontSize: "2rem" }} />
           </IconButton>
         </Tooltip>
-      </Box>
+        
+        <Tooltip
+          title={<span style={{ fontSize: "1em" }}>Share/Copy link</span>}
+          componentsProps={{
+            tooltip: { sx: { backgroundColor: "gray" } },
+            popper: {
+              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+            },
+          }}
+          placement="top"
+        >
+          <IconButton sx={{ color: "white" }}>
+            <ShareOutlined sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+          <Tooltip
+          title={<span style={{ fontSize: "1em" }}>DownLoad</span>}
+          componentsProps={{
+            tooltip: { sx: { backgroundColor: "gray" } },
+            popper: {
+              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+            },
+          }}
+          placement="top"
+        >
+          <IconButton sx={{ color: "white" }}>
+            <ArrowCircleDown sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={<span style={{ fontSize: "1em" }}>More option</span>}
+          componentsProps={{
+            tooltip: { sx: { backgroundColor: "gray" } },
+            popper: {
+              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+            },
+          }}
+          placement="top"
+        >
+          <IconButton sx={{ color: "white" }} onClick={handleMenuOpen}>
+            <MoreHoriz sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+      <Menu
+  anchorEl={menuAnchorEl}
+  open={isMenuOpen}
+  onClose={handleMenuClose}
+  anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+  transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+>
+  
+<MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <QueueMusic sx={{ mr: 1 }} fontSize="small" />
+      Add to queue
+    </Box>
+ 
+  </MenuItem> 
 
+  <MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Add sx={{ mr: 1 }} fontSize="small" />
+      Add to playlist
+    </Box>
+    <ArrowRight />
+  </MenuItem> 
+
+<MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <ReportProblemOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
+      Report
+    </Box>
+  </MenuItem>
+
+  <MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <InfoOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
+      Info
+    </Box>
+   
+  </MenuItem>
+</Menu>
+      </Box>
       <Box display={"flex"} flexDirection={"row"} gap={"12rem"}>
         <Box
           sx={{
@@ -177,7 +274,6 @@ const SongPage = () => {
             </Typography>
           )}
         </Box>
-
         <Box></Box>
         <Box display={"flex"} flexDirection={"row"}>
           <img
