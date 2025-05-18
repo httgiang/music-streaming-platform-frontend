@@ -53,7 +53,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
     } else if (type === "artist") {
       navigate(`/artist/${(item as ArtistProps).id}`, { state: item });
     } else if (type === "album") {
-      navigate(`/album/${(item as AlbumProps).id}`, { state: item }); 
+      navigate(`/album/${(item as AlbumProps).id}`, { state: item });
     }
   };
 
@@ -123,14 +123,14 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
               ? (item as SongProps).name
               : type === "artist"
               ? (item as ArtistProps).name
-              : item.name }
+              : item.name}
           </Typography>
           <Typography fontSize={14}>
             {type === "song"
               ? (item as SongProps).artist
               : type === "artist"
               ? "Artist"
-              : (item as AlbumProps).artist }
+              : (item as AlbumProps).artist}
           </Typography>
           {isPlayButtonVisible && (
             <Box

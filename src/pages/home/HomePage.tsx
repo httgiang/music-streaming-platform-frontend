@@ -1,4 +1,4 @@
-import { Container, Stack } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
@@ -85,11 +85,12 @@ const HomePage = () => {
           <SongCardsSlider
             cardChildren={fetchedSongs || []}
             isLoading={isLoading}
+            slidesToShow={5}
           />
         </HomeSection>
 
         <HomeSection title="Popular Artists">
-          <SongCardsSlider cardChildren={demoArtists} />
+          <SongCardsSlider cardChildren={demoArtists} slidesToShow={5} />
         </HomeSection>
       </Stack>
     </Container>

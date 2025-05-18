@@ -90,10 +90,12 @@ const AuthenticatedSideBar = () => {
             onClose={handleCloseMenu}
           >
             <MenuItem>
-              <PlaylistAddIcon /> <Typography>Create playlist</Typography>
+              <PlaylistAddIcon sx={{ marginRight: "1px" }} />{" "}
+              <Typography>Create playlist</Typography>
             </MenuItem>
             <MenuItem>
-              <FileUploadIcon /> <Typography>Upload songs</Typography>
+              <FileUploadIcon sx={{ marginRight: "1px" }} />{" "}
+              <Typography>Upload songs</Typography>
             </MenuItem>
           </Menu>
           <Tabs
@@ -103,29 +105,21 @@ const AuthenticatedSideBar = () => {
             variant="fullWidth"
           >
             <Tab
-              sx={{ fontSize: 15, fontWeight: 700, textTransform: "none" }}
+              sx={{ fontSize: 14, fontWeight: 700, textTransform: "none" }}
               value="playlists"
               label="Playlists"
             ></Tab>
             <Tab
-              sx={{ fontSize: 15, fontWeight: 700, textTransform: "none" }}
+              sx={{ fontSize: 14, fontWeight: 700, textTransform: "none" }}
               value="your-uploads"
               label="Your uploads"
             ></Tab>
           </Tabs>
-          <Stack spacing={2} sx={{ maxHeight: 230, overflowY: "auto" }}>
-            {dummyPlaylists.map((playlist) => (
-              <PlaylistHorizontalCard key={playlist.id} playlist={playlist} />
-            ))}
-          </Stack>
-        </Stack>
-
-        <Stack spacing={0.5}>
-          <Typography fontSize={18} fontWeight="bold">
-            Recently played
-          </Typography>
-
-          <Stack spacing={2} sx={{ maxHeight: 230, overflowY: "auto" }}>
+          <Stack
+            spacing={2}
+            sx={{ overflowY: "auto" }}
+            className="custom-scrollbar"
+          >
             {dummyPlaylists.map((playlist) => (
               <PlaylistHorizontalCard key={playlist.id} playlist={playlist} />
             ))}

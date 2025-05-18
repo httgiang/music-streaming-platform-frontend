@@ -22,7 +22,9 @@ import {
   appendSongsToAlbum,
   publicAlbum,
   insertSongToAnIndex,
+  getSongsByAlbum,
 } from "@/api/music/album-api";
+
 import {
   TouchSensor,
   KeyboardSensor,
@@ -43,9 +45,9 @@ const AddSongsToAlbumPage = () => {
   const [isPublic, setIsPublic] = useState(album.isPublic);
   const [activeId, setActiveId] = useState<string | null>(null);
   const showToast = useToast();
-  let numMusic = 0;
-  let index = 0;
+
   const getSongPos = (id: string) => songs.findIndex((song) => song.id === id);
+
   const handleDragStart = (event: any) => {
     setActiveId(event.active.id);
   };
@@ -75,11 +77,7 @@ const AddSongsToAlbumPage = () => {
     const songIds = songs.map((song) => song.id);
     const albumId = album.id;
     const response = await appendSongsToAlbum(albumId, songIds);
-    if (response?.status === 200) {
-      showToast("Songs updated successfully", "success");
-    } else {
-      showToast("Failed to update songs", "error");
-    }
+    return response;
   };
   const publishAlbum = async () => {
     const albumId = album.id;
@@ -87,8 +85,16 @@ const AddSongsToAlbumPage = () => {
     return response;
   };
   const handleSaveChanges = async () => {
+    let publishAlbumRes = null;
+    let saveSongsRes = null;
     if (isPublic) {
-      const publishAlbumRes = await publishAlbum();
+      publishAlbumRes = await publishAlbum();
+    }
+    saveSongsRes = await saveSongsToAlbum();
+    if (saveSongsRes?.status !== 200 || publishAlbumRes?.status !== 200) {
+      showToast("Failed to update album", "error");
+    } else {
+      showToast("Album updated successfully", "success");
     }
   };
   useEffect(() => {
@@ -190,9 +196,11 @@ const AddSongsToAlbumPage = () => {
         <UploadMusicDialog
           open={openUploadSong}
           onClose={() => setOpenUploadSong(false)}
-          onMusicUploaded={(newSong: SongProps) =>
-            setSongs((prev) => [...prev, newSong])
-          }
+          onMusicUploaded={(newSong: SongProps) => {
+            numMusic++;
+
+            setSongs((prev) => [...prev, newSong]);
+          }}
         />
         <Button
           sx={{

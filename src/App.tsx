@@ -18,7 +18,6 @@ import ArtistPage from "@/pages/song/ArtistPage";
 import MusicWorkSpacePage from "@/pages/workspace/MusicWorkSpacePage";
 
 import AlbumPage from "@/pages/song/AlbumPage";
-import PrivateRoute from "@/components/PrivateRoute";
 import AddSongsToAlbumPage from "./pages/workspace/AddSongsToAlbum";
 function App() {
   const queryClient = new QueryClient();

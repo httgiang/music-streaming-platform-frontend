@@ -2,7 +2,7 @@ import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {
   try {
-    const response = await api.post("/users/albums", albumData, {
+    const response = await api.post("/albums", albumData, {
       withCredentials: true,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -75,7 +75,7 @@ export const searchAlbums = async (query: string) => {
 
 export const setSongsForAlbum = async (albumId: string, songIds: string[]) => {
   try {
-    const response = await api.put(`users/albums/${albumId}/songs/set`, {
+    const response = await api.put(`/albums/${albumId}/songs/set`, {
       songIds,
     });
     return response;
@@ -91,7 +91,7 @@ export const appendSongsToAlbum = async (
 ) => {
   try {
     const response = await api.patch(
-      `users/albums/${albumId}/songs/append`,
+      `/albums/${albumId}/songs/append`,
       songIds,
     );
     return response;
@@ -108,7 +108,7 @@ export const insertSongToAnIndex = async (
 ) => {
   try {
     const response = await api.patch(
-      `users/albums/${albumId}/songs/insert/${songId}`,
+      `/albums/${albumId}/songs/insert/${songId}`,
       {
         index,
       },
@@ -122,7 +122,7 @@ export const insertSongToAnIndex = async (
 
 export const publicAlbum = async (albumId: string) => {
   try {
-    const response = await api.patch(`users/albums/${albumId}/public`);
+    const response = await api.patch(`/albums/${albumId}/public`);
     return response;
   } catch (error: any) {
     console.error("Set songs for album failed: ", error);

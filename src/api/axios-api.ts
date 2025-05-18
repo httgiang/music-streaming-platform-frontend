@@ -35,7 +35,7 @@ api.interceptors.response.use(
         const { data } = await api.post("/auth/refresh-token", {
           withCredentials: true,
         });
-
+        localStorage.setItem("accessToken", data.data.accessToken);
         api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
         requestsToRefresh.forEach((callback) =>
           callback(data.data.accessToken),

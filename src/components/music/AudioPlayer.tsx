@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IconButton,
   Slider,
@@ -18,13 +18,13 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { playSong, pauseSong } from "@/features/music/playerSlice";
+import { useRef, useEffect } from "react";
 
 const AudioPlayer = () => {
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentSong = useSelector(
     (state: RootState) => state.player.currentSong,
   );
-
   const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
   const [position, setPosition] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
@@ -40,7 +40,7 @@ const AudioPlayer = () => {
   };
 
   const startStreamingSong = () => {
-    if (!audioRef.current) return;
+    if (!currentSong || !audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
       dispatch(pauseSong());
@@ -56,6 +56,26 @@ const AudioPlayer = () => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+    };
+
+    const handleTimeUpdate = () => {
+      setPosition(audio.currentTime);
+    };
+
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, [currentSong]);
   if (!currentSong) return null;
 
   return (
@@ -120,9 +140,10 @@ const AudioPlayer = () => {
       </Box>
       <Box flex={7} display="flex" flexDirection="column" alignItems="center">
         <audio
+          id="audio-player"
           ref={audioRef}
-          src={"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
           autoPlay={isPlaying}
+          src={`http://localhost:3000/api/v1/songs/stream/${currentSong.id}`}
         />
         <Box display="flex" alignItems="center" gap={1}>
           <IconButton color="inherit" size="small">

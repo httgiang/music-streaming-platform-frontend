@@ -23,15 +23,12 @@ const HomeLayout = () => {
       <Box
         sx={{
           ...theme.custom.paperOverlay,
-
           flexGrow: 1,
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           paddingTop: theme.custom.navBarHeight,
-          marginLeft: theme.custom.sideBarWidth,
-
-          paddingBottom: "64px",
+          marginLeft: 30,
         }}
       >
         <Outlet />

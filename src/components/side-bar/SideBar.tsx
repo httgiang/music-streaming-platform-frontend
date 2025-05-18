@@ -11,13 +11,11 @@ const SideBar = () => {
   return (
     <Drawer
       sx={{
-        flexShrink: 0,
-
         "& .MuiDrawer-paper": {
           ...theme.custom.paperOverlay,
           boxSizing: "border-box",
-          paddingTop: 10,
-          width: 300,
+          paddingTop: theme.custom.navBarHeight + 2,
+          width: theme.custom.sideBarWidth,
           overflowY: "hidden",
         },
       }}

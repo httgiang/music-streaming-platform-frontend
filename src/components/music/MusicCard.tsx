@@ -37,7 +37,7 @@ const MusicCard: React.FC<{ song: MusicCardSongProps }> = ({ song }) => {
         <img
           src={song.coverImageUrl}
           alt={song.name}
-          style={{ width: 50, height: 50, borderRadius: 5 }}
+          style={{ width: 55, height: 55, borderRadius: 3 }}
         />
         <Box textAlign="left">
           <Typography fontSize={16} fontWeight="bold" color="white">

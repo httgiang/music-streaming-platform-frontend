@@ -53,6 +53,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (response?.status === 200) {
         setUser(response.data.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.data.user));
+        console.log("User data: ", response.data.data.user);
         setAccessToken(response.data.accessToken);
         dispatch(loginSuccess(response.data.data.user));
         showToast("Logged in successfully", "success");
@@ -105,6 +107,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       setUser(null);
+      localStorage.removeItem("user");
       setAccessToken(null);
       dispatch(logout());
     } catch (error: any) {
@@ -117,15 +120,21 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const restoreSession = async () => {
     try {
       setLoading(true);
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
 
-      const response = await api.post("/auth/refresh-token", {
-        withCredentials: true,
-      });
+        const response = await api.post("/auth/refresh-token", {
+          withCredentials: true,
+        });
 
-      if (response?.status === 200) {
-        setUser(response.data.data.user);
-        setAccessToken(response.data.accessToken);
-        dispatch(loginSuccess(response.data.data.user));
+        if (response?.status === 200) {
+          setUser(response.data.data.user);
+          localStorage.setItem("user", JSON.stringify(response.data.data.user));
+          setAccessToken(response.data.accessToken);
+          dispatch(loginSuccess(response.data.data.user));
+        }
       }
     } catch {
       logOut();

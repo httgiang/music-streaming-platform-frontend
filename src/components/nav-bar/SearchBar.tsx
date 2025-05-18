@@ -24,13 +24,13 @@ const SearchBar = () => {
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: 1.5,
-        borderRadius: 20,
-        backgroundColor: alpha("#F5F5F5", 0.75),
-        "&:hover": {
-          backgroundColor: alpha("#E0E0E0", 0.75),
-        },
-        padding: "8px 16px",
+        gap: 1.0,
+        borderRadius: 10,
+        backgroundColor: alpha("#FFFFFF", 0.1),
+        padding: "0 1rem",
+
+        width: 300,
+        minWidth: 0,
       }}
     >
       <SearchIcon />
@@ -38,7 +38,7 @@ const SearchBar = () => {
         inputRef={searchRef}
         placeholder="Search for music..."
         inputProps={{ "aria-label": "search" }}
-        sx={{ width: "100%" }}
+        sx={{ width: "100%", height: "80%" }}
         onKeyDown={onHandleKey}
       />
     </Box>

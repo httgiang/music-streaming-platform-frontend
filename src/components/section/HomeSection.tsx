@@ -15,14 +15,14 @@ const HomeSection: React.FC<HomeSectionProps> = ({ title, children }) => {
         <Typography fontSize={25} fontWeight={700} color="text.primary">
           {title}
         </Typography>
-        <Link
+        <Typography
           sx={{
             textDecoration: "none",
             color: "text.secondary",
           }}
         >
           Show all
-        </Link>
+        </Typography>
       </Box>
       {children}
     </Box>

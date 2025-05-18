@@ -7,7 +7,8 @@ import ColorThief from "colorthief";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { playSong } from "@/features/music/playerSlice";
-
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import IosShareIcon from "@mui/icons-material/IosShare";
 const SongPage = () => {
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
   const [showMore, setShowMore] = useState(false);
@@ -99,7 +100,7 @@ const SongPage = () => {
         sx={{
           marginTop: "2rem",
           display: "flex",
-          justifyContent: "start",
+          justifyContent: "end",
           alignItems: "center",
           gap: "0.5rem",
         }}
@@ -122,7 +123,35 @@ const SongPage = () => {
           placement="top"
         >
           <IconButton sx={{ color: "white" }}>
+            <FavoriteBorderOutlinedIcon sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={<span style={{ fontSize: "1em" }}>Add to playlist</span>}
+          componentsProps={{
+            tooltip: { sx: { backgroundColor: "gray" } },
+            popper: {
+              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+            },
+          }}
+          placement="top"
+        >
+          <IconButton sx={{ color: "white" }}>
             <AddCircleOutlineIcon sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={<span style={{ fontSize: "1em" }}>Share sonf</span>}
+          componentsProps={{
+            tooltip: { sx: { backgroundColor: "gray" } },
+            popper: {
+              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+            },
+          }}
+          placement="top"
+        >
+          <IconButton sx={{ color: "white" }}>
+            <IosShareIcon sx={{ fontSize: "2rem" }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -199,7 +228,9 @@ const SongPage = () => {
             marginLeft={"1rem"}
             alignItems={"start"}
           >
-            <Typography fontSize={14} color="white">Artist</Typography>
+            <Typography fontSize={14} color="white">
+              Artist
+            </Typography>
             <Typography fontSize={14} fontWeight={"bold"} color="white">
               {song.artist}
             </Typography>

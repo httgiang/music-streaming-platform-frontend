@@ -4,8 +4,11 @@
   font-family: "AMORIA";
   src: url("./assets/fonts/AMORIA.otf") format("opentype");
 }
+
+html {
+  background-color: #000000;
+}
 #root {
-  margin: 0 auto;
   text-align: center;
 }
 .slick-prev::before,
@@ -16,4 +19,28 @@
 .slick-slide > div {
   display: grid;
   place-items: center;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #555555 #1a1a1a;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #555555;
+  border-radius: 8px;
+  border: 2px solid #1a1a1a;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #777777;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #1a1a1a;
+  border-radius: 8px;
 }
