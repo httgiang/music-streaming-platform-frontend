@@ -12,9 +12,11 @@ import {
 } from "@mui/material";
 import { useSortable } from "@dnd-kit/sortable";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { SongProps } from "@/types/song";
 import { CSS } from "@dnd-kit/utilities";
+import { useNavigate } from "react-router-dom";
 
 const EditableSongCard: React.FC<{
   song: SongProps;
@@ -39,10 +41,7 @@ const EditableSongCard: React.FC<{
 
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
 
-  const handleOpenConfirmation = () => {
-    console.log("open");
-    setOpenConfirmDelete(true);
-  };
+  const navigate = useNavigate();
   return (
     <>
       <div ref={setNodeRef} style={style}>
@@ -77,18 +76,24 @@ const EditableSongCard: React.FC<{
               </Typography>
             </Box>
           </Box>
-          <Box>
-            <Typography color="textPrimary">30,123,455 views</Typography>
+          <Box display={"flex"} gap={1}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/song/${song.id}`, { state: { song } });
+              }}
+            >
+              <RemoveRedEyeIcon sx={{ color: "white" }} />
+            </IconButton>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenConfirmDelete(true);
+              }}
+            >
+              <DeleteIcon sx={{ color: "white" }} />
+            </IconButton>
           </Box>
-
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenConfirmDelete(true);
-            }}
-          >
-            <DeleteIcon sx={{ color: "white" }} />
-          </IconButton>
         </Box>
       </div>
       <Dialog

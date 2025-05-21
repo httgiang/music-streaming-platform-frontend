@@ -58,7 +58,7 @@ export const PlayButtons: React.FC<SliderButtonProps> = ({ onClick }) => {
         onClick();
       }}
     >
-      <PlayCircle sx={{ color: "red" }} />
+      <PlayCircle sx={{ color: "#9C27B0" }} />
     </IconButton>
   );
 };

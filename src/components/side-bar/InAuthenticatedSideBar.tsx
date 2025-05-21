@@ -2,7 +2,6 @@ import { Box, Button, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LogInSuggestionDialog from "../home/LogInSuggestionDialog";
 import { useState } from "react";
-import theme from "@/theme/theme";
 
 const InAuthenticatedSideBar = () => {
   const [openLogInDialog, setOpenLogInDialog] = useState(false);

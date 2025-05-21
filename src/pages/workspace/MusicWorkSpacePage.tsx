@@ -77,6 +77,7 @@ const MusicWorkSpacePage = () => {
 
   const storedUser = localStorage.getItem("user");
   if (!storedUser || storedUser === "undefined") {
+    console.log(storedUser);
     return (
       <Typography color="textPrimary">
         Please log in to see your workspace

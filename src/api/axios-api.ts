@@ -1,25 +1,20 @@
 import axios from "axios";
 
 let isRefreshToken = false;
-let requestsToRefresh: Array<(token: string | null) => void> = []; //queue for requests to be retried after token refresh
+let requestsToRefresh: Array<(token: string | null) => void> = [];
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api/v1",
   withCredentials: true,
 });
 
-// api.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("accessToken");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
+export const setAuthToken = (token: string | null) => {
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common["Authorization"];
+  }
+};
 
 api.interceptors.response.use(
   (response) => response,
@@ -35,7 +30,7 @@ api.interceptors.response.use(
         const { data } = await api.post("/auth/refresh-token", {
           withCredentials: true,
         });
-        localStorage.setItem("accessToken", data.data.accessToken);
+
         api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
         requestsToRefresh.forEach((callback) =>
           callback(data.data.accessToken),

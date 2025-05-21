@@ -144,7 +144,7 @@ const NavBar = () => {
                     navigate("/music-workspace");
                   }}
                 >
-                  Music Workspace
+                  Music workspace
                 </Button>
               </Box>
               <Notifications sx={{ cursor: "pointer" }} />

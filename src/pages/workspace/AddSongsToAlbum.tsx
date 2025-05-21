@@ -197,8 +197,6 @@ const AddSongsToAlbumPage = () => {
           open={openUploadSong}
           onClose={() => setOpenUploadSong(false)}
           onMusicUploaded={(newSong: SongProps) => {
-            numMusic++;
-
             setSongs((prev) => [...prev, newSong]);
           }}
         />

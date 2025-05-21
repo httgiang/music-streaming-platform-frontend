@@ -1,4 +1,4 @@
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import HomeSection from "@/components/section/HomeSection";
 import TheBeatlesPic from "@/assets/the-beatles.jpg";
