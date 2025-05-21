@@ -4,6 +4,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import { useNavigate } from "react-router-dom";
+import { SongProps } from "@/types/song";
+import { useCallback } from "react";
 
 export interface MusicCardSongProps {
   coverImageUrl: string;
@@ -12,8 +15,16 @@ export interface MusicCardSongProps {
   duration: string;
 }
 
-const MusicCard: React.FC<{ song: MusicCardSongProps }> = ({ song }) => {
+const MusicCard: React.FC<{ song: SongProps }> = ({ song }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const onSongDoubleClick = useCallback(
+    (song: SongProps) => {
+      navigate(`/song/${song.id}`, { state: song });
+    },
+    [navigate],
+  );
 
   return (
     <Box
@@ -31,6 +42,7 @@ const MusicCard: React.FC<{ song: MusicCardSongProps }> = ({ song }) => {
           cursor: "pointer",
         },
       }}
+      onDoubleClick={() => onSongDoubleClick(song)}
     >
       <Box display="flex" alignItems="center" gap={1}>
         <MusicNoteIcon sx={{ color: "white" }} />

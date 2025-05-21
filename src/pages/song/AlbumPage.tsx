@@ -12,9 +12,8 @@ const AlbumPage: React.FC = () => {
   const [songs, setSongs] = useState<SongProps[]>([]);
   const { id } = useParams<{ id: string }>();
   const album = location.state as AlbumProps;
-  const coverImageUrl =
-    album.coverImageUrl || album.image || "https://via.placeholder.com/150"; // Fallback for coverImageUrl
-  console.log("Album Data:", album); // Debugging log
+  const coverImageUrl = album.coverImageUrl;
+  console.log("Album Data:", album);
 
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
 
@@ -145,7 +144,8 @@ const AlbumPage: React.FC = () => {
                 coverImageUrl: song.coverImageUrl,
                 name: song.name,
                 artist: song.artist,
-                duration: song.duration ? song.duration.toString() : "N/A",
+                // duration: song.duration ? song.duration.toString() : "N/A",
+                duration: song.duration ? song.duration : 140,
               }}
             />
           </Box>

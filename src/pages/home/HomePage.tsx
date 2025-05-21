@@ -20,7 +20,7 @@ const HomePage = () => {
       item: {
         id: "1",
         name: "The Beatles",
-        image: TheBeatlesPic,
+        coverImageUrl: TheBeatlesPic,
       },
     },
     {
@@ -28,7 +28,7 @@ const HomePage = () => {
       item: {
         id: "2",
         name: "The Beatles",
-        image: TheBeatlesPic,
+        coverImageUrl: TheBeatlesPic,
       },
     },
     {
@@ -36,7 +36,7 @@ const HomePage = () => {
       item: {
         id: "3",
         name: "The Beatles",
-        image: TheBeatlesPic,
+        coverImageUrl: TheBeatlesPic,
       },
     },
     {
@@ -44,7 +44,7 @@ const HomePage = () => {
       item: {
         id: "4",
         name: "The Beatles",
-        image: TheBeatlesPic,
+        coverImageUrl: TheBeatlesPic,
       },
     },
     {
@@ -52,7 +52,7 @@ const HomePage = () => {
       item: {
         id: "5",
         name: "The Beatles",
-        image: TheBeatlesPic,
+        coverImageUrl: TheBeatlesPic,
       },
     },
     {
@@ -60,7 +60,7 @@ const HomePage = () => {
       item: {
         id: "6",
         name: "The Beatles",
-        image: TheBeatlesPic,
+        coverImageUrl: TheBeatlesPic,
       },
     },
   ];

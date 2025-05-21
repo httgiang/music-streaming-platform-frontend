@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Stack, Chip } from "@mui/material";
 import useQuery from "@/contexts/QueryContext";
 import { searchSongsOrArtists } from "@/api/music/song-api";
@@ -16,14 +15,6 @@ const SearchPage: React.FC = () => {
   const [uniqueArtists, setUniqueArtists] = useState<ArtistProps[]>([]);
   const [albums, setAlbums] = useState<any[]>([]);
   const [filter, setFilter] = useState<string>("All");
-  const navigate = useNavigate();
-
-  const onSongDoubleClick = useCallback(
-    (song: SongProps) => {
-      navigate(`/song/${song.id}`, { state: song });
-    },
-    [navigate],
-  );
 
   useEffect(() => {
     setKey(query.get("key") || "");
@@ -40,12 +31,11 @@ const SearchPage: React.FC = () => {
 
         const artistsArray: ArtistProps[] = [];
         searchResults.forEach((song: any) => {
-          // Check if the song has an artist and add it to the artistsArray
           if (song.artist) {
             artistsArray.push({
               id: song.userId || song.artist,
               name: song.artist,
-              image: song.artistImage,
+              coverImageUrl: song.artistImage,
             });
           }
         });
@@ -128,16 +118,16 @@ const SearchPage: React.FC = () => {
                     },
                     padding: 1,
                   }}
-                  onDoubleClick={() => onSongDoubleClick(result)}
                 >
                   <MusicCard
                     song={{
+                      id: result.id,
                       coverImageUrl: result.coverImageUrl,
                       name: result.name,
                       artist: result.artist,
-                      duration: result.duration
-                        ? result.duration.toString()
-                        : "N/A",
+                      duration: 3, // Placeholder, replace with actual duration if available
+                      lyric: result.lyric,
+                      artistImage: result.artistImage,
                     }}
                   />
                 </Box>
@@ -170,7 +160,7 @@ const SearchPage: React.FC = () => {
                   item={{
                     id: artist.id,
                     name: artist.name || "Unknown Artist",
-                    image: artist.image,
+                    coverImageUrl: artist.coverImageUrl,
                   }}
                 />
               ))}
@@ -202,8 +192,9 @@ const SearchPage: React.FC = () => {
                   item={{
                     id: album.id,
                     name: album.name,
-                    image: album.coverImageUrl,
+                    coverImageUrl: album.coverImageUrl,
                     artist: album.artist,
+                    isPublic: album.isPublic,
                   }}
                 />
               ))}

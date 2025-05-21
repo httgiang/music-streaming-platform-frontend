@@ -87,7 +87,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
             backgroundImage: `url(${
               type === "song"
                 ? (item as SongProps).coverImageUrl
-                : (item as ArtistProps).image
+                : (item as ArtistProps).coverImageUrl
             })`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -101,7 +101,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
             src={
               type === "song"
                 ? (item as SongProps).coverImageUrl
-                : (item as ArtistProps).image
+                : (item as ArtistProps).coverImageUrl
             }
             alt={item.name}
             style={{ display: "none" }}
