@@ -1,7 +1,8 @@
 import axios from "axios";
 
-let isRefreshToken = false;
-let requestsToRefresh: Array<(token: string | null) => void> = [];
+let isRefreshing = false;
+let failedQueue: any[] = [];
+let accessToken: string | null = null;
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api/v1",
@@ -10,40 +11,76 @@ const api = axios.create({
 
 export const setAuthToken = (token: string | null) => {
   if (token) {
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    accessToken = token;
+    api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   } else {
     delete api.defaults.headers.common["Authorization"];
   }
 };
 
+api.interceptors.request.use(
+  (config) => {
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 // api.interceptors.response.use(
 //   (response) => response,
-
 //   async (error) => {
 //     const originalRequest = error.config;
+
 //     if (error.response?.status === 401 && !originalRequest._retry) {
-//       if (!isRefreshToken) {
-//         originalRequest._retry = true;
-//         isRefreshToken = true;
+//       if (isRefreshing) {
+//         return new Promise(function (resolve, reject) {
+//           failedQueue.push({ resolve, reject });
+//         })
+//           .then((token) => {
+//             originalRequest.headers["Authorization"] = `Bearer ${token}`;
+//             return api(originalRequest);
+//           })
+//           .catch((err) => Promise.reject(err));
 //       }
+
+//       originalRequest._retry = true;
+//       isRefreshing = true;
+
 //       try {
 //         const { data } = await api.post("/auth/refresh-token", {
 //           withCredentials: true,
 //         });
 
-//         setAuthToken(data.data.accessToken);
-//         requestsToRefresh.forEach((callback) =>
-//           callback(data.data.accessToken),
-//         );
-//         requestsToRefresh = [];
+//         const newToken = data.data.accessToken;
+//         setAuthToken(newToken);
+//         processQueue(null, newToken);
+
+//         originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
 //         return api(originalRequest);
-//       } catch (error) {
-//         return Promise.reject(error);
+//       } catch (err) {
+//         processQueue(err, null);
+//         return Promise.reject(err);
 //       } finally {
-//         isRefreshToken = false;
-//         requestsToRefresh = [];
+//         isRefreshing = false;
 //       }
 //     }
+
 //     return Promise.reject(error);
 //   },
 // );

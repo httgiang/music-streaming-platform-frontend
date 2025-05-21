@@ -2,131 +2,244 @@ import {
   Box,
   Button,
   Typography,
-  Tabs,
-  Tab,
   Stack,
-  Menu,
-  MenuItem,
+  Avatar,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
 } from "@mui/material";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { motion } from "framer-motion";
+import HomeIcon from "@mui/icons-material/Home";
+import SearchIcon from "@mui/icons-material/Search";
+import ExploreIcon from "@mui/icons-material/Explore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import { useState } from "react";
-import SailorSongPic from "@/assets/sailor-song.jpg";
-import PlaylistHorizontalCard from "../music/PlaylistHorizontalCard";
+import { alpha } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-const AuthenticatedSideBar = () => {
-  const [tabValue, setTabValue] = useState("playlists");
+const recentlyPlayed = [
+  {
+    id: 1,
+    title: "Blinding Lights",
+    artist: "The Weeknd",
+    image: "https://via.placeholder.com/40",
+  },
+  {
+    id: 2,
+    title: "Sunflower",
+    artist: "Post Malone, Swae Lee",
+    image: "https://via.placeholder.com/40",
+  },
+  {
+    id: 3,
+    title: "Stay",
+    artist: "The Kid LAROI",
+    image: "https://via.placeholder.com/40",
+  },
+];
 
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
+const NavButton: React.FC<{
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+  onClick: () => void;
+}> = ({ icon, label, active = false, onClick }) => (
+  <Button
+    startIcon={icon}
+    onClick={onClick}
+    fullWidth
+    sx={{
+      justifyContent: "flex-start",
+      color: active ? "#B39DDB" : "text.primary",
+      backgroundColor: active ? alpha("#B39DDB", 0.1) : "transparent",
+      borderRadius: 2,
+      py: 1.2,
+      px: 2,
+      textTransform: "none",
+      fontWeight: active ? 600 : 400,
+      "&:hover": {
+        backgroundColor: alpha("#B39DDB", 0.08),
+      },
+    }}
+  >
+    {label}
+  </Button>
+);
+
+const AuthenticatedSideBar: React.FC = () => {
+  const [activeNav, setActiveNav] = useState("home");
+  const navigate = useNavigate();
+
+  const navigateTo = (path: string) => {
+    navigate(path);
   };
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorEl);
-  const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleCreatePlaylist = () => {
+    console.log("Create new playlist");
   };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-  const dummyPlaylists = [
-    {
-      id: 1,
-      title: "Liked songs",
-      creator: "gishyei",
-      image: SailorSongPic,
-      songs: [],
-    },
-    {
-      id: 2,
-      title: "Liked songs",
-      creator: "gishyei",
-      image: SailorSongPic,
-      songs: [],
-    },
-    {
-      id: 3,
-      title: "Liked songs",
-      creator: "gishyei",
-      image: SailorSongPic,
-      songs: [],
-    },
-    {
-      id: 4,
-      title: "Liked songs",
-      creator: "gishyei",
-      image: SailorSongPic,
-      songs: [],
-    },
-    {
-      id: 5,
-      title: "Liked songs",
-      creator: "gishyei",
-      image: SailorSongPic,
-      songs: [],
-    },
-  ];
+
   return (
-    <>
-      <Stack spacing={3} sx={{ width: "100%" }}>
-        <Stack spacing={0.5}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+    <Stack spacing={1.5} sx={{ height: "100%", width: "100%" }}>
+      {/* Main Navigation */}
+      <Box sx={{ mb: 1 }}>
+        <NavButton
+          icon={<HomeIcon />}
+          label="Home"
+          active={activeNav === "home"}
+          onClick={() => {
+            setActiveNav("home");
+            navigateTo("/");
+          }}
+        />
+        <NavButton
+          icon={<SearchIcon />}
+          label="Search"
+          active={activeNav === "search"}
+          onClick={() => {
+            setActiveNav("search");
+            navigateTo("/search");
+          }}
+        />
+        <NavButton
+          icon={<ExploreIcon />}
+          label="Discover"
+          active={activeNav === "discover"}
+          onClick={() => {
+            setActiveNav("discover");
+            navigateTo("/discover");
+          }}
+        />
+      </Box>
+
+      <Divider sx={{ my: 0.5, borderColor: alpha("#fff", 0.1) }} />
+
+      <Typography
+        variant="subtitle2"
+        sx={{
+          px: 2,
+          fontWeight: 700,
+          color: alpha("#fff", 0.7),
+          textTransform: "uppercase",
+          fontSize: "0.75rem",
+          letterSpacing: "0.1em",
+        }}
+      >
+        Your Music
+      </Typography>
+
+      <Box>
+        <NavButton
+          icon={<FavoriteIcon />}
+          label="Liked Songs"
+          active={activeNav === "liked"}
+          onClick={() => {
+            setActiveNav("liked");
+            navigateTo("/liked-songs");
+          }}
+        />
+        <NavButton
+          icon={<QueueMusicIcon />}
+          label="Your Playlists"
+          active={activeNav === "playlists"}
+          onClick={() => {
+            setActiveNav("playlists");
+            navigateTo("/playlists");
+          }}
+        />
+      </Box>
+
+      <Box sx={{ px: 1.5 }}>
+        <Button
+          variant="outlined"
+          startIcon={<CreateNewFolderIcon />}
+          onClick={handleCreatePlaylist}
+          fullWidth
+          sx={{
+            borderColor: "#B39DDB",
+            color: "#B39DDB",
+            justifyContent: "flex-start",
+            textTransform: "none",
+            py: 1,
+            borderRadius: 2,
+            "&:hover": {
+              borderColor: "#A78BFA",
+              backgroundColor: alpha("#B39DDB", 0.1),
+            },
+          }}
+        >
+          Create Playlist
+        </Button>
+      </Box>
+
+      <Divider sx={{ my: 0.5, borderColor: alpha("#fff", 0.1) }} />
+
+      <Box sx={{ mb: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", px: 2, mb: 1 }}>
+          <AccessTimeIcon
+            sx={{ color: alpha("#fff", 0.7), fontSize: 18, mr: 1 }}
+          />
+          <Typography
+            variant="subtitle2"
+            sx={{
+              fontWeight: 700,
+              color: alpha("#fff", 0.7),
+              textTransform: "uppercase",
+              fontSize: "0.75rem",
+              letterSpacing: "0.1em",
+            }}
           >
-            <Typography fontSize={18} fontWeight="bold">
-              Your library
-            </Typography>
-            <Button variant="outlined" onClick={handleClickMenu}>
-              <AddOutlinedIcon /> <Typography>Create</Typography>
-            </Button>
-          </Box>
-          <Menu
-            id="create-menu"
-            anchorEl={anchorEl}
-            open={openMenu}
-            onClose={handleCloseMenu}
-          >
-            <MenuItem>
-              <PlaylistAddIcon sx={{ marginRight: "1px" }} />{" "}
-              <Typography>Create playlist</Typography>
-            </MenuItem>
-            <MenuItem>
-              <FileUploadIcon sx={{ marginRight: "1px" }} />{" "}
-              <Typography>Upload songs</Typography>
-            </MenuItem>
-          </Menu>
-          <Tabs
-            value={tabValue}
-            onChange={handleChangeTab}
-            aria-label="library-tabs"
-            variant="fullWidth"
-          >
-            <Tab
-              sx={{ fontSize: 14, fontWeight: 700, textTransform: "none" }}
-              value="playlists"
-              label="Playlists"
-            ></Tab>
-            <Tab
-              sx={{ fontSize: 14, fontWeight: 700, textTransform: "none" }}
-              value="your-uploads"
-              label="Your uploads"
-            ></Tab>
-          </Tabs>
-          <Stack
-            spacing={2}
-            sx={{ overflowY: "auto" }}
-            className="custom-scrollbar"
-          >
-            {dummyPlaylists.map((playlist) => (
-              <PlaylistHorizontalCard key={playlist.id} playlist={playlist} />
-            ))}
-          </Stack>
-        </Stack>
-      </Stack>
-    </>
+            Recently Played
+          </Typography>
+        </Box>
+
+        <List dense sx={{ py: 0 }}>
+          {recentlyPlayed.map((item) => (
+            <ListItem
+              disablePadding
+              key={item.id}
+              component={motion.div}
+              whileHover={{ x: 4 }}
+              sx={{
+                borderRadius: 2,
+                px: 1.5,
+                py: 0.5,
+
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                },
+              }}
+            >
+              <ListItemAvatar sx={{ minWidth: 50 }}>
+                <Avatar
+                  src={item.image}
+                  alt={item.title}
+                  variant="rounded"
+                  sx={{ width: 40, height: 40 }}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography variant="body2" noWrap sx={{ fontWeight: 500 }}>
+                    {item.title}
+                  </Typography>
+                }
+                secondary={
+                  <Typography variant="caption" noWrap color="text.secondary">
+                    {item.artist}
+                  </Typography>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Stack>
   );
 };
+
 export default AuthenticatedSideBar;

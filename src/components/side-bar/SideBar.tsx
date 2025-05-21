@@ -16,7 +16,8 @@ const SideBar = () => {
           boxSizing: "border-box",
           paddingTop: theme.custom.navBarHeight + 2,
           width: theme.custom.sideBarWidth,
-          overflowY: "hidden",
+          overflowY: "auto",
+          overflowX: "hidden",
         },
       }}
       variant="permanent"
@@ -24,7 +25,11 @@ const SideBar = () => {
     >
       <Stack
         spacing={3}
-        sx={{ ml: 2, mr: 2, textAlign: "left", alignItems: "flex-start" }}
+        sx={{
+          px: 2,
+          textAlign: "left",
+          alignItems: "flex-start",
+        }}
       >
         {!isAuthenticated ? (
           <InAuthenticatedSideBar />

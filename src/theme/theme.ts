@@ -6,6 +6,7 @@ declare module "@mui/material" {
       sideBarWidth: number;
       navBarHeight: number;
       gradient: string;
+      lightGradient: string;
       paperOverlay: React.CSSProperties;
     };
   }
@@ -14,6 +15,7 @@ declare module "@mui/material" {
       sideBarWidth?: number;
       navBarHeight?: number;
       gradient?: string;
+      lightGradient?: string;
       paperOverlay?: React.CSSProperties;
     };
   }
@@ -29,7 +31,7 @@ const theme = createTheme({
       primary: "#FFFFFF",
     },
     secondary: {
-      main: "rgb(204, 69, 228)",
+      main: "#A78BFA",
     },
   },
   typography: {
@@ -40,6 +42,7 @@ const theme = createTheme({
     navBarHeight: 8,
     gradient:
       "linear-gradient(185deg,rgba(232, 69, 253, 0.81),rgba(241, 231, 84, 0.8))",
+    lightGradient: "linear-gradient(90deg, #B39DDB, #A78BFA)",
     paperOverlay: {
       backgroundColor: "#121212",
       WebkitBackdropFilter: "blur(12px)",

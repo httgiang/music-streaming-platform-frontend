@@ -95,15 +95,17 @@ const SongPage = () => {
             borderRadius: "5px",
           }}
         >
-          <img
-            src={song.coverImageUrl}
-            alt="Song"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
+          {song.coverImageUrl && (
+            <img
+              src={song.coverImageUrl}
+              alt="Song"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          )}
         </Box>
         <Box
           justifyContent={"center"}

@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { loginSuccess, logout } from "@/features/auth/authSlice";
 import { useToast } from "@/contexts/ToastContext";
 import { LogInProps } from "@/types/auth/login";
@@ -11,7 +12,6 @@ interface AuthContextProps {
   signUp: (signUpData: any) => Promise<void>;
   logIn: (logInData: LogInProps) => Promise<void>;
   logOut: () => Promise<void>;
-  restoreSession: () => Promise<void>;
   sendVerificationEmail: (email: string) => Promise<void>;
   verifyOtp: (otp: string) => Promise<void>;
 }
@@ -19,9 +19,9 @@ interface AuthContextProps {
 export const AuthContext = createContext<AuthContextProps | null>(null);
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
-
   const dispatch = useDispatch();
   const showToast = useToast();
+  const navigate = useNavigate();
 
   const signUp = async (signUpData: any) => {
     try {
@@ -77,13 +77,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         error?.response?.data?.error?.message ||
         "Failed to send verification email";
       showToast(message, "error");
+      navigate("/log-in");
       throw error;
     }
   };
 
   const verifyOtp = async (code: string) => {
     try {
-      const response = await api.post("/auth/verify", { code });
+      const response = await api.post(
+        "/auth/verify",
+        { code },
+        {
+          withCredentials: true,
+        },
+      );
       if (response?.status === 200) {
         showToast("Verified successfully", "success");
       }
@@ -117,10 +124,23 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const restoreSession = async () => {
+    const storedUser = localStorage.getItem("user");
+    console.log("User:", storedUser);
+    if (!storedUser) {
+      dispatch(logout());
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await api.post("/auth/refresh-token");
-      setAuthToken(response.data.accessToken);
+      const response = await api.post("/auth/refresh-token", {
+        signal: controller.signal,
+      });
+
+      setAuthToken(response.data.data.accessToken);
+
       const stored = localStorage.getItem("user");
       if (stored) {
         const parsedUser = JSON.parse(stored);
@@ -131,6 +151,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } finally {
       setLoading(false);
     }
+    return () => controller.abort();
   };
 
   useEffect(() => {
@@ -144,7 +165,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         signUp,
         logIn,
         logOut,
-        restoreSession,
         sendVerificationEmail,
         verifyOtp,
       }}

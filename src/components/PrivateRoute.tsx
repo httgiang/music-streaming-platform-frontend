@@ -1,15 +1,24 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import LogInSuggestionDialog from "./home/LogInSuggestionDialog";
+import { useState } from "react";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const PrivateRoute = ({ children }: Props) => {
-  const { user } = useAuth();
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const [open, setOpen] = useState(true);
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return (
+      <LogInSuggestionDialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+      />
+    );
   }
 
   return <>{children}</>;

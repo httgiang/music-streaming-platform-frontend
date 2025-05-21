@@ -146,6 +146,9 @@ const AlbumPage: React.FC = () => {
                 artist: song.artist,
                 // duration: song.duration ? song.duration.toString() : "N/A",
                 duration: song.duration ? song.duration : 140,
+                lyric: song.lyric ? song.lyric : "",
+                artistImage: song.artistImage ? song.artistImage : "",
+                id: song.id,
               }}
             />
           </Box>
