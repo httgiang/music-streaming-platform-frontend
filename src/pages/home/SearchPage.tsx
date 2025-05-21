@@ -15,7 +15,6 @@ const SearchPage: React.FC = () => {
   const [uniqueArtists, setUniqueArtists] = useState<ArtistProps[]>([]);
   const [albums, setAlbums] = useState<any[]>([]);
   const [filter, setFilter] = useState<string>("All");
- 
 
   useEffect(() => {
     setKey(query.get("key") || "");
@@ -32,10 +31,9 @@ const SearchPage: React.FC = () => {
 
         const artistsArray: ArtistProps[] = [];
         searchResults.forEach((song: any) => {
-          
           if (song.artist) {
             artistsArray.push({
-              id: song.userId || song.artist, 
+              id: song.userId || song.artist,
               name: song.artist,
               coverImageUrl: song.artistImage,
             });
@@ -45,13 +43,13 @@ const SearchPage: React.FC = () => {
         // Filter out duplicate artists based on their id
         const uniqueArtistsArray = artistsArray.filter(
           (artist, index, self) =>
-            index === self.findIndex((a) => a.id === artist.id)
+            index === self.findIndex((a) => a.id === artist.id),
         );
 
         setUniqueArtists(uniqueArtistsArray);
 
         // Set albums
-        setAlbums(albumResults.slice(0, 4)); 
+        setAlbums(albumResults.slice(0, 4));
       }
     };
     fetchResults();
@@ -120,7 +118,6 @@ const SearchPage: React.FC = () => {
                     },
                     padding: 1,
                   }}
-                
                 >
                   <MusicCard
                     song={{
@@ -128,9 +125,7 @@ const SearchPage: React.FC = () => {
                       coverImageUrl: result.coverImageUrl,
                       name: result.name,
                       artist: result.artist,
-                      duration: typeof result.duration === "string"
-                        ? result.duration
-                        : "N/A",
+                      duration: 3, // Placeholder, replace with actual duration if available
                       lyric: result.lyric,
                       artistImage: result.artistImage,
                     }}

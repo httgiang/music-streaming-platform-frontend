@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import { phoneRegex } from "./auth/regex";
 
 export interface User {
+  id: string;
   username: string;
   email: string;
   avatar?: string;
@@ -13,7 +14,6 @@ export interface UserProfileProps {
   birth: string | null;
   gender: string;
   phone: number;
-  // country: string;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
@@ -22,7 +22,6 @@ export const initialUserProfileValues: UserProfileProps = {
   birth: "",
   gender: "",
   phone: 0,
-  // country: "",
 };
 
 export const userProfileValidationSchema = Yup.object().shape({

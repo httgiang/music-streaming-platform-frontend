@@ -16,7 +16,10 @@ import SongPage from "@/pages/song/SongPage";
 import SearchPage from "@/pages/home/SearchPage";
 import ArtistPage from "@/pages/song/ArtistPage";
 import MusicWorkSpacePage from "@/pages/workspace/MusicWorkSpacePage";
-import AlbumPage from "./pages/song/AlbumPage";
+import AlbumPage from "@/pages/song/AlbumPage";
+import AddSongsToAlbumPage from "@/pages/workspace/AddSongsToAlbum";
+import PrivateRoute from "@/components/PrivateRoute";
+
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -27,8 +30,15 @@ function App() {
           <Route path="/song/:id" element={<SongPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
-          <Route path="/music-workspace" element={<MusicWorkSpacePage />} />
-            <Route path="/album/:id" element={<AlbumPage />} />
+          <Route path="/album/:id" element={<AlbumPage />} />
+          <Route
+            path="/music-workspace"
+            element={<PrivateRoute>{<MusicWorkSpacePage />}</PrivateRoute>}
+          />
+          <Route
+            path="/album/add-songs"
+            element={<PrivateRoute>{<AddSongsToAlbumPage />}</PrivateRoute>}
+          />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/log-in" element={<LogInPage />} />

@@ -1,5 +1,12 @@
 import { useLocation } from "react-router-dom";
-import { Container, Typography, Box, Tooltip, IconButton, MenuItem } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Tooltip,
+  IconButton,
+  MenuItem,
+} from "@mui/material";
 import { SongProps } from "@/types/song";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -7,12 +14,17 @@ import ColorThief from "colorthief";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { playSong } from "@/features/music/playerSlice";
-import Menu from '@mui/material/Menu';
-import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import ShareOutlined from '@mui/icons-material/ShareOutlined';
-import { Add, ArrowCircleDown, ArrowRight, QueueMusic } from "@mui/icons-material";
+import Menu from "@mui/material/Menu";
+import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import MoreHoriz from "@mui/icons-material/MoreHoriz";
+import ShareOutlined from "@mui/icons-material/ShareOutlined";
+import {
+  Add,
+  ArrowCircleDown,
+  ArrowRight,
+  QueueMusic,
+} from "@mui/icons-material";
 
 const SongPage = () => {
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
@@ -83,15 +95,17 @@ const SongPage = () => {
             borderRadius: "5px",
           }}
         >
-          <img
-            src={song.coverImageUrl}
-            alt="Song"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
+          {song.coverImageUrl && (
+            <img
+              src={song.coverImageUrl}
+              alt="Song"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          )}
         </Box>
         <Box
           justifyContent={"center"}
@@ -115,7 +129,7 @@ const SongPage = () => {
         sx={{
           marginTop: "2rem",
           display: "flex",
-          justifyContent: "start",
+          justifyContent: "end",
           alignItems: "center",
           gap: "0.5rem",
         }}
@@ -127,8 +141,22 @@ const SongPage = () => {
             }}
           />
         </Box>
-        <Tooltip
+        {/* <Tooltip
           title={<span style={{ fontSize: "1em" }}>Add to favorite</span>}
+          componentsProps={{
+            tooltip: { sx: { backgroundColor: "gray" } },
+            popper: {
+              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+            },
+          }}
+          placement="top"
+        >
+          <IconButton sx={{ color: "white" }}>
+            <FavoriteBorderOutlinedIcon sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip> */}
+        <Tooltip
+          title={<span style={{ fontSize: "1em" }}>Add to playlist</span>}
           componentsProps={{
             tooltip: { sx: { backgroundColor: "gray" } },
             popper: {
@@ -141,7 +169,7 @@ const SongPage = () => {
             <AddCircleOutlineIcon sx={{ fontSize: "2rem" }} />
           </IconButton>
         </Tooltip>
-        
+
         <Tooltip
           title={<span style={{ fontSize: "1em" }}>Share/Copy link</span>}
           componentsProps={{
@@ -156,7 +184,7 @@ const SongPage = () => {
             <ShareOutlined sx={{ fontSize: "2rem" }} />
           </IconButton>
         </Tooltip>
-          <Tooltip
+        <Tooltip
           title={<span style={{ fontSize: "1em" }}>DownLoad</span>}
           componentsProps={{
             tooltip: { sx: { backgroundColor: "gray" } },
@@ -184,45 +212,70 @@ const SongPage = () => {
             <MoreHoriz sx={{ fontSize: "2rem" }} />
           </IconButton>
         </Tooltip>
-      <Menu
-  anchorEl={menuAnchorEl}
-  open={isMenuOpen}
-  onClose={handleMenuClose}
-  anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-  transformOrigin={{ vertical: 'top', horizontal: 'left' }}
->
-  
-<MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <QueueMusic sx={{ mr: 1 }} fontSize="small" />
-      Add to queue
-    </Box>
- 
-  </MenuItem> 
+        <Menu
+          anchorEl={menuAnchorEl}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          transformOrigin={{ vertical: "top", horizontal: "left" }}
+        >
+          <MenuItem
+            onClick={handleMenuClose}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <QueueMusic sx={{ mr: 1 }} fontSize="small" />
+              Add to queue
+            </Box>
+          </MenuItem>
 
-  <MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Add sx={{ mr: 1 }} fontSize="small" />
-      Add to playlist
-    </Box>
-    <ArrowRight />
-  </MenuItem> 
+          <MenuItem
+            onClick={handleMenuClose}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Add sx={{ mr: 1 }} fontSize="small" />
+              Add to playlist
+            </Box>
+            <ArrowRight />
+          </MenuItem>
 
-<MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <ReportProblemOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
-      Report
-    </Box>
-  </MenuItem>
+          <MenuItem
+            onClick={handleMenuClose}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <ReportProblemOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
+              Report
+            </Box>
+          </MenuItem>
 
-  <MenuItem onClick={handleMenuClose} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <InfoOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
-      Info
-    </Box>
-   
-  </MenuItem>
-</Menu>
+          <MenuItem
+            onClick={handleMenuClose}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <InfoOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
+              Info
+            </Box>
+          </MenuItem>
+        </Menu>
       </Box>
       <Box display={"flex"} flexDirection={"row"} gap={"12rem"}>
         <Box
@@ -295,7 +348,9 @@ const SongPage = () => {
             marginLeft={"1rem"}
             alignItems={"start"}
           >
-            <Typography fontSize={14} color="white">Artist</Typography>
+            <Typography fontSize={14} color="white">
+              Artist
+            </Typography>
             <Typography fontSize={14} fontWeight={"bold"} color="white">
               {song.artist}
             </Typography>

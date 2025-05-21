@@ -18,17 +18,19 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { playSong, pauseSong } from "@/features/music/playerSlice";
+import theme from "@/theme/theme";
+import { useRef, useEffect } from "react";
 
 const AudioPlayer = () => {
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentSong = useSelector(
     (state: RootState) => state.player.currentSong,
   );
-
   const isPlaying = useSelector((state: RootState) => state.player.isPlaying);
   const [position, setPosition] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
   const [volume, setVolume] = React.useState(70);
+
   const dispatch = useDispatch();
 
   const handleVolumeChange = (event: any) => {
@@ -39,8 +41,16 @@ const AudioPlayer = () => {
     }
   };
 
+  const handlePlaybackPositionChange = (_: any, value: number | number[]) => {
+    const newPosition = value as number;
+    setPosition(newPosition);
+    if (audioRef.current) {
+      audioRef.current.currentTime = newPosition;
+    }
+  };
+
   const startStreamingSong = () => {
-    if (!audioRef.current) return;
+    if (!currentSong || !audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
       dispatch(pauseSong());
@@ -56,6 +66,26 @@ const AudioPlayer = () => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+    };
+
+    const handleTimeUpdate = () => {
+      setPosition(audio.currentTime);
+    };
+
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, [currentSong]);
   if (!currentSong) return null;
 
   return (
@@ -120,16 +150,37 @@ const AudioPlayer = () => {
       </Box>
       <Box flex={7} display="flex" flexDirection="column" alignItems="center">
         <audio
+          id="audio-player"
           ref={audioRef}
-          src={"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
           autoPlay={isPlaying}
+          src={`http://localhost:3000/api/v1/songs/stream/${currentSong.id}`}
         />
         <Box display="flex" alignItems="center" gap={1}>
           <IconButton color="inherit" size="small">
             <SkipPrevious />
           </IconButton>
           <IconButton color="inherit" size="small" onClick={startStreamingSong}>
-            {isPlaying ? <Pause /> : <PlayArrow />}
+            {isPlaying ? (
+              <Pause
+                sx={{
+                  width: 30,
+                  height: 30,
+                  backgroundColor: theme.palette.secondary.main,
+                  borderRadius: "50%",
+                  p: 0.1,
+                }}
+              />
+            ) : (
+              <PlayArrow
+                sx={{
+                  width: 30,
+                  height: 30,
+                  backgroundColor: theme.palette.secondary.main,
+                  borderRadius: "50%",
+                  p: 0.1,
+                }}
+              />
+            )}
           </IconButton>
           <IconButton color="inherit" size="small">
             <SkipNext />
@@ -143,7 +194,7 @@ const AudioPlayer = () => {
             min={0}
             step={1}
             max={duration}
-            onChange={(_, value) => setPosition(value as number)}
+            onChange={handlePlaybackPositionChange}
             sx={{ mx: 2, flexGrow: 1, color: "white" }}
             size="small"
           />

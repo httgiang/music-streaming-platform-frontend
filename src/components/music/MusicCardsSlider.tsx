@@ -11,10 +11,12 @@ import { Skeleton, Box } from "@mui/material";
 interface MusicCardsSliderProps {
   cardChildren: MusicPreviewCardProps[];
   isLoading?: boolean;
+  slidesToShow: number;
 }
 const MusicCardsSlider = ({
   cardChildren,
   isLoading,
+  slidesToShow,
 }: MusicCardsSliderProps) => {
   const [showArrows, setShowArrows] = useState(false);
   const sliderRef = useRef<Slider>(null);
@@ -23,8 +25,8 @@ const MusicCardsSlider = ({
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
+    slidesToShow: slidesToShow,
+    slidesToScroll: slidesToShow,
     arrows: showArrows,
     nextArrow: <NextButton onClick={() => sliderRef.current?.slickNext()} />,
     prevArrow: <PrevButton onClick={() => sliderRef.current?.slickPrev()} />,
@@ -64,14 +66,13 @@ const MusicCardsSlider = ({
     <div
       ref={sliderContainerRef}
       style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
+        width: "100%",
+        height: "100%",
       }}
     >
       <Slider ref={sliderRef} {...settings}>
         {isLoading
-          ? [...Array(5)].map((_, index) => (
+          ? [...Array(slidesToShow)].map((_, index) => (
               <Box
                 key={index}
                 sx={{

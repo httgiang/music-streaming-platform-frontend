@@ -4,11 +4,11 @@ const PlaylistHorizontalCard = ({ playlist }: { playlist: PlaylistProps }) => {
   return (
     <Paper
       sx={{
-        borderRadius: 0,
-        cursor: "pointer",
+        borderRadius: 2,
+
         boxShadow: "none",
         ":hover": {
-          backgroundColor: "#F5F5F5",
+          cursor: "pointer",
         },
       }}
     >
@@ -20,7 +20,11 @@ const PlaylistHorizontalCard = ({ playlist }: { playlist: PlaylistProps }) => {
           alignItems: "center",
         }}
       >
-        <img width={60} height={60} src={playlist.image} alt={playlist.title} />
+        <img
+          style={{ width: 55, height: 55, borderRadius: 3 }}
+          src={playlist.image}
+          alt={playlist.title}
+        />
         <Box
           sx={{
             display: "flex",

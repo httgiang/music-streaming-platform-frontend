@@ -8,16 +8,20 @@ import {
   Typography,
   Button,
   IconButton,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { Notifications } from "@mui/icons-material";
+import { Man, Notifications } from "@mui/icons-material";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import theme from "@/theme/theme";
-import GroovityLogo from "@/assets/groovity-logo.png";
+import GroovityLogo from "@/assets/logo.png";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -72,29 +76,23 @@ const NavBar = () => {
               onClick={() => navigate("/")}
             >
               <img
-                width={28}
-                height={28}
-                alt="GroovityLogo"
                 src={GroovityLogo}
-                style={{
-                  filter:
-                    "drop-shadow(0 0 4px rgba(200, 120, 255, 0.5)) blur(0.2px)",
-                  opacity: 0.85,
-                  transition: "all 0.3s ease-in-out",
-                }}
+                alt="Groovity Logo"
+                width={30}
+                height={30}
               />
               <Typography
-                fontWeight="800"
+                fontWeight="600"
                 fontFamily="AMORIA"
                 fontSize={30}
                 letterSpacing={2}
                 sx={{
                   background:
-                    "linear-gradient(180deg, #d14eff 0%, #ffe600 100%)",
+                    "linear-gradient(180deg,rgb(197, 80, 230) 0%, #ffe600 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  textShadow:
-                    "0 0 10px rgba(255, 230, 0, 0.6), 0 0 20px rgba(186, 57, 255, 0.4)",
+                  // textShadow:
+                  //   "0 0 10px rgba(255, 230, 0, 0.6), 0 0 20px rgba(186, 57, 255, 0.4)",
                   transition: "all 0.3s ease-in-out",
                 }}
               >
@@ -165,6 +163,7 @@ const NavBar = () => {
                     navigate("/account");
                   }}
                 >
+                  <ManageAccountsOutlinedIcon sx={{ marginRight: 1 }} />
                   Account
                 </MenuItem>
 
@@ -174,14 +173,17 @@ const NavBar = () => {
                     navigate("/profile");
                   }}
                 >
+                  <AccountCircleOutlinedIcon sx={{ marginRight: 1 }} />
                   Profile
                 </MenuItem>
+                <Divider sx={{ margin: "0 10px" }} />
                 <MenuItem
                   onClick={() => {
                     handleCloseMenu();
                     logOut();
                   }}
                 >
+                  <LogoutOutlinedIcon sx={{ marginRight: 1 }} />
                   Logout
                 </MenuItem>
               </Menu>

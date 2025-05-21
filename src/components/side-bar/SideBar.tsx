@@ -11,14 +11,13 @@ const SideBar = () => {
   return (
     <Drawer
       sx={{
-        flexShrink: 0,
-
         "& .MuiDrawer-paper": {
           ...theme.custom.paperOverlay,
           boxSizing: "border-box",
-          paddingTop: 10,
-          width: 300,
-          overflowY: "hidden",
+          paddingTop: theme.custom.navBarHeight + 2,
+          width: theme.custom.sideBarWidth,
+          overflowY: "auto",
+          overflowX: "hidden",
         },
       }}
       variant="permanent"
@@ -26,7 +25,11 @@ const SideBar = () => {
     >
       <Stack
         spacing={3}
-        sx={{ ml: 2, mr: 2, textAlign: "left", alignItems: "flex-start" }}
+        sx={{
+          px: 2,
+          textAlign: "left",
+          alignItems: "flex-start",
+        }}
       >
         {!isAuthenticated ? (
           <InAuthenticatedSideBar />

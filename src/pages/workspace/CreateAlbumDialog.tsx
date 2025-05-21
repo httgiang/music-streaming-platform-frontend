@@ -11,6 +11,11 @@ import { useState } from "react";
 import { Help } from "@mui/icons-material";
 import { useToast } from "@/contexts/ToastContext";
 import { createAlbum } from "@/api/music/album-api";
+import { useNavigate } from "react-router-dom";
+import { AlbumProps } from "@/types/album";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+
 const CreateAlbumDialog = ({
   open,
   onClose,
@@ -21,10 +26,11 @@ const CreateAlbumDialog = ({
   const [albumName, setAlbumName] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverImagePreview, setCoverImagePreview] = useState<string>(
-    "https://via.placeholder.com/150",
+    "https://www.shutterstock.com/image-vector/no-photo-image-viewer-thumbnail-600nw-2495883211.jpg",
   );
   const showToast = useToast();
-
+  const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.user);
   const handleCreateAlbum = async () => {
     if (!albumName || !coverImage) {
       showToast("Please fill in all fields before submitting.", "warning");
@@ -36,8 +42,16 @@ const CreateAlbumDialog = ({
       formData.append("name", albumName);
       formData.append("coverImage", coverImage);
       const response = await createAlbum(formData);
+
       if (response?.status === 201) {
+        const rawAlbum = response.data.data.album;
+        const album: AlbumProps = {
+          ...rawAlbum,
+          artist: user?.username,
+        };
+        console.log("Album created successfully:", rawAlbum);
         showToast("Album created successfully!", "success");
+        navigate(`/album/add-songs`, { state: album });
         onClose();
       }
     } catch (error) {

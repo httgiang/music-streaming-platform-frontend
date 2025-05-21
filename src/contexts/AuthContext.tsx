@@ -1,38 +1,34 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { loginSuccess, logout } from "@/features/auth/authSlice";
 import { useToast } from "@/contexts/ToastContext";
 import { LogInProps } from "@/types/auth/login";
-import { User } from "@/types/user-profile";
 import LoadingScreen from "@/components/home/LoadingScreen";
-import api from "@/api/axios-api";
+import api, { setAuthToken } from "@/api/axios-api";
 
 interface AuthContextProps {
-  user: User | null;
-  accessToken: string | null;
   loading: boolean;
   signUp: (signUpData: any) => Promise<void>;
   logIn: (logInData: LogInProps) => Promise<void>;
   logOut: () => Promise<void>;
-  restoreSession: () => Promise<void>;
   sendVerificationEmail: (email: string) => Promise<void>;
   verifyOtp: (otp: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   const dispatch = useDispatch();
   const showToast = useToast();
+  const navigate = useNavigate();
+
   const signUp = async (signUpData: any) => {
     try {
       setLoading(true);
       const response = await api.post("/auth/signup", signUpData);
       if (response?.status === 201) {
         const user = response.data.data.user;
-        setUser(user);
         dispatch(loginSuccess(user));
         showToast("Sign up successfully", "success");
       }
@@ -50,10 +46,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await api.post("/auth/signin", logInData, {
         withCredentials: true,
       });
-
       if (response?.status === 200) {
-        setUser(response.data.data.user);
-        setAccessToken(response.data.accessToken);
+        localStorage.setItem("user", JSON.stringify(response.data.data.user));
+        setAuthToken(response.data.accessToken);
         dispatch(loginSuccess(response.data.data.user));
         showToast("Logged in successfully", "success");
       }
@@ -68,7 +63,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const sendVerificationEmail = async (email: string) => {
-    console.trace("Sending email from context");
     try {
       const response = await api.post(
         "/auth/send-verification",
@@ -83,12 +77,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         error?.response?.data?.error?.message ||
         "Failed to send verification email";
       showToast(message, "error");
+      navigate("/log-in");
       throw error;
     }
   };
+
   const verifyOtp = async (code: string) => {
     try {
-      const response = await api.post("/auth/verify", { code });
+      const response = await api.post(
+        "/auth/verify",
+        { code },
+        {
+          withCredentials: true,
+        },
+      );
       if (response?.status === 200) {
         showToast("Verified successfully", "success");
       }
@@ -104,9 +106,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logOut = async () => {
     try {
       setLoading(true);
-      setUser(null);
-      setAccessToken(null);
-      dispatch(logout());
+      const response = await api.post(
+        "/auth/signout",
+        {},
+        { withCredentials: true },
+      );
+      if (response?.status === 200) {
+        setAuthToken(null);
+        localStorage.removeItem("user");
+        dispatch(logout());
+      }
     } catch (error: any) {
       throw error;
     } finally {
@@ -115,23 +124,34 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const restoreSession = async () => {
-    try {
-      setLoading(true);
+    const storedUser = localStorage.getItem("user");
+    console.log("User:", storedUser);
+    if (!storedUser) {
+      dispatch(logout());
+      setLoading(false);
+      return;
+    }
 
+    const controller = new AbortController();
+    setLoading(true);
+    try {
       const response = await api.post("/auth/refresh-token", {
-        withCredentials: true,
+        signal: controller.signal,
       });
 
-      if (response?.status === 200) {
-        setUser(response.data.data.user);
-        setAccessToken(response.data.accessToken);
-        dispatch(loginSuccess(response.data.data.user));
+      setAuthToken(response.data.data.accessToken);
+
+      const stored = localStorage.getItem("user");
+      if (stored) {
+        const parsedUser = JSON.parse(stored);
+        dispatch(loginSuccess(parsedUser));
       }
     } catch {
-      logOut();
+      localStorage.removeItem("user");
     } finally {
       setLoading(false);
     }
+    return () => controller.abort();
   };
 
   useEffect(() => {
@@ -141,13 +161,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        user,
-        accessToken,
         loading,
         signUp,
         logIn,
         logOut,
-        restoreSession,
         sendVerificationEmail,
         verifyOtp,
       }}
@@ -156,6 +173,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

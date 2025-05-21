@@ -1,9 +1,7 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
 import LogInSuggestionDialog from "../home/LogInSuggestionDialog";
 import { useState } from "react";
-import theme from "@/theme/theme";
 
 const InAuthenticatedSideBar = () => {
   const [openLogInDialog, setOpenLogInDialog] = useState(false);
@@ -20,7 +18,7 @@ const InAuthenticatedSideBar = () => {
       <Card
         sx={{
           padding: 2,
-          height: 120,
+
           cursor: "pointer",
           display: "flex",
           flexDirection: "column",
@@ -43,8 +41,8 @@ const InAuthenticatedSideBar = () => {
       <Card
         sx={{
           padding: 2,
-          height: 120,
-          background: theme.custom.gradient,
+          background:
+            "linear-gradient(185deg,rgba(232, 69, 253, 0.63),rgba(241, 231, 84, 0.67))",
           color: "white",
           cursor: "pointer",
           display: "flex",
