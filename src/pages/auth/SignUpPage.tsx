@@ -19,13 +19,17 @@ import {
   signUpValidationSchema,
 } from "@/types/auth/signup";
 import AuthButton from "@/components/auth/AuthButton";
+import { setSignUpData } from "@/features/auth/signUpSlice";
+import { useDispatch } from "react-redux";
 
 const SignUpPage = () => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: initialSignUpValues,
     validationSchema: signUpValidationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(setSignUpData(values));
+      navigate("/fill-profile");
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +50,7 @@ const SignUpPage = () => {
             placeholder="Enter username"
             type="text"
             name="username"
+            autoComplete="username"
             label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
@@ -59,6 +64,7 @@ const SignUpPage = () => {
             placeholder="Enter email"
             type="text"
             name="email"
+            autoComplete="email"
             label="Email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -73,6 +79,7 @@ const SignUpPage = () => {
               placeholder="Enter password"
               type={showPassword ? "text" : "password"}
               name="password"
+              autoComplete="new-password"
               label="Password"
               slotProps={{
                 input: {
@@ -100,18 +107,19 @@ const SignUpPage = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
           </Box>
-          <AuthButton
-            onClick={() => {
-              formik.handleSubmit();
-              navigate("/fill-profile");
-            }}
-            typography="Next"
-          />
-          <Divider>or sign up with</Divider>
+          <AuthButton typography="Next" />
+          <Divider>
+            {" "}
+            <Typography variant="subtitle2" color="textSecondary">
+              or sign up with
+            </Typography>
+          </Divider>
           <Button variant="outlined" size="large" fullWidth>
             <Box display="flex" alignItems="center" gap={3}>
               <img src={GoogleLogo} alt="Google Logo" width={20} height={20} />
-              <Typography fontWeight="700">Continue with Google</Typography>
+              <Typography fontWeight="700" color="text.primary">
+                Continue with Google
+              </Typography>
             </Box>
           </Button>
         </Stack>

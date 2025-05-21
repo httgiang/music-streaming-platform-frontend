@@ -18,7 +18,6 @@ import {
   resetPasswordValidationSchema,
 } from "@/types/auth/resetpassword";
 import AuthButton from "@/components/auth/AuthButton";
-import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
   const formik = useFormik({
@@ -28,8 +27,6 @@ const ResetPassword = () => {
       console.log(values);
     },
   });
-
-  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -59,7 +56,7 @@ const ResetPassword = () => {
   return (
     <Stack flexDirection="column" spacing={3}>
       <Typography variant="subtitle1">
-        Please enter your new password below for your Groovity account
+        Please enter your password below for your Groovity account
       </Typography>
       <Stack flexDirection="column" spacing={1}>
         <TextField
@@ -100,8 +97,8 @@ const ResetPassword = () => {
         />
         <FormControl>
           <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
+            aria-labelledby="password-conditions-group"
+            name="password-conditions-group"
           >
             <Typography variant="subtitle1" color="textSecondary">
               Your password must contain at least...
@@ -165,13 +162,7 @@ const ResetPassword = () => {
           formik.touched.confirmPassword && formik.errors.confirmPassword
         }
       />
-      <AuthButton
-        onClick={() => {
-          formik.handleSubmit();
-          navigate("/log-in");
-        }}
-        typography="Reset Password"
-      />
+      <AuthButton typography="Reset Password" />
     </Stack>
   );
 };

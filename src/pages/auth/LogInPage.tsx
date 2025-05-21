@@ -16,22 +16,32 @@ import GoogleLogo from "@/assets/google-icon.svg";
 import { initialLogInValues, logInValidationSchema } from "@/types/auth/login";
 import AuthButton from "@/components/auth/AuthButton";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LogInPage = () => {
+  const logIn = useAuth().logIn;
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialLogInValues,
     validationSchema: logInValidationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        await logIn(values);
+        navigate("/");
+      } catch (error) {
+        console.error("Login error:", error);
+      }
     },
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
   return (
     <Box width="100%">
-      <form onSubmit={formik.handleSubmit}>
+      <form autoComplete="on" onSubmit={formik.handleSubmit}>
         <Stack flexDirection="column" spacing={3}>
           <TextField
             required
@@ -40,6 +50,7 @@ const LogInPage = () => {
             placeholder="Enter username"
             type="text"
             name="username"
+            autoComplete="username"
             label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
@@ -51,6 +62,7 @@ const LogInPage = () => {
             required
             fullWidth
             placeholder="Enter password"
+            autoComplete="current-password"
             type={showPassword ? "text" : "password"}
             name="password"
             label="Password"
@@ -80,10 +92,7 @@ const LogInPage = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Box display="flex" flexDirection="column" gap={1}>
-            <AuthButton
-              onClick={() => formik.handleSubmit()}
-              typography="Log in"
-            />
+            <AuthButton typography="Log in" />
             <Box display="flex" justifyContent="right">
               <Link href="/forgot-password" color="textSecondary">
                 Forgot password?
@@ -91,11 +100,26 @@ const LogInPage = () => {
             </Box>
           </Box>
 
-          <Divider>or log in with</Divider>
-          <Button variant="outlined" size="large" color="inherit">
+          <Divider>
+            <Typography variant="subtitle2" color="textSecondary">
+              or log in with
+            </Typography>
+          </Divider>
+          <Button
+            size="large"
+            fullWidth
+            variant="outlined"
+            sx={{
+              "&:hover": {
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
+            }}
+          >
             <Box display="flex" gap={1}>
               <img src={GoogleLogo} alt="Google Logo" width="20" height="20" />
-              <Typography fontWeight="700">Log in with Google</Typography>
+              <Typography fontWeight="700" color="textPrimary">
+                Log in with Google
+              </Typography>
             </Box>
           </Button>
         </Stack>

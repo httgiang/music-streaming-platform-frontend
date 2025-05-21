@@ -1,5 +1,7 @@
-import { Box, styled } from "@mui/material";
+import { useAuth } from "@/contexts/AuthContext";
+import { Box, Button, Typography, styled } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const OTPInput = styled("input")({
   width: 50,
@@ -21,6 +23,9 @@ const OTPInputs = () => {
   const [otp, setOtp] = useState(Array(numInputs).fill(""));
 
   const inputRefs = useRef<HTMLInputElement[]>([]);
+
+  const navigate = useNavigate();
+  const verifyOtp = useAuth().verifyOtp;
 
   useEffect(() => {
     if (inputRefs.current[0]) {
@@ -63,24 +68,58 @@ const OTPInputs = () => {
       }
       event.target.previousSibling.focus();
     }
+    if (event.key === "Enter" && index === numInputs - 1) {
+      const otpCode = otp.join("");
+      verityOtpCode(otpCode);
+    }
   };
+
+  const verityOtpCode = async (otpCode: string) => {
+    try {
+      await verifyOtp(otpCode);
+      navigate("/");
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+    }
+  };
+
   return (
-    <Box display="flex" gap={1} justifyContent="center">
-      {otp.map((value, index) => (
-        <OTPInput
-          key={index}
-          value={value}
-          maxLength={1}
-          type="text"
-          onChange={(event) => handleChange(event.target, index)}
-          onKeyDown={(event) => handleKeyDown(event, index)}
-          onPaste={handleOnPaste}
-          ref={(el) => {
-            if (el) inputRefs.current[index] = el;
-          }}
-        />
-      ))}
-    </Box>
+    <>
+      <Box display="flex" gap={1} justifyContent="center">
+        {otp.map((value, index) => (
+          <OTPInput
+            key={index}
+            value={value}
+            maxLength={1}
+            type="text"
+            onChange={(event) => handleChange(event.target, index)}
+            onKeyDown={(event) => handleKeyDown(event, index)}
+            onPaste={handleOnPaste}
+            ref={(el) => {
+              if (el) inputRefs.current[index] = el;
+            }}
+          />
+        ))}
+      </Box>
+      <Button
+        size="large"
+        fullWidth
+        variant="outlined"
+        sx={{
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
+          },
+        }}
+        onClick={() => {
+          const otpCode = otp.join("");
+          verityOtpCode(otpCode);
+        }}
+      >
+        <Typography fontWeight={600} color="text.primary">
+          Verify
+        </Typography>
+      </Button>
+    </>
   );
 };
 

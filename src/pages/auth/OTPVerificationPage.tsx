@@ -1,43 +1,44 @@
-import { Box, Typography, Link } from "@mui/material";
-import AuthButton from "@/components/auth/AuthButton";
+import { Box, Typography, Button } from "@mui/material";
 import OTPInputs from "@/components/auth/OTPInputs";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const OTPVerficationPage = () => {
-  const userEmail = "hotrungthygiang@gmail.com"; //dummy value
-  const navigate = useNavigate();
+  const user = useAuth().user;
+  const sendVerificationEmail = useAuth().sendVerificationEmail;
+
+  const sendCode = async () => {
+    if (!user?.email) return;
+    try {
+      await sendVerificationEmail(user.email);
+    } catch (error) {
+      console.error("Failed to send verification email:", error);
+    }
+  };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      textAlign="center"
-      gap={3}
-    >
-      <Typography variant="subtitle1" color="textSecondary">
-        We just sent the verifcation code to {userEmail}
-      </Typography>
-      <OTPInputs />
-      <AuthButton
-        onClick={() => {
-          navigate("/");
-        }}
-        typography="Verify"
-      />
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="center"
-        gap={0.5}
-      >
+    <>
+      <Box display="flex" flexDirection="column" gap={3} width="100%">
         <Typography variant="subtitle1" color="textSecondary">
-          Haven't received code?{" "}
+          We just sent the verifcation code to your email address
         </Typography>
-        <Link>Resend</Link>
+        <OTPInputs />
+
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          gap={0.5}
+        >
+          <Typography variant="subtitle1" color="textSecondary">
+            Haven't received code?{" "}
+          </Typography>
+          <Button onClick={sendCode}>
+            <Typography color="white">Resend</Typography>
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

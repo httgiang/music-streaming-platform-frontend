@@ -2,15 +2,13 @@ import React from "react";
 import { Button, Typography } from "@mui/material";
 
 interface AuthButtonProps {
-  onClick: () => void;
   typography: string;
 }
 
-const AuthButton: React.FC<AuthButtonProps> = ({ onClick, typography }) => {
+const AuthButton: React.FC<AuthButtonProps> = ({ typography }) => {
   return (
     <Button
       type="submit"
-      onClick={onClick}
       size="large"
       fullWidth
       variant="outlined"
@@ -20,7 +18,9 @@ const AuthButton: React.FC<AuthButtonProps> = ({ onClick, typography }) => {
         },
       }}
     >
-      <Typography fontWeight={600}>{typography}</Typography>
+      <Typography fontWeight={600} color="text.primary">
+        {typography}
+      </Typography>
     </Button>
   );
 };

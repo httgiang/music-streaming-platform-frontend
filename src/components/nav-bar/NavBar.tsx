@@ -8,16 +8,25 @@ import {
   Typography,
   Button,
   IconButton,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { Notifications } from "@mui/icons-material";
+import { Man, Notifications } from "@mui/icons-material";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import theme from "@/theme/theme";
+import GroovityLogo from "@/assets/logo.png";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const logOut = useAuth().logOut;
+
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
@@ -33,11 +42,13 @@ const NavBar = () => {
 
   return (
     <AppBar
-      color="transparent"
       sx={{
         position: "fixed",
+        top: 0,
         boxShadow:
           "0px 2px 3px rgba(0, 0, 0, 0.1), 0px 1px 5px rgba(0, 0, 0, 0.08)",
+        zIndex: 1201,
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Toolbar disableGutters>
@@ -64,16 +75,40 @@ const NavBar = () => {
               }}
               onClick={() => navigate("/")}
             >
-              <img width={20} height={20} alt="GroovityLogo" />
-              <Typography variant="h6" fontWeight={700}>
-                Groovity
+              <img
+                src={GroovityLogo}
+                alt="Groovity Logo"
+                width={30}
+                height={30}
+              />
+              <Typography
+                fontWeight="600"
+                fontFamily="AMORIA"
+                fontSize={30}
+                letterSpacing={2}
+                sx={{
+                  background:
+                    "linear-gradient(180deg,rgb(197, 80, 230) 0%, #ffe600 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  // textShadow:
+                  //   "0 0 10px rgba(255, 230, 0, 0.6), 0 0 20px rgba(186, 57, 255, 0.4)",
+                  transition: "all 0.3s ease-in-out",
+                }}
+              >
+                GROOVITY
               </Typography>
             </Box>
             <SearchBar />
           </Box>
+
           {!isAuthenticated ? (
-            <Box display="flex" flexDirection="row" gap={2}>
+            <Box display="flex" gap={2}>
               <Button
+                sx={{
+                  border: "solid 1px white",
+                  paddingX: 1,
+                }}
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/sign-up");
@@ -82,6 +117,11 @@ const NavBar = () => {
                 <Typography>Sign up</Typography>
               </Button>
               <Button
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  paddingX: 1,
+                }}
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/log-in");
@@ -92,6 +132,21 @@ const NavBar = () => {
             </Box>
           ) : (
             <Box display="flex" flexDirection="row" gap={3} alignItems="center">
+              <Box>
+                <Button
+                  sx={{
+                    background: theme.custom.gradient,
+                    paddingX: 2,
+                    borderRadius: 2,
+                    fontWeight: 700,
+                  }}
+                  onClick={() => {
+                    navigate("/music-workspace");
+                  }}
+                >
+                  Music workspace
+                </Button>
+              </Box>
               <Notifications sx={{ cursor: "pointer" }} />
               <IconButton onClick={handleClickMenu}>
                 <Avatar sx={{ width: 22, height: 22, cursor: "pointer" }} />
@@ -102,9 +157,35 @@ const NavBar = () => {
                 open={openMenu}
                 onClose={handleCloseMenu}
               >
-                <MenuItem onClick={handleCloseMenu}>Account</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu();
+                    navigate("/account");
+                  }}
+                >
+                  <ManageAccountsOutlinedIcon sx={{ marginRight: 1 }} />
+                  Account
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu();
+                    navigate("/profile");
+                  }}
+                >
+                  <AccountCircleOutlinedIcon sx={{ marginRight: 1 }} />
+                  Profile
+                </MenuItem>
+                <Divider sx={{ margin: "0 10px" }} />
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu();
+                    logOut();
+                  }}
+                >
+                  <LogoutOutlinedIcon sx={{ marginRight: 1 }} />
+                  Logout
+                </MenuItem>
               </Menu>
             </Box>
           )}
