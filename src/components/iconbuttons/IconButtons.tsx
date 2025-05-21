@@ -1,5 +1,6 @@
 import { IconButton } from "@mui/material";
 import { NavigateNext, NavigateBefore, PlayCircle } from "@mui/icons-material";
+import theme from "@/theme/theme";
 
 interface SliderButtonProps {
   onClick: () => void;
@@ -58,7 +59,7 @@ export const PlayButtons: React.FC<SliderButtonProps> = ({ onClick }) => {
         onClick();
       }}
     >
-      <PlayCircle sx={{ color: "#9C27B0" }} />
+      <PlayCircle sx={{ color: theme.palette.secondary.main }} />
     </IconButton>
   );
 };

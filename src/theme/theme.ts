@@ -29,7 +29,7 @@ const theme = createTheme({
       primary: "#FFFFFF",
     },
     secondary: {
-      main: "rgb(218, 150, 231)",
+      main: "rgb(204, 69, 228)",
     },
   },
   typography: {

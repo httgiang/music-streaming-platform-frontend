@@ -18,6 +18,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { playSong, pauseSong } from "@/features/music/playerSlice";
+import theme from "@/theme/theme";
 import { useRef, useEffect } from "react";
 
 const AudioPlayer = () => {
@@ -29,6 +30,7 @@ const AudioPlayer = () => {
   const [position, setPosition] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
   const [volume, setVolume] = React.useState(70);
+
   const dispatch = useDispatch();
 
   const handleVolumeChange = (event: any) => {
@@ -36,6 +38,14 @@ const AudioPlayer = () => {
     setVolume(newVolume);
     if (audioRef.current) {
       audioRef.current.volume = newVolume / 100;
+    }
+  };
+
+  const handlePlaybackPositionChange = (_: any, value: number | number[]) => {
+    const newPosition = value as number;
+    setPosition(newPosition);
+    if (audioRef.current) {
+      audioRef.current.currentTime = newPosition;
     }
   };
 
@@ -150,7 +160,27 @@ const AudioPlayer = () => {
             <SkipPrevious />
           </IconButton>
           <IconButton color="inherit" size="small" onClick={startStreamingSong}>
-            {isPlaying ? <Pause /> : <PlayArrow />}
+            {isPlaying ? (
+              <Pause
+                sx={{
+                  width: 30,
+                  height: 30,
+                  backgroundColor: theme.palette.secondary.main,
+                  borderRadius: "50%",
+                  p: 0.1,
+                }}
+              />
+            ) : (
+              <PlayArrow
+                sx={{
+                  width: 30,
+                  height: 30,
+                  backgroundColor: theme.palette.secondary.main,
+                  borderRadius: "50%",
+                  p: 0.1,
+                }}
+              />
+            )}
           </IconButton>
           <IconButton color="inherit" size="small">
             <SkipNext />
@@ -164,7 +194,7 @@ const AudioPlayer = () => {
             min={0}
             step={1}
             max={duration}
-            onChange={(_, value) => setPosition(value as number)}
+            onChange={handlePlaybackPositionChange}
             sx={{ mx: 2, flexGrow: 1, color: "white" }}
             size="small"
           />
