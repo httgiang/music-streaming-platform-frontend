@@ -34,6 +34,7 @@ export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
       `/songs/many?albumId=${encodeURIComponent(albumId)}&limit=${limit}`,
     );
     const results = response.data?.data || [];
+
     return results
       .filter((item: any) => {
         return item.albumId === albumId;
@@ -59,6 +60,7 @@ export const searchAlbums = async (query: string) => {
       `/albums/many?name=${encodeURIComponent(query)}`,
     );
     const results = response.data?.data || [];
+
     return results.map((item: any) => ({
       id: item.id,
       name: item.name,

@@ -6,7 +6,6 @@ import {
   Typography,
   LinearProgress,
   Box,
-  Tooltip,
   styled,
   Stack,
 } from "@mui/material";
@@ -16,12 +15,14 @@ import ShareMusicIcon from "@/assets/share-music.png";
 import UploadMusicDialog from "./UploadMusicPage";
 import CreateAlbumDialog from "./CreateAlbumDialog";
 import { useState } from "react";
-import { getSongsByArtist } from "@/api/music/song-api";
+import { searchSongsOrArtists } from "@/api/music/song-api";
+import { searchAlbums } from "@/api/music/album-api";
 import { useQuery } from "@tanstack/react-query";
 import { SongProps } from "@/types/song";
 import HomeSection from "@/components/section/HomeSection";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import theme from "@/theme/theme";
+import { AlbumProps } from "@/types/album";
 
 const ToolCard = styled(Card)(() => ({
   display: "flex",
@@ -92,7 +93,14 @@ const MusicWorkSpacePage = () => {
     data: fetchedSongs,
   } = useQuery<SongProps[]>({
     queryKey: ["songs", user.id],
-    queryFn: () => getSongsByArtist(user.id as string),
+    queryFn: () => searchSongsOrArtists(user.id as string),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: fetchedAlbums } = useQuery<AlbumProps[]>({
+    queryKey: ["albums", user.id],
+    queryFn: () => searchAlbums(user.id as string),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   });
@@ -108,6 +116,18 @@ const MusicWorkSpacePage = () => {
         duration: song.duration ? song.duration : 0,
         artist: song.artist ? song.artist : "",
         artistImage: song.artistImage ? song.artistImage : "",
+      },
+    })) || [];
+
+  const albumsByArtist =
+    fetchedAlbums?.map((album) => ({
+      type: "song" as const,
+      item: {
+        id: album.id,
+        name: album.name,
+        isPublic: album.isPublic,
+        coverImageUrl: album.coverImageUrl,
+        artist: album.artist ? album.artist : "",
       },
     })) || [];
 
@@ -165,10 +185,10 @@ const MusicWorkSpacePage = () => {
           />
         )}
       </HomeSection>
-      {/* Will be added later */}
+
       <HomeSection title="Your albums">
         <SongCardsSlider
-          cardChildren={songsOfArtist || []}
+          cardChildren={albumsByArtist || []}
           isLoading={isLoading}
           slidesToShow={5}
         />
@@ -291,21 +311,7 @@ const MusicWorkSpacePage = () => {
                       }}
                     />
                   </StatCard>
-                  {/* <Paper
-                    sx={{
-                      backgroundColor: "rgba(166, 40, 162, 0.1)",
-                      p: 2,
 
-                      borderRadius: 2,
-                    }}
-                  >
-                    <Typography fontSize={24} fontWeight={700} gutterBottom>
-                      30,006,011
-                    </Typography>
-                    <Typography fontSize={16} fontWeight={500} gutterBottom>
-                      total views
-                    </Typography>
-                  </Paper> */}
                   <StatCard>
                     <Typography
                       fontSize={13}

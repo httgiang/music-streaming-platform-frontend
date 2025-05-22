@@ -85,12 +85,12 @@ const HomePage = () => {
           <SongCardsSlider
             cardChildren={fetchedSongs || []}
             isLoading={isLoading}
-            slidesToShow={5}
+            slidesToShow={6}
           />
         </HomeSection>
 
         <HomeSection title="Popular Artists">
-          <SongCardsSlider cardChildren={demoArtists} slidesToShow={5} />
+          <SongCardsSlider cardChildren={demoArtists} slidesToShow={6} />
         </HomeSection>
       </Stack>
     </Container>
