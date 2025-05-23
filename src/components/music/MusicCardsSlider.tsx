@@ -71,31 +71,13 @@ const MusicCardsSlider = ({
       }}
     >
       <Slider ref={sliderRef} {...settings}>
-        {isLoading
-          ? [...Array(slidesToShow)].map((_, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: "flex",
-                  padding: 1,
-                  width: "100%",
-                }}
-              >
-                <Skeleton
-                  variant="rectangular"
-                  height={200}
-                  width={150}
-                  sx={{ paddingX: 3, paddingY: 2 }}
-                />
-              </Box>
-            ))
-          : cardChildren.map((cardProps, index) => (
-              <MusicPreviewCard
-                key={index}
-                item={cardProps.item}
-                type={cardProps.type}
-              />
-            ))}
+        {cardChildren.map((cardProps, index) => (
+          <MusicPreviewCard
+            key={index}
+            item={cardProps.item}
+            type={cardProps.type}
+          />
+        ))}
       </Slider>
     </div>
   );

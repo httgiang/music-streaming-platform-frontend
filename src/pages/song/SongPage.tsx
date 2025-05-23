@@ -5,359 +5,456 @@ import {
   Box,
   Tooltip,
   IconButton,
-  MenuItem,
+  Skeleton,
+  alpha,
+  Card,
+  CardMedia,
+  Avatar,
+  Stack,
+  Paper,
+  Fade,
+  Grow,
 } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ColorThief from "colorthief";
-import { PlayButtons } from "@/components/iconbuttons/IconButtons";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { playSong } from "@/features/music/playerSlice";
-import Menu from "@mui/material/Menu";
-import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import MoreHoriz from "@mui/icons-material/MoreHoriz";
-import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import {
-  Add,
-  ArrowCircleDown,
-  ArrowRight,
-  QueueMusic,
+  AddCircleOutline,
+  Share,
+  Download,
+  MusicNote,
+  PlayArrow,
 } from "@mui/icons-material";
+import theme from "@/theme/theme";
 
 const SongPage = () => {
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
-  const [showMore, setShowMore] = useState(false);
-  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const isMenuOpen = Boolean(menuAnchorEl);
-  const maxLines = 10;
+  const [loaded, setLoaded] = useState(false);
 
   const location = useLocation();
   const dispatch = useDispatch();
   const song = location.state as SongProps;
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setMenuAnchorEl(null);
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
+    setTimeout(() => setLoaded(true), 100);
   }, []);
 
   useEffect(() => {
-    if (song.coverImageUrl === "") return;
+    if (!song.coverImageUrl) return;
+
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src =
-      song.coverImageUrl !== ""
-        ? song.coverImageUrl
-        : "https://via.placeholder.com/150";
+    img.src = song.coverImageUrl;
+
     img.onload = () => {
       const colorThief = new ColorThief();
-      const palette = colorThief.getPalette(img, 2);
+      const palette = colorThief.getPalette(img, 3);
       if (palette.length >= 2) {
-        const [color1, color2] = palette;
+        const [color1, color2, color3] = palette;
         setBgGradient(
-          `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.7), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.9))`,
+          `linear-gradient(135deg, 
+            rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.4) 0%,
+            rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.3) 50%,
+            rgba(${color3?.[0] || color1[0]}, ${color3?.[1] || color1[1]}, ${
+            color3?.[2] || color1[2]
+          }, 0.2) 100%)`,
         );
       }
     };
+
     return () => {
       img.onload = null;
       img.onerror = null;
-      img.src = "";
     };
   }, [song.coverImageUrl]);
 
+  const ActionButton = ({
+    icon,
+    tooltip,
+    onClick,
+    delay = 0,
+  }: {
+    icon: React.ReactNode;
+    tooltip: string;
+    onClick?: () => void;
+    delay?: number;
+  }) => (
+    <Grow in={loaded} timeout={600} style={{ transitionDelay: `${delay}ms` }}>
+      <Tooltip title={tooltip} placement="top">
+        <IconButton
+          onClick={onClick}
+          sx={{
+            color: "white",
+            backdropFilter: "blur(10px)",
+            backgroundColor: alpha("#fff", 0.1),
+            border: `1px solid ${alpha("#fff", 0.2)}`,
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            "&:hover": {
+              backgroundColor: alpha("#fff", 0.2),
+              transform: "translateY(-2px)",
+              boxShadow: `0 8px 32px ${alpha("#000", 0.3)}`,
+            },
+          }}
+        >
+          {icon}
+        </IconButton>
+      </Tooltip>
+    </Grow>
+  );
+
+  // Parse lyrics into lines
+  const lyricsLines = song?.lyric?.split("\n") || [];
+
   return (
-    <Container sx={{ padding: "10px", textAlign: "center" }}>
-      <Box
-        display={"flex"}
-        flexDirection={"row"}
-        sx={{
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: `linear-gradient(180deg, ${alpha("#000", 0.8)} 0%, ${alpha(
+          "#000",
+          0.95,
+        )} 100%)`,
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           background: bgColor,
-          padding: "1rem ",
-          borderRadius: "5px",
-          transition: "background 0.3s ease",
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        <Box
-          sx={{
-            width: 270,
-            height: 270,
-            overflow: "hidden",
-            borderRadius: "5px",
-          }}
-        >
-          {song.coverImageUrl && (
-            <img
-              src={song.coverImageUrl}
-              alt="Song"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
+          opacity: 0.3,
+          transition: "opacity 0.5s ease",
+        },
+      }}
+    >
+      <Container maxWidth="lg" sx={{ py: 3, position: "relative", zIndex: 1 }}>
+        <Fade in={loaded} timeout={800}>
+          <Card
+            sx={{
+              background: bgColor,
+              backdropFilter: "blur(20px)",
+              border: `1px solid ${alpha("#fff", 0.2)}`,
+              borderRadius: 4,
+              p: 4,
+              overflow: "hidden",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-4px)",
+                boxShadow: `0 20px 60px ${alpha("#000", 0.4)}`,
+              },
+            }}
+          >
+            <Box sx={{ display: "flex", gap: 5, alignItems: "center" }}>
+              <Box sx={{ flexShrink: 0, position: "relative" }}>
+                {!song.coverImageUrl ? (
+                  <Skeleton
+                    variant="rounded"
+                    width={270}
+                    height={270}
+                    sx={{
+                      borderRadius: 3,
+                      bgcolor: alpha("#B39DDB", 0.1),
+                    }}
+                  />
+                ) : (
+                  <CardMedia
+                    component="img"
+                    image={song.coverImageUrl}
+                    alt="Song cover"
+                    sx={{
+                      width: 280,
+                      height: 280,
+                      borderRadius: 3,
+                      objectFit: "cover",
+                      boxShadow: `0 15px 40px ${alpha("#000", 0.5)}`,
+                    }}
+                  />
+                )}
+              </Box>
+              <Stack
+                spacing={2}
+                sx={{ flex: 1, minWidth: 0, textAlign: "left" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <MusicNote
+                    sx={{ color: alpha("#fff", 0.7), fontSize: "1.2rem" }}
+                  />
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      color: alpha("#fff", 0.8),
+                      fontWeight: 600,
+                      letterSpacing: 2,
+                    }}
+                  >
+                    Single
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    color: "white",
+                    fontWeight: "bold",
+                    wordBreak: "break-word",
+                    textShadow: `0 4px 20px ${alpha("#000", 0.5)}`,
+                  }}
+                >
+                  {song.name}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: alpha("#fff", 0.9),
+                    fontWeight: 500,
+                    textShadow: `0 2px 10px ${alpha("#000", 0.3)}`,
+                  }}
+                >
+                  {song.artist}
+                </Typography>
+              </Stack>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                float: "right",
               }}
-            />
-          )}
-        </Box>
-        <Box
-          justifyContent={"center"}
-          alignItems={"flex-start"}
-          display={"flex"}
-          flexDirection={"column"}
-          marginLeft={"3rem"}
-        >
-          <Typography fontSize="h6" color="white" fontWeight="bold">
-            Single
-          </Typography>
-          <Typography variant="h2" color="white" fontWeight="bold">
-            {song.name}
-          </Typography>
-          <Typography fontSize="h6" color="white" fontWeight="bold">
-            {song.artist}
-          </Typography>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "end",
-          alignItems: "center",
-          gap: "0.5rem",
-        }}
-      >
-        <Box sx={{ transform: "scale(2.0)" }}>
-          <PlayButtons
-            onClick={() => {
-              dispatch(playSong(song));
-            }}
-          />
-        </Box>
-        {/* <Tooltip
-          title={<span style={{ fontSize: "1em" }}>Add to favorite</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }}>
-            <FavoriteBorderOutlinedIcon sx={{ fontSize: "2rem" }} />
-          </IconButton>
-        </Tooltip> */}
-        <Tooltip
-          title={<span style={{ fontSize: "1em" }}>Add to playlist</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }}>
-            <AddCircleOutlineIcon sx={{ fontSize: "2rem" }} />
-          </IconButton>
-        </Tooltip>
+            >
+              <Grow
+                in={loaded}
+                timeout={800}
+                style={{ transitionDelay: "200ms" }}
+              >
+                <Box onClick={() => dispatch(playSong(song))}>
+                  <PlayArrow
+                    sx={{
+                      backgroundColor: theme.palette.secondary.main,
+                      color: "white",
+                      borderRadius: "50%",
+                      width: 40,
+                      height: 40,
+                      cursor: "pointer",
+                    }}
+                  />
+                </Box>
+              </Grow>
 
-        <Tooltip
-          title={<span style={{ fontSize: "1em" }}>Share/Copy link</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }}>
-            <ShareOutlined sx={{ fontSize: "2rem" }} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={<span style={{ fontSize: "1em" }}>DownLoad</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }}>
-            <ArrowCircleDown sx={{ fontSize: "2rem" }} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={<span style={{ fontSize: "1em" }}>More option</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }} onClick={handleMenuOpen}>
-            <MoreHoriz sx={{ fontSize: "2rem" }} />
-          </IconButton>
-        </Tooltip>
-        <Menu
-          anchorEl={menuAnchorEl}
-          open={isMenuOpen}
-          onClose={handleMenuClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-          transformOrigin={{ vertical: "top", horizontal: "left" }}
-        >
-          <MenuItem
-            onClick={handleMenuClose}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <QueueMusic sx={{ mr: 1 }} fontSize="small" />
-              Add to queue
+              <ActionButton
+                icon={<AddCircleOutline />}
+                tooltip="Add to playlist"
+                delay={300}
+              />
+              <ActionButton icon={<Share />} tooltip="Share" delay={350} />
+              <ActionButton
+                icon={<Download />}
+                tooltip="Download"
+                delay={400}
+              />
             </Box>
-          </MenuItem>
+          </Card>
+        </Fade>
 
-          <MenuItem
-            onClick={handleMenuClose}
+        <Fade in={loaded} timeout={1000} style={{ transitionDelay: "300ms" }}>
+          <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              mt: 6,
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr",
+              gap: 8,
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Add sx={{ mr: 1 }} fontSize="small" />
-              Add to playlist
-            </Box>
-            <ArrowRight />
-          </MenuItem>
-
-          <MenuItem
-            onClick={handleMenuClose}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <ReportProblemOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
-              Report
-            </Box>
-          </MenuItem>
-
-          <MenuItem
-            onClick={handleMenuClose}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <InfoOutlinedIcon sx={{ mr: 1 }} fontSize="small" />
-              Info
-            </Box>
-          </MenuItem>
-        </Menu>
-      </Box>
-      <Box display={"flex"} flexDirection={"row"} gap={"12rem"}>
-        <Box
-          sx={{
-            marginTop: "1rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "start",
-            gap: "0.5rem",
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{ marginTop: "1rem", fontWeight: "bold", textAlign: "start" }}
-            color="white"
-          >
-            Lyrics
-          </Typography>
-          {song?.lyric
-            ?.split("\n")
-            ?.slice(0, showMore ? undefined : maxLines)
-            ?.map((line, index) => (
+            <Box>
               <Typography
-                key={index}
-                variant="body2"
+                variant="h5"
                 sx={{
-                  fontSize: "0.875rem",
-                  color: "text.secondary",
-                  maxWidth: "600px",
-                  textAlign: "start",
+                  mb: 3,
+                  fontWeight: "bold",
+                  color: "white",
+                  textShadow: `0 2px 10px ${alpha("#000", 0.5)}`,
                 }}
               >
-                {line.replace(/ /g, "\u00A0")}
+                Lyrics
               </Typography>
-            ))}
-          {song?.lyric?.split("\n").length > maxLines && (
-            <Typography
-              variant="body2"
-              sx={{
-                fontSize: "0.75rem",
-                color: "white",
-                cursor: "pointer",
-                textAlign: "start",
-                fontWeight: "bold",
-              }}
-              onClick={() => setShowMore(!showMore)}
-            >
-              {showMore ? "Show less" : "...Show more"}
-            </Typography>
-          )}
-        </Box>
-        <Box></Box>
-        <Box display={"flex"} flexDirection={"row"}>
-          <img
-            src={song.artistImage}
-            alt="Artist image"
-            style={{
-              width: 70,
-              height: 70,
-              overflow: "hidden",
-              borderRadius: "50%",
-              marginTop: "1rem",
-              objectFit: "cover",
-            }}
-          />
-          <Box
-            display={"flex"}
-            flexDirection={"column"}
-            marginTop={"2rem"}
-            marginLeft={"1rem"}
-            alignItems={"start"}
-          >
-            <Typography fontSize={14} color="white">
-              Artist
-            </Typography>
-            <Typography fontSize={14} fontWeight={"bold"} color="white">
-              {song.artist}
-            </Typography>
+
+              <Paper
+                sx={{
+                  background: `linear-gradient(145deg, ${alpha(
+                    "#fff",
+                    0.08,
+                  )}, ${alpha("#fff", 0.03)})`,
+                  backdropFilter: "blur(15px)",
+                  border: `1px solid ${alpha("#fff", 0.1)}`,
+                  borderRadius: 3,
+                  p: 0,
+                  height: "600px",
+                  overflow: "hidden",
+                  position: "relative",
+                }}
+              >
+                <Box
+                  className="custom-scrollbar"
+                  sx={{
+                    height: "100%",
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                    p: 4,
+                  }}
+                >
+                  {lyricsLines.length > 0 ? (
+                    <Stack spacing={3}>
+                      {lyricsLines.map((line, index) => (
+                        <Typography
+                          key={index}
+                          variant="body1"
+                          sx={{
+                            color:
+                              line.trim() === ""
+                                ? "transparent"
+                                : alpha("#fff", 0.85),
+                            lineHeight: 1.8,
+                            fontSize: "1.1rem",
+                            fontWeight: 400,
+                            transition: "all 0.2s ease",
+                            minHeight: line.trim() === "" ? "1.2rem" : "auto", // Maintain spacing for empty lines
+                            cursor: "default",
+                            "&:hover": {
+                              color:
+                                line.trim() === "" ? "transparent" : "white",
+                              transform: "translateX(4px)",
+                            },
+                          }}
+                        >
+                          {line.trim() === "" ? "\u00A0" : line}{" "}
+                        </Typography>
+                      ))}
+                      <Box sx={{ height: "2rem" }} />
+                    </Stack>
+                  ) : (
+                    <Box
+                      sx={{
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: alpha("#fff", 0.5),
+                          textAlign: "center",
+                          mb: 2,
+                        }}
+                      >
+                        No lyrics available
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: alpha("#fff", 0.3),
+                          textAlign: "center",
+                        }}
+                      >
+                        Enjoy the music! 🎵
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "20px",
+                    background: `linear-gradient(transparent, ${alpha(
+                      "#000",
+                      0.1,
+                    )})`,
+                    pointerEvents: "none",
+                  }}
+                />
+              </Paper>
+            </Box>
+
+            <Box>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 4,
+                  fontWeight: "bold",
+                  color: "white",
+                  textShadow: `0 2px 10px ${alpha("#000", 0.5)}`,
+                }}
+              >
+                Artist
+              </Typography>
+
+              <Paper
+                sx={{
+                  background: `linear-gradient(145deg, ${alpha(
+                    "#fff",
+                    0.08,
+                  )}, ${alpha("#fff", 0.03)})`,
+                  backdropFilter: "blur(15px)",
+                  border: `1px solid ${alpha("#fff", 0.1)}`,
+                  borderRadius: 3,
+                  p: 4,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    boxShadow: `0 12px 40px ${alpha("#000", 0.3)}`,
+                  },
+                }}
+              >
+                <Stack direction="row" spacing={3} alignItems="center">
+                  <Avatar
+                    src={song.artistImage}
+                    alt={song.artist}
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      border: `3px solid ${alpha("#fff", 0.2)}`,
+                      boxShadow: `0 8px 32px ${alpha("#000", 0.4)}`,
+                    }}
+                  />
+                  <Box>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: alpha("#fff", 0.7),
+                        textTransform: "uppercase",
+                        letterSpacing: 1,
+                        fontSize: "0.75rem",
+                        mb: 1,
+                      }}
+                    >
+                      Artist
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: "white",
+                        fontWeight: "bold",
+                        textShadow: `0 2px 8px ${alpha("#000", 0.3)}`,
+                      }}
+                    >
+                      {song.artist}
+                    </Typography>
+                  </Box>
+                </Stack>
+              </Paper>
+            </Box>
           </Box>
-        </Box>
-      </Box>
-    </Container>
+        </Fade>
+      </Container>
+    </Box>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Card, Box, Typography, Fade } from "@mui/material";
+import { Card, Box, Typography, Fade, Skeleton } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
@@ -66,10 +66,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          // paddingX: 3,
-          // paddingY: 2,
           p: 0.5,
-
           width: 160,
           height: 200,
           backgroundColor: "rgba(255, 255, 255, 0.01)",
@@ -97,40 +94,57 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
             transition: "opacity 0.5s ease",
           }}
         >
-          <img
-            src={
-              type === "song"
-                ? (item as SongProps).coverImageUrl
-                : (item as ArtistProps).coverImageUrl
-            }
-            alt={item.name}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-            }}
-            onLoad={() => setLoadedImage(true)}
-          />
-          <Fade in={isPlayButtonVisible}>
-            <Box
+          {item ? (
+            <>
+              <img
+                src={
+                  type === "song"
+                    ? (item as SongProps).coverImageUrl
+                    : (item as ArtistProps).coverImageUrl
+                }
+                alt={item.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+                onLoad={() => setLoadedImage(true)}
+              />
+              <Fade in={isPlayButtonVisible}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 8,
+                    right: 8,
+                    zIndex: 2,
+                    borderRadius: "50%",
+                    transform: "scale(1.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <PlayButtons onClick={handlePlayButtonClick} />
+                </Box>
+              </Fade>
+            </>
+          ) : (
+            <Skeleton
+              variant="rectangular"
+              width={140}
+              height={140}
+              animation="wave"
               sx={{
+                borderRadius: type === "artist" ? "50%" : "8px",
                 position: "absolute",
-                bottom: 8,
-                right: 8,
-                zIndex: 2,
-                borderRadius: "50%",
-                transform: "scale(1.3)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-                transition: "all 0.2s ease",
+                top: 0,
+                left: 0,
               }}
-            >
-              <PlayButtons onClick={handlePlayButtonClick} />
-            </Box>
-          </Fade>
+            />
+          )}
         </Box>
 
         <Box
