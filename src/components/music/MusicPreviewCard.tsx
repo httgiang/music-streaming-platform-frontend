@@ -38,6 +38,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   };
 
   const handlePlayButtonClick = () => {
+    7;
     setPlayButtonVisible(false);
     if (!isAuthenticated) {
       setShowLogInDialog(true);
@@ -152,8 +153,9 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
             display: "flex",
             flexDirection: "column",
             paddingTop: 1,
-            textAlign: "center",
+            textAlign: "left",
             paddingLeft: 1,
+            alignSelf: "flex-start",
           }}
         >
           <Typography fontSize={14} fontWeight={600}>
@@ -163,7 +165,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
               ? (item as ArtistProps).name
               : item.name}
           </Typography>
-          <Typography fontSize={12}>
+          <Typography fontSize={12} color="text.secondary">
             {type === "song"
               ? (item as SongProps).artist
               : type === "artist"

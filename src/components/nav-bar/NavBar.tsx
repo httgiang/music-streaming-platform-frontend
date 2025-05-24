@@ -132,8 +132,7 @@ const NavBar = () => {
                 fontSize={{ xs: 22, sm: 28 }}
                 letterSpacing={1.2}
                 sx={{
-                  background:
-                    "linear-gradient(45deg, #B39DDB 30%, #FFD54F 90%)",
+                  background: theme.custom.logoColor,
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   textShadow: "0 2px 10px rgba(179, 157, 219, 0.3)",
@@ -173,8 +172,7 @@ const NavBar = () => {
               <Button
                 variant="contained"
                 sx={{
-                  background:
-                    "linear-gradient(45deg, #B39DDB 30%, #A78BFA 90%)",
+                  background: theme.custom.lightGradient,
                   color: "#000",
                   px: { xs: 1.5, sm: 2 },
                   py: 0.8,
@@ -185,8 +183,7 @@ const NavBar = () => {
                   letterSpacing: 0.5,
                   boxShadow: "0 4px 10px rgba(179, 157, 219, 0.3)",
                   "&:hover": {
-                    background:
-                      "linear-gradient(45deg, #A78BFA 30%, #9575CD 90%)",
+                    background: theme.custom.hoverGradient,
                     boxShadow: "0 6px 15px rgba(179, 157, 219, 0.4)",
                   },
                   transition: "all 0.2s ease",
@@ -201,8 +198,7 @@ const NavBar = () => {
               <Button
                 startIcon={<EqualizerIcon />}
                 sx={{
-                  background:
-                    "linear-gradient(45deg, #B39DDB 30%, #A78BFA 90%)",
+                  background: theme.custom.lightGradient,
                   color: "#000",
                   px: { xs: 1.5, sm: 2 },
                   py: 0.7,
@@ -212,8 +208,7 @@ const NavBar = () => {
                   fontWeight: 600,
                   boxShadow: "0 4px 10px rgba(179, 157, 219, 0.3)",
                   "&:hover": {
-                    background:
-                      "linear-gradient(45deg, #A78BFA 30%, #9575CD 90%)",
+                    background: theme.custom.hoverGradient,
                     boxShadow: "0 6px 15px rgba(179, 157, 219, 0.4)",
                   },
                   display: { xs: "none", sm: "flex" },

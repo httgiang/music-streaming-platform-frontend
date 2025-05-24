@@ -51,7 +51,7 @@ const StyledCard: React.FC<StyledCardProps> = ({
     <Box
       sx={{
         p: 2,
-        height: "90%",
+        // height: "90%",
         background: isPrimary
           ? "linear-gradient(135deg, #B39DDB 0%, #A78BFA 100%)"
           : alpha("#1a1a1a", 0.7),
@@ -138,7 +138,7 @@ const InAuthenticatedSideBar: React.FC = () => {
   return (
     <Stack spacing={2}>
       <StyledCard onClick={handleOpenLogInDialog}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <Box
             sx={{
               bgcolor: "rgba(179, 157, 219, 0.15)",
@@ -172,7 +172,7 @@ const InAuthenticatedSideBar: React.FC = () => {
           sx={{
             color: "text.secondary",
             lineHeight: 1.6,
-            mb: 1.5,
+            mb: 3,
             maxWidth: "90%",
           }}
         >
@@ -188,7 +188,7 @@ const InAuthenticatedSideBar: React.FC = () => {
       </StyledCard>
 
       <StyledCard isPrimary={true} onClick={() => navigate("/log-in")}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <Box
             sx={{
               bgcolor: "rgba(255, 255, 255, 0.2)",
@@ -219,7 +219,7 @@ const InAuthenticatedSideBar: React.FC = () => {
           sx={{
             color: "rgba(255, 255, 255, 0.9)",
             lineHeight: 1.6,
-            mb: 1.5,
+            mb: 3,
             maxWidth: "90%",
           }}
         >

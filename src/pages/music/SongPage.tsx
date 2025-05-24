@@ -26,6 +26,8 @@ import {
   Download,
   MusicNote,
   PlayArrow,
+  FavoriteBorder,
+  Favorite,
 } from "@mui/icons-material";
 import theme from "@/theme/theme";
 
@@ -105,7 +107,6 @@ const SongPage = () => {
     </Grow>
   );
 
-  // Parse lyrics into lines
   const lyricsLines = song?.lyric?.split("\n") || [];
 
   return (
@@ -245,8 +246,8 @@ const SongPage = () => {
               </Grow>
 
               <ActionButton
-                icon={<AddCircleOutline />}
-                tooltip="Add to playlist"
+                icon={<FavoriteBorder />}
+                tooltip="Like song"
                 delay={300}
               />
               <ActionButton icon={<Share />} tooltip="Share" delay={350} />
