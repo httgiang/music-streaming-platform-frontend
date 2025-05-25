@@ -13,7 +13,7 @@ export interface UserProfileProps {
   name: string;
   birth: string | null;
   gender: string;
-  phone: number;
+  phone: number | null;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
@@ -21,7 +21,7 @@ export const initialUserProfileValues: UserProfileProps = {
   name: "",
   birth: "",
   gender: "",
-  phone: 0,
+  phone: null,
 };
 
 export const userProfileValidationSchema = Yup.object().shape({

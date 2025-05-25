@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff, Lock, Person } from "@mui/icons-material";
 import GoogleLogo from "@/assets/google-icon.svg";
 import { initialLogInValues, logInValidationSchema } from "@/types/auth/login";
 import AuthButton from "@/components/auth/AuthButton";
@@ -57,7 +57,27 @@ const LogInPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
-          ></TextField>
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person color="action" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                },
+                "&.Mui-focused": {
+                  transform: "translateY(-2px)",
+                },
+              },
+            }}
+          />
+
           <TextField
             required
             fullWidth
@@ -66,37 +86,51 @@ const LogInPage = () => {
             type={showPassword ? "text" : "password"}
             name="password"
             label="Password"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
-                      {showPassword ? (
-                        <Tooltip title="Show password" arrow>
-                          <VisibilityOff />
-                        </Tooltip>
-                      ) : (
-                        <Tooltip title="Hide password" arrow>
-                          <Visibility />
-                        </Tooltip>
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock color="action" />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                },
+                "&.Mui-focused": {
+                  transform: "translateY(-2px)",
+                },
+              },
+            }}
           />
           <Box display="flex" flexDirection="column" gap={1}>
             <AuthButton typography="Log in" />
-            <Box display="flex" justifyContent="right">
-              <Link href="/forgot-password" color="textSecondary">
-                Forgot password?
-              </Link>
+            <Box
+              display="flex"
+              justifyContent="right"
+              onClick={() => navigate("/forgot-password")}
+              sx={{
+                cursor: "pointer",
+              }}
+            >
+              <Typography fontSize={13} color="textSecondary">
+                <u>Forgot password?</u>
+              </Typography>
             </Box>
           </Box>
 
@@ -117,9 +151,7 @@ const LogInPage = () => {
           >
             <Box display="flex" gap={1}>
               <img src={GoogleLogo} alt="Google Logo" width="20" height="20" />
-              <Typography fontWeight="700" color="textPrimary">
-                Log in with Google
-              </Typography>
+              <Typography fontWeight="700">Log in with Google</Typography>
             </Box>
           </Button>
         </Stack>

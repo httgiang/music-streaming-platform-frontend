@@ -30,11 +30,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (response?.status === 201) {
         const user = response.data.data.user;
         dispatch(loginSuccess(user));
+        navigate("/verify-otp");
         showToast("Sign up successfully", "success");
       }
     } catch (error: any) {
       const message = error?.response?.data?.error?.message || "Sign up failed";
       showToast(message, "error");
+      navigate("/sign-up");
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Box,
   Stack,
   TextField,
@@ -52,15 +51,12 @@ const ProfileFormPage = () => {
       };
 
       try {
-        const response = await signUp(payload);
-        navigate("/verify-otp");
+        await signUp(payload);
       } catch (error) {
         console.error("Sign up error:", error);
       }
     },
   });
-
-  const countries = useMemo(() => countryList().getData(), []);
 
   return (
     <Box width="100%">
@@ -128,21 +124,6 @@ const ProfileFormPage = () => {
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
           />
-          {/* <Autocomplete
-            disablePortal
-            id="country-select"
-            options={countries}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Country"
-                value={formik.values.country}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            )}
-            fullWidth
-          ></Autocomplete> */}
           <AuthButton typography="Next" />
         </Stack>
       </form>

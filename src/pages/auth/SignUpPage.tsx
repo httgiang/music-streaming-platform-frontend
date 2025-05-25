@@ -7,9 +7,14 @@ import {
   Typography,
   IconButton,
   InputAdornment,
-  Tooltip,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Visibility,
+  VisibilityOff,
+  Lock,
+  Person,
+  Email,
+} from "@mui/icons-material";
 import GoogleLogo from "@/assets/google-icon.svg";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -57,7 +62,26 @@ const SignUpPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
-          ></TextField>
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person color="action" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                },
+                "&.Mui-focused": {
+                  transform: "translateY(-2px)",
+                },
+              },
+            }}
+          />
           <TextField
             required
             fullWidth
@@ -71,42 +95,66 @@ const SignUpPage = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
-          ></TextField>
-          <Box>
-            <TextField
-              required
-              fullWidth
-              placeholder="Enter password"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              autoComplete="new-password"
-              label="Password"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleClickShowPassword}>
-                        {showPassword ? (
-                          <Tooltip title="Show password" arrow>
-                            <VisibilityOff />
-                          </Tooltip>
-                        ) : (
-                          <Tooltip title="Hide password" arrow>
-                            <Visibility />
-                          </Tooltip>
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Email color="action" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "translateY(-2px)",
                 },
-              }}
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-          </Box>
+                "&.Mui-focused": {
+                  transform: "translateY(-2px)",
+                },
+              },
+            }}
+          />
+          <TextField
+            required
+            fullWidth
+            placeholder="Enter password"
+            autoComplete="current-password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            label="Password"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock color="action" />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                },
+                "&.Mui-focused": {
+                  transform: "translateY(-2px)",
+                },
+              },
+            }}
+          />
           <AuthButton typography="Next" />
           <Divider>
             {" "}

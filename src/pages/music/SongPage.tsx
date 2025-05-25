@@ -21,13 +21,11 @@ import { useDispatch } from "react-redux";
 import ColorThief from "colorthief";
 import { playSong } from "@/features/music/playerSlice";
 import {
-  AddCircleOutline,
   Share,
   Download,
   MusicNote,
   PlayArrow,
   FavoriteBorder,
-  Favorite,
 } from "@mui/icons-material";
 import theme from "@/theme/theme";
 
@@ -292,6 +290,7 @@ const SongPage = () => {
                   border: `1px solid ${alpha("#fff", 0.1)}`,
                   borderRadius: 3,
                   p: 0,
+                  // pl: 5,
                   height: "600px",
                   overflow: "hidden",
                   position: "relative",
@@ -307,7 +306,7 @@ const SongPage = () => {
                   }}
                 >
                   {lyricsLines.length > 0 ? (
-                    <Stack spacing={3}>
+                    <Stack spacing={2}>
                       {lyricsLines.map((line, index) => (
                         <Typography
                           key={index}
@@ -321,7 +320,8 @@ const SongPage = () => {
                             fontSize: "1.1rem",
                             fontWeight: 400,
                             transition: "all 0.2s ease",
-                            minHeight: line.trim() === "" ? "1.2rem" : "auto", // Maintain spacing for empty lines
+                            textAlign: "center",
+                            minHeight: line.trim() === "" ? "1.2rem" : "auto",
                             cursor: "default",
                             "&:hover": {
                               color:
@@ -388,7 +388,7 @@ const SongPage = () => {
               <Typography
                 variant="h5"
                 sx={{
-                  mb: 4,
+                  mb: 3,
                   fontWeight: "bold",
                   color: "white",
                   textShadow: `0 2px 10px ${alpha("#000", 0.5)}`,

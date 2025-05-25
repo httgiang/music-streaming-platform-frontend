@@ -72,7 +72,6 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           height: 200,
           backgroundColor: "rgba(255, 255, 255, 0.01)",
           backdropFilter: "blur(12px)",
-
           "&:hover": {
             cursor: "pointer",
             transform: "scale(1.05)",
@@ -121,7 +120,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
                     zIndex: 2,
                     borderRadius: "50%",
                     transform: "scale(1.3)",
-                    display: "flex",
+                    display: type === "song" ? "block" : "none",
                     alignItems: "center",
                     justifyContent: "center",
                     boxShadow: "0 2px 10px rgba(0,0,0,0.2)",

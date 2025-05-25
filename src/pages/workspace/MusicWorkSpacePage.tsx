@@ -121,7 +121,7 @@ const MusicWorkSpacePage = () => {
 
   const albumsByArtist =
     fetchedAlbums?.map((album) => ({
-      type: "song" as const,
+      type: "album" as const,
       item: {
         id: album.id,
         name: album.name,
