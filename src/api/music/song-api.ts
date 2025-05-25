@@ -67,8 +67,10 @@ export const uploadSong = async (songData: any) => {
 
 export const searchSongsOrArtists = async (query: string) => {
   try {
+    console.log("Search query: ", query);
+
     const response = await api.get(
-      `/songs/many?name=${encodeURIComponent(query)}&userProfile=true}`,
+      `/songs/many?userId=${encodeURIComponent(query)}&userProfile=true}`,
     );
     const results = response.data?.data || [];
     console.log("Search results: ", results);

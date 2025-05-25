@@ -2,6 +2,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Box, Button, Typography, styled } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import theme from "@/theme/theme";
 
 const OTPInput = styled("input")({
   width: 50,
@@ -106,6 +107,7 @@ const OTPInputs = () => {
         fullWidth
         variant="outlined"
         sx={{
+          background: theme.custom.lightGradient,
           "&:hover": {
             backgroundColor: "rgba(0, 0, 0, 0.04)",
           },

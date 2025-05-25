@@ -4,15 +4,13 @@ import {
   TextField,
   Button,
   Divider,
-  Link,
   IconButton,
   InputAdornment,
   Typography,
-  Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Visibility, VisibilityOff, Lock, Person } from "@mui/icons-material";
-import GoogleLogo from "@/assets/google-icon.svg";
+import GoogleLogo from "@/assets/images/google-icon.svg";
 import { initialLogInValues, logInValidationSchema } from "@/types/auth/login";
 import AuthButton from "@/components/auth/AuthButton";
 import { useState } from "react";

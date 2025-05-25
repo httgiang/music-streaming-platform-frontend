@@ -7,7 +7,6 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import countryList from "react-select-country-list";
 
 import { useFormik } from "formik";
 import {
@@ -19,15 +18,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AuthButton from "@/components/auth/AuthButton";
-import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useAuth } from "@/contexts/AuthContext";
 
 const ProfileFormPage = () => {
   const signUp = useAuth().signUp;
-  const navigate = useNavigate();
 
   const signUpData = useSelector((state: RootState) => state.signUp);
 

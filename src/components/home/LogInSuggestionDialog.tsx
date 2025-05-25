@@ -41,7 +41,7 @@ const LogInSuggestionDialog = ({
         <Button
           variant="outlined"
           sx={{ width: "15rem", backgroundColor: theme.palette.secondary.main }}
-          onClick={() => navigate("/sign-up")}
+          onClick={() => navigate("/log-in")}
         >
           Log in{" "}
         </Button>
@@ -52,7 +52,7 @@ const LogInSuggestionDialog = ({
             borderColor: theme.palette.secondary.main,
             color: theme.palette.secondary.main,
           }}
-          onClick={() => navigate("/log-in")}
+          onClick={() => navigate("/sign-up")}
         >
           Sign up
         </Button>

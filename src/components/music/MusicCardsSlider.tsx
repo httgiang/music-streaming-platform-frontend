@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import MusicPreviewCard, {
   MusicPreviewCardProps,
 } from "@/components/music/MusicPreviewCard";
-import { Skeleton, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 interface MusicCardsSliderProps {
   cardChildren: MusicPreviewCardProps[];
@@ -15,7 +15,6 @@ interface MusicCardsSliderProps {
 }
 const MusicCardsSlider = ({
   cardChildren,
-  isLoading,
   slidesToShow,
 }: MusicCardsSliderProps) => {
   const [showArrows, setShowArrows] = useState(false);
@@ -30,6 +29,7 @@ const MusicCardsSlider = ({
     arrows: showArrows,
     nextArrow: <NextButton onClick={() => sliderRef.current?.slickNext()} />,
     prevArrow: <PrevButton onClick={() => sliderRef.current?.slickPrev()} />,
+    centerMode: false,
   };
 
   const handleScroll = (event: WheelEvent) => {
@@ -68,17 +68,37 @@ const MusicCardsSlider = ({
       style={{
         width: "100%",
         height: "100%",
+        position: "relative",
       }}
     >
-      <Slider ref={sliderRef} {...settings}>
-        {cardChildren.map((cardProps, index) => (
-          <MusicPreviewCard
-            key={index}
-            item={cardProps.item}
-            type={cardProps.type}
-          />
-        ))}
-      </Slider>
+      {cardChildren.length > slidesToShow ? (
+        <Slider ref={sliderRef} {...settings}>
+          {cardChildren.map((cardProps, index) => (
+            <MusicPreviewCard
+              key={index}
+              item={cardProps.item}
+              type={cardProps.type}
+            />
+          ))}
+        </Slider>
+      ) : (
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="left"
+          alignItems="left"
+          width="100%"
+          height="100%"
+        >
+          {cardChildren.map((cardProps, index) => (
+            <MusicPreviewCard
+              key={index}
+              item={cardProps.item}
+              type={cardProps.type}
+            />
+          ))}
+        </Box>
+      )}
     </div>
   );
 };

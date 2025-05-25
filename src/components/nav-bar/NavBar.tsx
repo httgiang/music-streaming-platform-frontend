@@ -20,7 +20,7 @@ import { Notifications } from "@mui/icons-material";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import theme from "@/theme/theme";
-import GroovityLogo from "@/assets/logo.png";
+import GroovityLogo from "@/assets/images/logo.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";

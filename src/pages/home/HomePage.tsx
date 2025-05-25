@@ -1,12 +1,10 @@
 import { Container, Stack, Box, Typography } from "@mui/material";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
-import HomeSection from "@/components/section/HomeSection";
-import TheBeatlesPic from "@/assets/the-beatles.jpg";
+import TheBeatlesPic from "@/assets/images/the-beatles.jpg";
 import { fetchSongs } from "@/api/music/song-api";
 import { SongProps } from "@/types/song";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import theme from "@/theme/theme";
 
 const HomePage = () => {
   const { isLoading, data: songs } = useQuery<SongProps[]>({

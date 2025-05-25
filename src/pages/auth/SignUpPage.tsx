@@ -15,7 +15,7 @@ import {
   Person,
   Email,
 } from "@mui/icons-material";
-import GoogleLogo from "@/assets/google-icon.svg";
+import GoogleLogo from "@/assets/images/google-icon.svg";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

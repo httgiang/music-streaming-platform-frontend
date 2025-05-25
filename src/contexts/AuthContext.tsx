@@ -29,6 +29,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await api.post("/auth/signup", signUpData);
       if (response?.status === 201) {
         const user = response.data.data.user;
+        localStorage.setItem("user", JSON.stringify(user));
+        setAuthToken(response.data.accessToken);
         dispatch(loginSuccess(user));
         navigate("/verify-otp");
         showToast("Sign up successfully", "success");
