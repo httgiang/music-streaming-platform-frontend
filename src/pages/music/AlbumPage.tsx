@@ -38,8 +38,10 @@ const AlbumPage: React.FC = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       if (id) {
+        console.log("Fetching songs for album ID:", id); // Debugging log
         try {
           const albumSongs = await getSongsByAlbum(id);
+
           console.log("Filtered API Response for getSongsByAlbum:", albumSongs); // Debugging log
           if (Array.isArray(albumSongs) && albumSongs.length > 0) {
             setSongs(albumSongs);
@@ -55,31 +57,6 @@ const AlbumPage: React.FC = () => {
     };
     fetchSongs();
   }, [id]);
-
-  // useEffect(() => {
-  //   if (!coverImageUrl) {
-  //     console.error("coverImageUrl is missing:", album);
-  //     return;
-  //   }
-  //   const img = new Image();
-  //   img.crossOrigin = "anonymous";
-  //   img.src = coverImageUrl;
-  //   img.onload = () => {
-  //     const colorThief = new ColorThief();
-  //     const palette = colorThief.getPalette(img, 2);
-  //     if (palette.length >= 2) {
-  //       const [color1, color2] = palette;
-  //       setBgGradient(
-  //         `linear-gradient(135deg, rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.7), rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.9))`,
-  //       );
-  //     }
-  //   };
-  //   return () => {
-  //     img.onload = null;
-  //     img.onerror = null;
-  //     img.src = "";
-  //   };
-  // }, [album, coverImageUrl]);
 
   useEffect(() => {
     if (!coverImageUrl) return;

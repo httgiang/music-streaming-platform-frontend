@@ -1,11 +1,4 @@
-import {
-  Button,
-  Box,
-  Container,
-  Stack,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Button, Box, Container, Stack, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { AlbumProps } from "@/types/album";
 import { useState, useEffect } from "react";
@@ -20,8 +13,8 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { DragOverlay } from "@dnd-kit/core";
 import {
   appendSongsToAlbum,
+  setSongsForAlbum,
   publicAlbum,
-  insertSongToAnIndex,
   getSongsByAlbum,
 } from "@/api/music/album-api";
 
@@ -32,6 +25,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { useToast } from "@/contexts/ToastContext";
+import theme from "@/theme/theme";
 
 const AddSongsToAlbumPage = () => {
   const album = useLocation().state as AlbumProps;
@@ -76,25 +70,48 @@ const AddSongsToAlbumPage = () => {
   const saveSongsToAlbum = async () => {
     const songIds = songs.map((song) => song.id);
     const albumId = album.id;
-    const response = await appendSongsToAlbum(albumId, songIds);
+    const response = await setSongsForAlbum(albumId, songIds);
     return response;
   };
+
   const publishAlbum = async () => {
     const albumId = album.id;
     const response = await publicAlbum(albumId);
     return response;
   };
+
+  const getCurrentAlbumSongs = async () => {
+    try {
+      const albumSongs = await getSongsByAlbum(album.id);
+      if (Array.isArray(albumSongs) && albumSongs.length > 0) {
+        setSongs(albumSongs);
+      }
+    } catch (error) {
+      console.error("Error fetching album songs:", error);
+      showToast("Failed to fetch album songs", "error");
+    }
+  };
+
+  useEffect(() => {
+    getCurrentAlbumSongs();
+  }, [album.id]);
+
   const handleSaveChanges = async () => {
     let publishAlbumRes = null;
     let saveSongsRes = null;
     if (isPublic) {
       publishAlbumRes = await publishAlbum();
+      if (publishAlbumRes?.status === 200) {
+        showToast("Album updated successfully", "success");
+      } else {
+        showToast("Failed to update album", "error");
+      }
     }
     saveSongsRes = await saveSongsToAlbum();
-    if (saveSongsRes?.status !== 200 || publishAlbumRes?.status !== 200) {
-      showToast("Failed to update album", "error");
-    } else {
+    if (saveSongsRes?.status === 200) {
       showToast("Album updated successfully", "success");
+    } else {
+      showToast("Failed to update album", "error");
     }
   };
   useEffect(() => {
@@ -230,23 +247,15 @@ const AddSongsToAlbumPage = () => {
       >
         Songs in Album
       </Typography>
+
       <DndContext
         sensors={sensor}
         onDragEnd={handleDragSongEnd}
         onDragStart={handleDragStart}
       >
-        <Stack spacing={2}>
-          {songs.map((song) => (
-            <Box
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#484848",
-                  borderRadius: "8px",
-                  transition: "background-color 0.3s ease",
-                },
-                padding: 1,
-              }}
-            >
+        {songs.length > 0 ? (
+          <Stack spacing={2}>
+            {songs.map((song) => (
               <EditableSongCard
                 key={song.id}
                 song={{
@@ -260,9 +269,18 @@ const AddSongsToAlbumPage = () => {
                 }}
                 handleDelete={() => handleDeleteSong(song.id)}
               />
-            </Box>
-          ))}
-        </Stack>
+            ))}
+          </Stack>
+        ) : (
+          <Typography
+            variant="subtitle1"
+            color="textSecondary"
+            sx={{ marginTop: 2 }}
+          >
+            No songs added to this album yet.
+          </Typography>
+        )}
+
         <DragOverlay>
           {activeId ? (
             <EditableSongCard
@@ -276,11 +294,10 @@ const AddSongsToAlbumPage = () => {
       <Box display="flex" justifyContent={"flex-end"}>
         <Button
           variant="contained"
-          color="primary"
           onClick={() => {
             handleSaveChanges();
           }}
-          sx={{ marginTop: 2 }}
+          sx={{ marginTop: 2, background: theme.palette.secondary.main }}
         >
           Save Changes
         </Button>

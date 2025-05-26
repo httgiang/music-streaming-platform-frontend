@@ -288,7 +288,7 @@ const MusicWorkSpacePage = () => {
           <SongCardsSlider
             cardChildren={songsOfArtist || []}
             isLoading={isLoading}
-            slidesToShow={5}
+            slidesToShow={6}
           />
         )}
       </HomeSection>

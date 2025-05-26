@@ -38,7 +38,6 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   };
 
   const handlePlayButtonClick = () => {
-    7;
     setPlayButtonVisible(false);
     if (!isAuthenticated) {
       setShowLogInDialog(true);

@@ -31,11 +31,13 @@ export const getAlbumById = async (albumId: string) => {
 export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
   try {
     const response = await api.get(
-      `/songs/many?albumId=${encodeURIComponent(albumId)}&limit=${limit}`,
+      `/albums/${encodeURIComponent(albumId)}?songs=true`,
     );
-    const results = response.data?.data || [];
-
-    return results
+    const songs = response.data?.data.album?.songs || [];
+    console.log("Fetched songs: ", songs);
+    const artistName =
+      response.data?.data.album?.user?.username || "Unknown Artist";
+    return songs
       .filter((item: any) => {
         return item.albumId === albumId;
       })
@@ -45,8 +47,8 @@ export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
         lyric: item.lyric,
         coverImageUrl: item.coverImageUrl,
         duration: item.duration || 0,
-        artist: item.user.username,
-        artistImage: item.user.userAvatar,
+        artist: artistName,
+        artistImage: "",
       }));
   } catch (error) {
     console.error("Fetch songs by album failed: ", error);
