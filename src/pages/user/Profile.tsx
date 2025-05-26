@@ -20,18 +20,19 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-
-const user = {
-  name: "Nguyễn Trọng Thuận",
-  email: "ntthuan196@gmail.com",
-  avatar:
-    "https://scontent.fsgn5-13.fna.fbcdn.net/v/t1.15752-9/483083819_1611971752776032_2862690653199494242_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeFMLihRA9o6uJmB7OVry1P046-6mTMC2Cfjr7qZMwLYJwcq27U2QjCYF9WL7WnrRzTNppvNDy-6GAUoaDhRUp49&_nc_ohc=CrmQX7S6y8IQ7kNvgHBe1cq&_nc_oc=Adhur06QMoPOlTs571LpHd41tpujAxGv9FHX0h_oZgo4mslhiFYBxk04Jjk-n5cfdU0&_nc_zt=23&_nc_ht=scontent.fsgn5-13.fna&oh=03_Q7cD1wFhrh0mX3vxqYaVfkjjSqMvjeg3PGDuYZ7CBKSQnqN4AQ&oe=67F34AB9",
-};
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { fetchUserProfile } from "@/api/user/user-api";
 
 const Profile = () => {
-  // const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
+  const [testUserId, setTestUserId] = useState("");
+
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: initialUserProfileValues,
     validationSchema: userProfileValidationSchema,
     onSubmit: (values) => {
@@ -54,7 +55,7 @@ const Profile = () => {
       >
         <Box>
           <Avatar
-            src={user.avatar}
+            src={user?.avatar}
             alt="Avatar"
             sx={{
               width: 150,
@@ -74,10 +75,10 @@ const Profile = () => {
             Profile
           </Typography>
           <Typography variant="h3" fontWeight={600}>
-            {user.name}
+            {user?.username || ""}
           </Typography>
           <Typography fontSize={18} fontWeight={400}>
-            {user.email}
+            {user?.email || ""}
           </Typography>
         </Box>
       </Box>
@@ -122,7 +123,7 @@ const Profile = () => {
                 <Typography fontSize={18} fontWeight={500}>
                   Username
                 </Typography>
-                <Typography>dummyusername</Typography>
+                <Typography>  {user?.username || ""}</Typography>
               </Box>
             </Grid2>
             <Grid2
@@ -146,7 +147,7 @@ const Profile = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={!!(formik.touched.name && formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
+                  helperText={typeof formik.errors.name === "string" ? formik.errors.name : undefined}
                   fullWidth
                 />
               </Box>
@@ -167,17 +168,16 @@ const Profile = () => {
                 </Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    value={formik.values.birth}
+                    value={formik.values.birth && dayjs.isDayjs(formik.values.birth) ? formik.values.birth : null}
                     name="birth"
-                    onChange={(date) => formik.setFieldValue("dob", date)}
+                    onChange={(date) => formik.setFieldValue("birth", date)}
                     slotProps={{
                       textField: {
                         fullWidth: true,
                         name: "birth",
                         onBlur: formik.handleBlur,
-                        error:
-                          formik.touched.birth && Boolean(formik.errors.birth),
-                        helperText: formik.touched.birth && formik.errors.birth,
+                        error: !!(formik.touched.birth && formik.errors.birth),
+                        helperText: typeof formik.errors.birth === "string" ? formik.errors.birth : undefined,
                       },
                     }}
                   />
@@ -206,9 +206,9 @@ const Profile = () => {
                     onBlur={formik.handleBlur}
                     fullWidth
                   >
-                    <MenuItem value="MALE">Male</MenuItem>
-                    <MenuItem value="FEMALE">Female</MenuItem>
-                    <MenuItem value="CUSTOM">Rather not say</MenuItem>
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                    <MenuItem value="other">Rather not say</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -228,37 +228,16 @@ const Profile = () => {
                   Phone number
                 </Typography>
                 <TextField
-                  autoFocus
-                  name="phoneNumber"
+                  name="phone"
                   value={formik.values.phone}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={!!(formik.touched.phone && formik.errors.phone)}
-                  helperText={formik.touched.phone && formik.errors.phone}
+                  helperText={typeof formik.errors.phone === "string" ? formik.errors.phone : undefined}
                   fullWidth
                 />
               </Box>
             </Grid2>
-            {/* <Grid2 size={{ lg: 12 }}>
-              <Box
-                display="flex"
-                flexDirection="column"
-                gap={1}
-                textAlign="left"
-              >
-                <Typography fontSize={18} fontWeight={500}>
-                  Country
-                </Typography>
-                <Select
-                  id="country-select"
-                  value={formik.values.country}
-                  name={formik.values.country}
-                  fullWidth
-                >
-                  <MenuItem>Vietnam</MenuItem>
-                </Select>
-              </Box>
-            </Grid2> */}
             <Grid2 size={{ lg: 12 }}>
               <Box display="flex" justifyContent="flex-end" gap={2}>
                 <Button

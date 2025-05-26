@@ -27,6 +27,8 @@ const NavBar = () => {
     (state: RootState) => state.auth.isAuthenticated,
   );
 
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
   const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -171,7 +173,11 @@ const NavBar = () => {
                 <MenuItem
                   onClick={() => {
                     handleCloseMenu();
-                    navigate("/profile");
+                    if (user?.id) {
+                      navigate(`/profile/${user.id}`);
+                    } else {
+                      console.error("User ID is undefined");
+                    }
                   }}
                 >
                   Profile
