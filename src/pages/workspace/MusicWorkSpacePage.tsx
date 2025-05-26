@@ -177,7 +177,7 @@ const MusicWorkSpacePage = () => {
       padding={2}
       pt={1}
       height="100%"
-      width="80%"
+      width="calc(100% - 260px)"
     >
       {isLoading && (
         <Box sx={{ width: "100%", mt: 2 }}>
@@ -221,31 +221,31 @@ const MusicWorkSpacePage = () => {
           backdropFilter: "blur(10px)",
           border: `1px solid ${alpha(theme.palette.secondary.main, 0.15)}`,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
+          textAlign: "center",
           justifyContent: "space-between",
           mb: 1,
         }}
       >
-        <Box>
-          <Typography variant="h5" fontWeight={700} color="white" gutterBottom>
-            Welcome to your Artist Studio,
-            <span
-              style={{
-                background: theme.custom.lightGradient,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                marginLeft: "8px",
-              }}
-            >
-              {user.username}
-            </span>
-            👋
-          </Typography>
-          <Typography color="text.secondary">
-            Create, manage and share your music with listeners around the world.
-            Track your performance and grow your audience.
-          </Typography>
-        </Box>
+        <Typography variant="h5" fontWeight={700} color="white" gutterBottom>
+          Welcome to your Artist Studio,
+          <span
+            style={{
+              background: theme.custom.lightGradient,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              marginLeft: "8px",
+            }}
+          >
+            {user.username}
+          </span>
+          👋
+        </Typography>
+        <Typography color="text.secondary">
+          Create, manage and share your music with listeners around the world.
+          Track your performance and grow your audience.
+        </Typography>
       </Box>
 
       <HomeSection title="Your songs">
@@ -344,6 +344,7 @@ const MusicWorkSpacePage = () => {
             pt: theme.custom.navBarHeight,
             zIndex: 1000,
             width: 240,
+
             border: "none",
             backgroundColor: alpha(theme.palette.background.paper, 0.5),
             backdropFilter: "blur(20px)",
