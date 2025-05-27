@@ -72,7 +72,7 @@ export const searchSongsOrArtists = async (query: string) => {
     console.log("Search query: ", query);
 
     const response = await api.get(
-      `/songs/many?userId=${encodeURIComponent(query)}&userProfile=true}`,
+      `/songs/many?name=${encodeURIComponent(query)}&userProfiles=true`,
     );
     const results = response.data?.data || [];
     console.log("Search results: ", results);
