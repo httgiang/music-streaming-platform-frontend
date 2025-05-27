@@ -1,4 +1,5 @@
 import { Switch, styled } from "@mui/material";
+import theme from "@/theme/theme";
 
 const AlbumPublicSwitch = styled(
   (props: {
@@ -25,7 +26,7 @@ const AlbumPublicSwitch = styled(
       color: "#fff",
       "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: "#c931ff", // Fixed color value
+        backgroundColor: theme.palette.secondary.main,
       },
     },
   },

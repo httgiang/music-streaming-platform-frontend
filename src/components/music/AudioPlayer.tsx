@@ -95,7 +95,6 @@ const AudioPlayer = () => {
       justifyContent="space-between"
       height="55px"
       width="100%"
-      // bgcolor="#1e1e1e"
       sx={{
         background:
           "linear-gradient(185deg, rgba(245, 211, 253, 0.18), rgba(255, 240, 23, 0))",
@@ -195,7 +194,7 @@ const AudioPlayer = () => {
             step={1}
             max={duration}
             onChange={handlePlaybackPositionChange}
-            sx={{ mx: 2, flexGrow: 1, color: "white" }}
+            sx={{ mx: 2, flexGrow: 1, color: theme.palette.secondary.main }}
             size="small"
           />
           <Typography variant="body2">
@@ -214,7 +213,7 @@ const AudioPlayer = () => {
       >
         <Box sx={{ width: 150 }}>
           <Stack spacing={1} direction="row" sx={{ alignItems: "center" }}>
-            <IconButton color="inherit" size="small">
+            <IconButton size="small">
               <VolumeDownRounded />
             </IconButton>
             <Slider
@@ -224,9 +223,8 @@ const AudioPlayer = () => {
               defaultValue={70}
               aria-label="Small"
               valueLabelDisplay="auto"
-              color="secondary"
               sx={() => ({
-                color: "white",
+                color: "theme.palette.secondary.main",
                 "& .MuiSlider-track": {
                   border: "none",
                 },

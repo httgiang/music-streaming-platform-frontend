@@ -27,7 +27,7 @@ const SearchBar = () => {
         gap: 1.0,
         borderRadius: 10,
         backgroundColor: alpha("#FFFFFF", 0.1),
-        padding: "0 1rem",
+        padding: "0.3rem 1rem",
 
         width: 300,
         minWidth: 0,

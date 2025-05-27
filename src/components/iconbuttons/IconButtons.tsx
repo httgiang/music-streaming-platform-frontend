@@ -1,5 +1,10 @@
 import { IconButton } from "@mui/material";
-import { NavigateNext, NavigateBefore, PlayCircle } from "@mui/icons-material";
+import {
+  NavigateNext,
+  NavigateBefore,
+  PlayCircle,
+  PlayArrow,
+} from "@mui/icons-material";
 import theme from "@/theme/theme";
 
 interface SliderButtonProps {
@@ -49,17 +54,18 @@ export const PlayButtons: React.FC<SliderButtonProps> = ({ onClick }) => {
 
   return (
     <IconButton
-      sx={{
-        "&:hover": {
-          backgroundColor: "transparent",
-        },
-      }}
       onClick={(event) => {
         handlePlayButtonClick(event);
         onClick();
       }}
     >
-      <PlayCircle sx={{ color: theme.palette.secondary.main }} />
+      <PlayArrow
+        sx={{
+          backgroundColor: theme.palette.secondary.main,
+          color: "white",
+          borderRadius: "50%",
+        }}
+      />
     </IconButton>
   );
 };

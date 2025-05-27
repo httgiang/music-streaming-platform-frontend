@@ -16,7 +16,7 @@ const SideBar = () => {
           boxSizing: "border-box",
           paddingTop: theme.custom.navBarHeight + 2,
           width: theme.custom.sideBarWidth,
-          overflowY: "auto",
+          overflowY: "hidden",
           overflowX: "hidden",
         },
       }}
