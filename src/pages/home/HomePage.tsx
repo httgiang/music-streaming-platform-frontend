@@ -65,6 +65,14 @@ const HomePage = () => {
         coverImageUrl: TheBeatlesPic,
       },
     },
+    {
+      type: "artist" as const,
+      item: {
+        id: "7",
+        name: "The Beatles",
+        coverImageUrl: TheBeatlesPic,
+      },
+    },
   ];
 
   const fetchedSongs = songs?.map((song) => ({

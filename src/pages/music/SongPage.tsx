@@ -25,17 +25,42 @@ import {
   Download,
   MusicNote,
   PlayArrow,
+  Favorite,
   FavoriteBorder,
 } from "@mui/icons-material";
 import theme from "@/theme/theme";
+import { likeSong, unlikeSong } from "@/api/music/song-api";
 
 const SongPage = () => {
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
   const [loaded, setLoaded] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const location = useLocation();
   const dispatch = useDispatch();
   const song = location.state as SongProps;
+
+  const toggleLikeSong = async () => {
+    if (!liked) {
+      try {
+        const res = await likeSong(song.id);
+        if (res.status === 200) {
+          setLiked(true);
+        }
+      } catch (error) {
+        console.error("Failed to like song:", error);
+      }
+    } else {
+      try {
+        const res = await unlikeSong(song.id);
+        if (res.status === 200) {
+          setLiked(true);
+        }
+      } catch (error) {
+        console.error("Failed to like song:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -243,11 +268,28 @@ const SongPage = () => {
                 </Box>
               </Grow>
 
-              <ActionButton
-                icon={<FavoriteBorder />}
-                tooltip="Like song"
-                delay={300}
-              />
+              {liked ? (
+                <ActionButton
+                  icon={
+                    <Favorite sx={{ color: theme.palette.secondary.main }} />
+                  }
+                  tooltip="Unlike song"
+                  onClick={toggleLikeSong}
+                  delay={250}
+                />
+              ) : (
+                <ActionButton
+                  icon={
+                    <FavoriteBorder
+                      sx={{ color: theme.palette.secondary.main }}
+                    />
+                  }
+                  tooltip="Like song"
+                  onClick={toggleLikeSong}
+                  delay={250}
+                />
+              )}
+
               <ActionButton icon={<Share />} tooltip="Share" delay={350} />
               <ActionButton
                 icon={<Download />}
