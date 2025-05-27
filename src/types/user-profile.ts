@@ -6,14 +6,16 @@ export interface User {
   username: string;
   email: string;
   avatar?: string;
-  isVerfified?: boolean;
+  isVerified?: boolean;
 }
 export interface UserProfileProps {
   avatar: string;
   name: string;
   birth: string | null;
   gender: string;
-  phone: number | null;
+  phone: number;
+  avatarImageUrl: string;
+  // country: string;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
@@ -21,7 +23,9 @@ export const initialUserProfileValues: UserProfileProps = {
   name: "",
   birth: "",
   gender: "",
-  phone: null,
+  phone: 0,
+  avatarImageUrl: "",
+  // country: "",
 };
 
 export const userProfileValidationSchema = Yup.object().shape({

@@ -51,7 +51,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
         <Route path="/account" element={<AccountPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:id" element={<ProfilePage />} />
       </Routes>
     </QueryClientProvider>
   );
