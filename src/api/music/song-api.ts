@@ -1,4 +1,3 @@
-import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const fetchSongs = async () => {
@@ -90,36 +89,25 @@ export const searchSongsOrArtists = async (query: string) => {
   }
 };
 
-export const getSongsByArtist = async (
-  artistId: string,
-  limit: number = 50,
-  offset: number = 0,
-) => {
+
+export const getSongsByArtist = async (artistId: string) => {
   try {
     const response = await api.get(
-      `/songs/many?artistId=${encodeURIComponent(
-        artistId,
-      )}&limit=${limit}&offset=${offset}`,
+      `/songs/many?userId=${encodeURIComponent(artistId)}&userProfiles=true`,
     );
-
-    const results = response.data?.data || [];
-    // const filteredResults = results.filter(
-    //   (item: any) => item.user.username === artistId,
-    // );
-    // if (filteredResults.length === 0) {
-    //   console.warn("No songs found for artistId (username):", artistId);
-    // }
-    console.log("Filtered results: ", results);
-    return results.map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      lyric: item.lyric,
-      coverImageUrl: item.coverImageUrl,
-      duration: item.duration || 0,
-      likesCount: item.likesCount || 0,
-      artist: item.user.username,
-      artistImage: item.user.userAvatar,
-    }));
+    const songs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric,
+          coverImageUrl: item.coverImageUrl,
+          duration: item.duration || 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user.username,
+          artistImage: item.user.userAvatar,
+        }))
+      : [];
+    return songs;
   } catch (error) {
     console.error("Fetch songs by artist failed: ", error);
     throw error;

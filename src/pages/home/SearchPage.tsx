@@ -23,9 +23,8 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     const fetchResults = async () => {
       if (key) {
-        const [searchResults, albumResults] = await Promise.all([
-          searchSongsOrArtists(key),
-          searchAlbums(key),
+        const [searchResults, albumResults] = await Promise.all([          searchSongsOrArtists(key),
+          searchAlbums(key, undefined),
         ]);
         setResults(searchResults);
 
@@ -128,6 +127,7 @@ const SearchPage: React.FC = () => {
                       duration: 3, // Placeholder, replace with actual duration if available
                       lyric: result.lyric,
                       artistImage: result.artistImage,
+                      likesCount: result.likesCount ?? 0, 
                     }}
                   />
                 </Box>

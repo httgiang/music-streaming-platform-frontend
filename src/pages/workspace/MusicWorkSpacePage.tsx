@@ -22,7 +22,7 @@ import {
 import UploadMusicDialog from "./UploadMusicPage";
 import CreateAlbumDialog from "./CreateAlbumDialog";
 import { useState } from "react";
-import { searchSongsOrArtists } from "@/api/music/song-api";
+import { getSongsByArtist } from "@/api/music/song-api";
 import { searchAlbums } from "@/api/music/album-api";
 import { useQuery } from "@tanstack/react-query";
 import { SongProps } from "@/types/song";
@@ -131,14 +131,13 @@ const MusicWorkSpacePage = () => {
     data: fetchedSongs,
   } = useQuery<SongProps[]>({
     queryKey: ["songs", user.id],
-    queryFn: () => searchSongsOrArtists(user.id as string),
+    queryFn: () => getSongsByArtist(user.id),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   });
-
   const { data: fetchedAlbums } = useQuery<AlbumProps[]>({
     queryKey: ["albums", user.id],
-    queryFn: () => searchAlbums(user.id as string),
+    queryFn: () => searchAlbums(undefined, user.id),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   });

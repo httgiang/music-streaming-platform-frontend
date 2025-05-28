@@ -28,7 +28,7 @@ export const getAlbumById = async (albumId: string) => {
   }
 };
 
-export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
+export const getSongsByAlbum = async (albumId: string) => {
   try {
     const response = await api.get(
       `/albums/${encodeURIComponent(albumId)}?songs=true`,
@@ -56,11 +56,15 @@ export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
   }
 };
 
-export const searchAlbums = async (query: string) => {
+export const searchAlbums = async (query?: string, userId?: string) => {
   try {
-    const response = await api.get(
-      `/albums/many?name=${encodeURIComponent(query)}`,
-    );
+    let url = '/albums/many?';
+    const params = new URLSearchParams();
+    if (query) params.append('name', query);
+    if (userId) params.append('userId', userId);
+    url += params.toString();
+
+    const response = await api.get(url);
     const results = response.data?.data || [];
 
     return results.map((item: any) => ({
