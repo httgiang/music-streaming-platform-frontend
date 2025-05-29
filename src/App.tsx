@@ -21,6 +21,7 @@ import AlbumPage from "@/pages/music/AlbumPage";
 import AddSongsToAlbumPage from "@/pages/workspace/AddSongsToAlbum";
 import PrivateRoute from "@/components/PrivateRoute";
 import ShowAllPage from "@/pages/music/ShowAllPage";
+import GalleryPage from "@/pages/music/GalleryPage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -32,9 +33,12 @@ function App() {
           <Route path="/song/:id" element={<SongPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
-          <Route path="/album/:id" element={<AlbumPage />} />
-          <Route path="/show-all" element={<ShowAllPage />} />
-           <Route 
+          <Route path="/album/:id" element={<AlbumPage />} />          <Route path="/show-all" element={<ShowAllPage />} />
+          <Route 
+            path="/gallery" 
+            element={<PrivateRoute>{<GalleryPage />}</PrivateRoute>} 
+          />
+          <Route 
             path="/liked-songs" 
             element={<PrivateRoute>{<LikedSongsPage />}</PrivateRoute>} 
           />

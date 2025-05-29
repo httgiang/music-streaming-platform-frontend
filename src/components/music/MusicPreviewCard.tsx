@@ -94,11 +94,12 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           }}
         >
           {item ? (
-            <>
-              <img
+            <>                <img
                 src={
                   type === "song"
                     ? (item as SongProps).coverImageUrl
+                    : type === "album"
+                    ? (item as AlbumProps).coverImageUrl
                     : (item as ArtistProps).coverImageUrl
                 }
                 alt={item.name}

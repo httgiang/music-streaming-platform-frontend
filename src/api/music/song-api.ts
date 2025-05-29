@@ -80,7 +80,7 @@ export const searchSongsOrArtists = async (query: string) => {
       name: item.name,
       type: "song",
       artist: item.user.username,
-      userId: item.user.id, // Add the user ID
+      userId: item.user.id, 
       coverImageUrl: item.coverImageUrl,
       lyric: item.lyric,
     }));

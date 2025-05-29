@@ -15,6 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CollectionsIcon from "@mui/icons-material/Collections";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import { useState } from "react";
@@ -95,14 +96,22 @@ const AuthenticatedSideBar: React.FC = () => {
             setActiveNav("home");
             navigateTo("/");
           }}
-        />
-        <NavButton
+        />        <NavButton
           icon={<SearchIcon />}
           label="Search"
           active={activeNav === "search"}
           onClick={() => {
             setActiveNav("search");
             navigateTo("/search");
+          }}
+        />
+        <NavButton
+          icon={<CollectionsIcon />}
+          label="Gallery"
+          active={activeNav === "gallery"}
+          onClick={() => {
+            setActiveNav("gallery");
+            navigateTo("/gallery");
           }}
         />
         <NavButton

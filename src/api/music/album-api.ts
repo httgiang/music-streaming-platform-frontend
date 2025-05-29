@@ -178,3 +178,26 @@ export const getAlbumLikeStatus = async (albumId: string) => {
     throw error;
   }
 };
+
+export const getLikedAlbums = async () => {
+  try {
+    const response = await api.get("/users/me/liked-albums", {
+      withCredentials: true,
+    });
+    
+    const albums = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          coverImageUrl: item.coverImageUrl,
+          artist: item.user?.username || "Unknown Artist",
+          isPublic: item.isPublic,
+        }))
+      : [];
+
+    return albums;
+  } catch (error) {
+    console.error("Fetch liked albums failed: ", error);
+    throw error;
+  }
+};
