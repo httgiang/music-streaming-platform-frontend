@@ -29,7 +29,7 @@ import {
   FavoriteBorder,
 } from "@mui/icons-material";
 import theme from "@/theme/theme";
-import { likeSong, unlikeSong } from "@/api/music/song-api";
+import { likeSong, unlikeSong, getSongLikeStatus } from "@/api/music/song-api";
 
 const SongPage = () => {
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
@@ -41,31 +41,37 @@ const SongPage = () => {
   const song = location.state as SongProps;
 
   const toggleLikeSong = async () => {
-    if (!liked) {
-      try {
+    try {
+      if (!liked) {
         const res = await likeSong(song.id);
-        if (res.status === 200) {
+        if (res.status === "success") {
           setLiked(true);
         }
-      } catch (error) {
-        console.error("Failed to like song:", error);
-      }
-    } else {
-      try {
+      } else {
         const res = await unlikeSong(song.id);
-        if (res.status === 200) {
-          setLiked(true);
+        if (res.status === "success") {
+          setLiked(false);
         }
-      } catch (error) {
-        console.error("Failed to like song:", error);
       }
+    } catch (error) {
+      console.error("Failed to toggle song like:", error);
     }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setTimeout(() => setLoaded(true), 100);
-  }, []);
+
+    const checkLikeStatus = async () => {
+      try {
+        const status = await getSongLikeStatus(song.id);
+        setLiked(status);
+      } catch (error) {
+        console.error("Failed to get song like status:", error);
+      }
+    };
+    checkLikeStatus();
+  }, [song.id]);
 
   useEffect(() => {
     if (!song.coverImageUrl) return;

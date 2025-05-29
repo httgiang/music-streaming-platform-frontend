@@ -1,3 +1,4 @@
+// import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const fetchSongs = async () => {
@@ -90,7 +91,7 @@ export const searchSongsOrArtists = async (query: string) => {
 };
 
 
-export const getSongsByArtist = async (artistId: string) => {
+export const getSongsByArtist = async (artistId: string, p0: number) => {
   try {
     const response = await api.get(
       `/songs/many?userId=${encodeURIComponent(artistId)}&userProfiles=true`,
@@ -138,6 +139,45 @@ export const unlikeSong = async (songId: string) => {
     return response.data;
   } catch (error) {
     console.error("Like song failed: ", error);
+    throw error;
+  }
+};
+
+export const getSongLikeStatus = async (songId: string) => {
+  try {
+    const response = await api.get(
+      `/songs/${songId}/like-status`,
+      { withCredentials: true },
+    );
+    return response.data.data.likeStatus;
+  } catch (error) {
+    console.error("Get song like status failed: ", error);
+    throw error;
+  }
+};
+
+export const getLikedSongs = async () => {
+  try {
+    const response = await api.get("/users/me/liked-songs", {
+      withCredentials: true,
+    });
+    
+    const songs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric || "",
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user?.username || "Unknown Artist",
+          artistImage: item.user?.userAvatar || "",
+        }))
+      : [];
+
+    return songs;
+  } catch (error) {
+    console.error("Fetch liked songs failed: ", error);
     throw error;
   }
 };
