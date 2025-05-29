@@ -16,6 +16,7 @@ import SongPage from "@/pages/music/SongPage";
 import SearchPage from "@/pages/home/SearchPage";
 import ArtistPage from "@/pages/music/ArtistPage";
 import MusicWorkSpacePage from "@/pages/workspace/MusicWorkSpacePage";
+import LikedSongsPage from "@/pages/music/LikedSongsPage";
 import AlbumPage from "@/pages/music/AlbumPage";
 import AddSongsToAlbumPage from "@/pages/workspace/AddSongsToAlbum";
 import PrivateRoute from "@/components/PrivateRoute";
@@ -33,6 +34,10 @@ function App() {
           <Route path="/artist/:id" element={<ArtistPage />} />
           <Route path="/album/:id" element={<AlbumPage />} />
           <Route path="/show-all" element={<ShowAllPage />} />
+           <Route 
+            path="/liked-songs" 
+            element={<PrivateRoute>{<LikedSongsPage />}</PrivateRoute>} 
+          />
           <Route
             path="/music-workspace"
             element={<PrivateRoute>{<MusicWorkSpacePage />}</PrivateRoute>}

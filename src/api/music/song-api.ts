@@ -155,3 +155,29 @@ export const getSongLikeStatus = async (songId: string) => {
     throw error;
   }
 };
+
+export const getLikedSongs = async () => {
+  try {
+    const response = await api.get("/users/me/liked-songs", {
+      withCredentials: true,
+    });
+    
+    const songs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric || "",
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user?.username || "Unknown Artist",
+          artistImage: item.user?.userAvatar || "",
+        }))
+      : [];
+
+    return songs;
+  } catch (error) {
+    console.error("Fetch liked songs failed: ", error);
+    throw error;
+  }
+};

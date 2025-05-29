@@ -47,13 +47,18 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logIn = async (logInData: LogInProps) => {
     try {
       setLoading(true);
+      setAuthToken(null);
+      localStorage.removeItem("user");
+      
       const response = await api.post("/auth/signin", logInData, {
         withCredentials: true,
       });
+      
       if (response?.status === 200) {
-        localStorage.setItem("user", JSON.stringify(response.data.data.user));
-        setAuthToken(response.data.accessToken);
-        dispatch(loginSuccess(response.data.data.user));
+        const { user, accessToken } = response.data.data;
+        localStorage.setItem("user", JSON.stringify(user));
+        setAuthToken(accessToken); 
+        dispatch(loginSuccess(user));
         showToast("Logged in successfully", "success");
       }
     } catch (error: any) {
@@ -110,18 +115,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logOut = async () => {
     try {
       setLoading(true);
-      const response = await api.post(
+      setAuthToken(null);
+      localStorage.removeItem("user");
+      dispatch(logout());
+      
+      await api.post(
         "/auth/signout",
         {},
         { withCredentials: true },
       );
-      if (response?.status === 200) {
-        setAuthToken(null);
-        localStorage.removeItem("user");
-        dispatch(logout());
-      }
     } catch (error: any) {
-      throw error;
+      console.error("Logout error:", error);
     } finally {
       setLoading(false);
     }
