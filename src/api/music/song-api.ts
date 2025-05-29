@@ -75,12 +75,12 @@ export const searchSongsOrArtists = async (query: string) => {
       `/songs/many?name=${encodeURIComponent(query)}&userProfiles=true`,
     );
     const results = response.data?.data || [];
-    console.log("Search results: ", results);
-    return results.map((item: any) => ({
+    console.log("Search results: ", results);    return results.map((item: any) => ({
       id: item.id,
       name: item.name,
       type: "song",
       artist: item.user.username,
+      userId: item.user.id, // Add the user ID
       coverImageUrl: item.coverImageUrl,
       lyric: item.lyric,
     }));
@@ -91,7 +91,7 @@ export const searchSongsOrArtists = async (query: string) => {
 };
 
 
-export const getSongsByArtist = async (artistId: string, p0: number) => {
+export const getSongsByArtist = async (artistId: string) => {
   try {
     const response = await api.get(
       `/songs/many?userId=${encodeURIComponent(artistId)}&userProfiles=true`,

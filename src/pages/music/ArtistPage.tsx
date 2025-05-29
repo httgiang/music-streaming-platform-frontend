@@ -56,7 +56,7 @@ const ArtistPage = () => {
     const fetchSongs = async () => {
       if (id) {
         console.log("Fetching songs for artistId:", id);
-        const artistSongs = await getSongsByArtist(id, 50); // Request more songs
+        const artistSongs = await getSongsByArtist(id); // Request more songs
         console.log("Fetched songs:", artistSongs);
         setSongs(artistSongs);
       }
@@ -300,7 +300,7 @@ const ArtistPage = () => {
         </Typography>
 
         <Stack spacing={0.5}>
-          {songs.slice(0, displayLimit).map((song, index) => (
+          {songs.slice(0, displayLimit).map((song) => (
             <Box
               key={song.id}
               sx={{
@@ -324,6 +324,7 @@ const ArtistPage = () => {
                   duration: song.duration ? song.duration : 0,
                   lyric: song.lyric,
                   artistImage: song.artistImage,
+                  likesCount: song.likesCount ?? 0,
                 }}
               />
             </Box>

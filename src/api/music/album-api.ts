@@ -137,3 +137,44 @@ export const publicAlbum = async (albumId: string) => {
     throw error;
   }
 };
+
+export const likeAlbum = async (albumId: string) => {
+  try {
+    const response = await api.post(
+      `/albums/${albumId}/like`,
+      {},
+      { withCredentials: true },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Like album failed: ", error);
+    throw error;
+  }
+};
+
+export const unlikeAlbum = async (albumId: string) => {
+  try {
+    const response = await api.post(
+      `/albums/${albumId}/unlike`,
+      {},
+      { withCredentials: true },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Unlike album failed: ", error);
+    throw error;
+  }
+};
+
+export const getAlbumLikeStatus = async (albumId: string) => {
+  try {
+    const response = await api.get(
+      `/albums/${albumId}/like-status`,
+      { withCredentials: true },
+    );
+    return response.data.data.likeStatus;
+  } catch (error) {
+    console.error("Get album like status failed: ", error);
+    throw error;
+  }
+};

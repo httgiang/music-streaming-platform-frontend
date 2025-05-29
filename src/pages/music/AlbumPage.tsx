@@ -10,25 +10,77 @@ import {
   Card,
   Fade,
   alpha,
+  useTheme,
+  Grow,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-import { MusicNote } from "@mui/icons-material";
+import {
+  MusicNote,
+  PlayArrow,
+  FavoriteBorder,
+  Favorite,
+  Share,
+  Download,
+} from "@mui/icons-material";
 import { AlbumProps } from "@/types/album";
+//@ts-ignore
 import ColorThief from "colorthief";
-import { getSongsByAlbum } from "@/api/music/album-api";
+import {
+  getSongsByAlbum,
+  getAlbumLikeStatus,
+  likeAlbum,
+  unlikeAlbum,
+} from "@/api/music/album-api";
 import { SongProps } from "@/types/song";
 import MusicCard from "@/components/music/MusicCard";
+import { useToast } from "@/contexts/ToastContext";
+import { useDispatch } from "react-redux";
+import { playSong } from "@/features/music/playerSlice";
 
 const AlbumPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const theme = useTheme();
   const location = useLocation();
   const [songs, setSongs] = useState<SongProps[]>([]);
   const { id } = useParams<{ id: string }>();
   const album = location.state as AlbumProps;
   const coverImageUrl = album.coverImageUrl;
-
-  console.log("Album Data:", album);
+  const showToast = useToast();
 
   const [bgColor, setBgGradient] = useState<string>("rgba(0, 0, 0, 0.8)");
   const [loaded, setLoaded] = useState(false);
+  const [liked, setLiked] = useState(false);
+
+  const handleLikeAlbum = async () => {
+    try {
+      await likeAlbum(album.id);
+      setLiked(true);
+      showToast("Added to your liked albums", "success");
+    } catch (error) {
+      console.error("Failed to like album:", error);
+      showToast("Failed to like album", "error");
+    }
+  };
+
+  const handleUnlikeAlbum = async () => {
+    try {
+      await unlikeAlbum(album.id);
+      setLiked(false);
+      showToast("Removed from your liked albums", "success");
+    } catch (error) {
+      console.error("Failed to unlike album:", error);
+      showToast("Failed to unlike album", "error");
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      getAlbumLikeStatus(id)
+        .then((status) => setLiked(status))
+        .catch((error) => console.error("Failed to get like status:", error));
+    }
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -86,64 +138,42 @@ const AlbumPage: React.FC = () => {
       img.onerror = null;
     };
   }, [album, coverImageUrl]);
+  const ActionButton = ({
+    icon,
+    tooltip,
+    onClick,
+    delay = 0,
+  }: {
+    icon: React.ReactNode;
+    tooltip: string;
+    onClick?: () => void;
+    delay?: number;
+  }) => (
+    <Grow in={loaded} timeout={600} style={{ transitionDelay: `${delay}ms` }}>
+      <Tooltip title={tooltip} placement="top">
+        <IconButton
+          onClick={onClick}
+          sx={{
+            color: "white",
+            backdropFilter: "blur(10px)",
+            backgroundColor: alpha("#fff", 0.1),
+            border: `1px solid ${alpha("#fff", 0.2)}`,
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            "&:hover": {
+              backgroundColor: alpha("#fff", 0.2),
+              transform: "translateY(-2px)",
+              boxShadow: `0 8px 32px ${alpha("#000", 0.3)}`,
+            },
+          }}
+        >
+          {icon}
+        </IconButton>
+      </Tooltip>
+    </Grow>
+  );
 
   return (
     <Container sx={{ padding: "10px", textAlign: "center" }}>
-      {/* <Box
-        display={"flex"}
-        flexDirection={"row"}
-        sx={{
-          background: bgColor,
-          padding: "1rem ",
-          borderRadius: "5px",
-          transition: "background 0.3s ease",
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        <Box
-          sx={{
-            width: 270,
-            height: 270,
-            overflow: "hidden",
-            borderRadius: "5px",
-          }}
-        >
-          <img
-            src={coverImageUrl}
-            alt="Album"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </Box>
-        <Box
-          justifyContent={"center"}
-          alignItems={"flex-start"}
-          display={"flex"}
-          flexDirection={"column"}
-          marginLeft={"3rem"}
-        >
-          <Typography fontSize="h6" color="white" fontWeight="bold">
-            EP
-          </Typography>
-          <Typography variant="h2" color="white" fontWeight="bold">
-            {album.name}
-          </Typography>
-          <Typography fontSize="h6" color="white" fontWeight="bold">
-            {album.artist}
-          </Typography>
-        </Box>
-      </Box>
-      <Typography
-        variant="h5"
-        color="white"
-        fontWeight="bold"
-        sx={{ marginTop: 4, marginBottom: 2, textAlign: "left" }}
-      >
-        Songs in Album
-      </Typography> */}
       <Fade in={loaded} timeout={800}>
         <Card
           sx={{
@@ -187,7 +217,10 @@ const AlbumPage: React.FC = () => {
                 />
               )}
             </Box>
-            <Stack spacing={2} sx={{ flex: 1, minWidth: 0, textAlign: "left" }}>
+            <Stack
+              spacing={2}
+              sx={{ flex: 1, minWidth: 0, textAlign: "left" }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <MusicNote
                   sx={{ color: alpha("#fff", 0.7), fontSize: "1.2rem" }}
@@ -226,6 +259,61 @@ const AlbumPage: React.FC = () => {
               </Typography>
             </Stack>
           </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              float: "right",
+            }}
+          >
+            <Grow
+              in={loaded}
+              timeout={800}
+              style={{ transitionDelay: "200ms" }}
+            >
+             <Box onClick={() => dispatch(playSong(song))}>
+                  <PlayArrow
+                    sx={{
+                      backgroundColor: theme.palette.secondary.main,
+                      color: "white",
+                      borderRadius: "50%",
+                      width: 40,
+                      height: 40,
+                      cursor: "pointer",
+                    }}
+                  />
+                </Box>
+            </Grow>
+            {liked ? (
+                <ActionButton
+                  icon={
+                    <Favorite sx={{ color: theme.palette.secondary.main }} />
+                  }
+                  tooltip="Unlike album"
+                  onClick={handleUnlikeAlbum}
+                  delay={250}
+                />
+              ) : (
+                <ActionButton
+                  icon={
+                    <FavoriteBorder
+                      sx={{ color: theme.palette.secondary.main }}
+                    />
+                  }
+                  tooltip="Like album"
+                  onClick={handleLikeAlbum}
+                  delay={250}
+                />
+              )}
+
+              <ActionButton icon={<Share />} tooltip="Share" delay={350} />
+              <ActionButton
+                icon={<Download />}
+                tooltip="Download"
+                delay={400}
+              />
+          </Box>
         </Card>
       </Fade>
       <Typography
@@ -242,25 +330,20 @@ const AlbumPage: React.FC = () => {
             key={song.id}
             sx={{
               "&:hover": {
-                backgroundColor: "#484848",
+                backgroundColor: alpha("#fff", 0.1),
                 borderRadius: "8px",
                 transition: "background-color 0.3s ease",
               },
               padding: 1,
             }}
           >
-            {" "}
             <MusicCard
-              key={song.id}
               song={{
-                coverImageUrl: song.coverImageUrl,
-                name: song.name,
-                artist: song.artist,
-                // duration: song.duration ? song.duration.toString() : "N/A",
-                duration: song.duration ? song.duration : 140,
-                lyric: song.lyric ? song.lyric : "",
-                artistImage: song.artistImage ? song.artistImage : "",
-                id: song.id,
+                ...song,
+                duration: song.duration || 0,
+                lyric: song.lyric || "",
+                artistImage: song.artistImage || "",
+                likesCount: song.likesCount || 0
               }}
             />
           </Box>

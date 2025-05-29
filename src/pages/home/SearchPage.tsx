@@ -26,13 +26,11 @@ const SearchPage: React.FC = () => {
         const [searchResults, albumResults] = await Promise.all([          searchSongsOrArtists(key),
           searchAlbums(key, undefined),
         ]);
-        setResults(searchResults);
-
-        const artistsArray: ArtistProps[] = [];
+        setResults(searchResults);        const artistsArray: ArtistProps[] = [];
         searchResults.forEach((song: any) => {
-          if (song.artist) {
+          if (song.artist && song.userId) { // Check for both artist name and ID
             artistsArray.push({
-              id: song.userId || song.artist,
+              id: song.userId, // Always use the userId for artist identification
               name: song.artist,
               coverImageUrl: song.artistImage,
             });
