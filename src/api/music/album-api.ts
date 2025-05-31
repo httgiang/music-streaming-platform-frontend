@@ -58,10 +58,10 @@ export const getSongsByAlbum = async (albumId: string) => {
 
 export const searchAlbums = async (query?: string, userId?: string) => {
   try {
-    let url = '/albums/many?';
+    let url = "/albums/many?";
     const params = new URLSearchParams();
-    if (query) params.append('name', query);
-    if (userId) params.append('userId', userId);
+    if (query) params.append("name", query);
+    if (userId) params.append("userId", userId);
     url += params.toString();
 
     const response = await api.get(url);
@@ -77,6 +77,25 @@ export const searchAlbums = async (query?: string, userId?: string) => {
     }));
   } catch (error) {
     console.error("Search albums failed: ", error);
+    throw error;
+  }
+};
+
+export const fetchAllAlbums = async () => {
+  try {
+    const response = await api.get("/albums/many");
+    const albums = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          coverImageUrl: item.coverImageUrl,
+          artist: item.user?.username || "Unknown Artist",
+          isPublic: item.isPublic,
+        }))
+      : [];
+    return albums;
+  } catch (error) {
+    console.error("Fetch all albums failed: ", error);
     throw error;
   }
 };
@@ -168,10 +187,9 @@ export const unlikeAlbum = async (albumId: string) => {
 
 export const getAlbumLikeStatus = async (albumId: string) => {
   try {
-    const response = await api.get(
-      `/albums/${albumId}/like-status`,
-      { withCredentials: true },
-    );
+    const response = await api.get(`/albums/${albumId}/like-status`, {
+      withCredentials: true,
+    });
     return response.data.data.likeStatus;
   } catch (error) {
     console.error("Get album like status failed: ", error);
@@ -184,7 +202,7 @@ export const getLikedAlbums = async () => {
     const response = await api.get("/users/me/liked-albums", {
       withCredentials: true,
     });
-    
+
     const albums = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,

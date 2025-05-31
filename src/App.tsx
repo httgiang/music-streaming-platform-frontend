@@ -33,14 +33,15 @@ function App() {
           <Route path="/song/:id" element={<SongPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
-          <Route path="/album/:id" element={<AlbumPage />} />          <Route path="/show-all" element={<ShowAllPage />} />
-          <Route 
-            path="/gallery" 
-            element={<PrivateRoute>{<GalleryPage />}</PrivateRoute>} 
+          <Route path="/album/:id" element={<AlbumPage />} />{" "}
+          <Route path="/show-all" element={<ShowAllPage />} />
+          <Route
+            path="/gallery"
+            element={<PrivateRoute>{<GalleryPage />}</PrivateRoute>}
           />
-          <Route 
-            path="/liked-songs" 
-            element={<PrivateRoute>{<LikedSongsPage />}</PrivateRoute>} 
+          <Route
+            path="/liked-songs"
+            element={<PrivateRoute>{<LikedSongsPage />}</PrivateRoute>}
           />
           <Route
             path="/music-workspace"
@@ -60,7 +61,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
         <Route path="/account" element={<AccountPage />} />
-        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </QueryClientProvider>
   );

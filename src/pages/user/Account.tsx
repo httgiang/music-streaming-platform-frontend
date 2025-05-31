@@ -16,24 +16,43 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  alpha,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import theme from "@/theme/theme";
 
 const Account = () => {
   const navigate = useNavigate();
   return (
-    <Box sx={{ maxWidth: 600, margin: "auto", padding: 2 }} zIndex={0}>
-      <Box sx={{ maxWidth: 600, margin: "auto", display: "flex" }}>
+    <Box
+      sx={{
+        maxWidth: 700,
+        margin: "auto",
+        padding: 2,
+        display: "flex",
+        flexDirection: "column",
+      }}
+      zIndex={0}
+    >
+      <Box
+        sx={{
+          margin: "auto",
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
+        }}
+      >
         <Card
           sx={{
-            minWidth: 450,
             mb: 2,
             display: "flex",
             alignItems: "center",
-            mr: { md: 3 },
+            textAlign: "center",
+            flex: 1,
+            p: 2,
           }}
         >
-          <Box sx={{ ml: 8 }}>
+          <Box sx={{ textAlign: "center", width: "100%" }}>
             <Typography variant="h6">Your Plan</Typography>
             <Typography variant="h4" fontWeight="bold">
               Groovity Commoners
@@ -45,14 +64,11 @@ const Account = () => {
           sx={{
             mb: 2,
             p: 2,
-            ":hover": {
-              background:
-                "linear-gradient(185deg,rgba(132, 22, 196, 0.81),rgba(241, 231, 84, 0.8))",
-              cursor: "pointer",
-            },
+            background: theme.custom.lightGradient,
+            cursor: "pointer",
           }}
         >
-          <Typography variant="h6" color="black">
+          <Typography variant="h5" color="black" fontWeight="bold">
             Join Nobles
           </Typography>
         </Card>
@@ -66,7 +82,10 @@ const Account = () => {
           <List>
             <ListItem
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>
@@ -79,7 +98,10 @@ const Account = () => {
                 navigate("/profile");
               }}
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>
@@ -89,7 +111,10 @@ const Account = () => {
             </ListItem>
             <ListItem
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>
@@ -109,7 +134,10 @@ const Account = () => {
           <List>
             <ListItem
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>
@@ -129,7 +157,10 @@ const Account = () => {
           <List>
             <ListItem
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>
@@ -140,7 +171,10 @@ const Account = () => {
             </ListItem>
             <ListItem
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>
@@ -159,7 +193,10 @@ const Account = () => {
           <List>
             <ListItem
               sx={{
-                "&:hover": { backgroundColor: "#f0f0f0", cursor: "pointer" },
+                "&:hover": {
+                  backgroundColor: alpha("#B39DDB", 0.08),
+                  cursor: "pointer",
+                },
               }}
             >
               <ListItemIcon>

@@ -1,6 +1,48 @@
-// import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
+export const fetchMostLikedSongs = async () => {
+  try {
+    const response = await api.get("/feeds/most-liked-songs");
+    const mostLikedSongs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric,
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user.username,
+          artistImage: item.user.userAvatar,
+        }))
+      : [];
+    return mostLikedSongs;
+  } catch (error) {
+    console.error("Fetch most liked songs failed: ", error);
+    throw error;
+  }
+};
+
+export const fetchRecentlyLikedSongs = async () => {
+  try {
+    const response = await api.get("/feeds/recently-liked-songs");
+    const recentlyLikedSongs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric,
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user.username,
+          artistImage: item.user.userAvatar,
+        }))
+      : [];
+    return recentlyLikedSongs;
+  } catch (error) {
+    console.error("Fetch recently liked songs failed: ", error);
+    throw error;
+  }
+};
 export const fetchSongs = async () => {
   try {
     const response = await api.get("/songs/many", {
@@ -75,12 +117,13 @@ export const searchSongsOrArtists = async (query: string) => {
       `/songs/many?name=${encodeURIComponent(query)}&userProfiles=true`,
     );
     const results = response.data?.data || [];
-    console.log("Search results: ", results);    return results.map((item: any) => ({
+    console.log("Search results: ", results);
+    return results.map((item: any) => ({
       id: item.id,
       name: item.name,
       type: "song",
       artist: item.user.username,
-      userId: item.user.id, 
+      userId: item.user.id,
       coverImageUrl: item.coverImageUrl,
       lyric: item.lyric,
     }));
@@ -89,7 +132,6 @@ export const searchSongsOrArtists = async (query: string) => {
     throw error;
   }
 };
-
 
 export const getSongsByArtist = async (artistId: string) => {
   try {
@@ -145,10 +187,9 @@ export const unlikeSong = async (songId: string) => {
 
 export const getSongLikeStatus = async (songId: string) => {
   try {
-    const response = await api.get(
-      `/songs/${songId}/like-status`,
-      { withCredentials: true },
-    );
+    const response = await api.get(`/songs/${songId}/like-status`, {
+      withCredentials: true,
+    });
     return response.data.data.likeStatus;
   } catch (error) {
     console.error("Get song like status failed: ", error);
@@ -161,7 +202,7 @@ export const getLikedSongs = async () => {
     const response = await api.get("/users/me/liked-songs", {
       withCredentials: true,
     });
-    
+
     const songs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,

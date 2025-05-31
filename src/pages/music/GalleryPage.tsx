@@ -27,20 +27,25 @@ const GalleryPage = () => {
     {
       id: "1",
       name: "The Weeknd",
-      coverImageUrl: "https://i.scdn.co/image/ab6761610000e5eb94fbdb362091111a47db337d",
+      coverImageUrl:
+        "https://i.scdn.co/image/ab6761610000e5eb94fbdb362091111a47db337d",
     },
     {
       id: "2",
       name: "Taylor Swift",
-      coverImageUrl: "https://i.scdn.co/image/ab6761610000e5eb5a00969a4698c3132a15fbb0",
+      coverImageUrl:
+        "https://i.scdn.co/image/ab6761610000e5eb5a00969a4698c3132a15fbb0",
     },
     {
-      id: "3", 
+      id: "3",
       name: "Ed Sheeran",
-      coverImageUrl: "https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba",
+      coverImageUrl:
+        "https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba",
     },
   ]);
-  const [filter, setFilter] = useState<"All" | "Songs" | "Albums" | "Artists">("All");
+  const [filter, setFilter] = useState<"All" | "Songs" | "Albums" | "Artists">(
+    "All",
+  );
   const [loading, setLoading] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const theme = useTheme();
@@ -87,17 +92,17 @@ const GalleryPage = () => {
   return (
     <Fade in={loaded} timeout={800}>
       <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Typography
-          variant="h4"
-          sx={{
-            color: "white",
-            fontWeight: "bold",
-            mb: 3,
-            textShadow: `0 2px 10px ${alpha("#000", 0.5)}`,
-          }}
-        >
-          Your Gallery
-        </Typography>
+        {/* <Typography
+          variant="h4" */}
+        {/* // sx={{
+          //   color: "white",
+          //   fontWeight: "bold",
+          //   mb: 3,
+          //   textShadow: `0 2px 10px ${alpha("#000", 0.5)}`,
+          // }}
+        // >
+        //   Your Gallery
+        // </Typography> */}
 
         <Stack
           direction="row"
@@ -154,14 +159,18 @@ const GalleryPage = () => {
             }}
           >
             <CircularProgress color="secondary" />
-            <Typography color="text.secondary">Loading your library...</Typography>
+            <Typography color="text.secondary">
+              Loading your library...
+            </Typography>
           </Box>
-        ) : !loading && (
-          (filter === "All" && songs.length === 0 && albums.length === 0 && artists.length === 0) ||
-          (filter === "Songs" && songs.length === 0) ||
-          (filter === "Albums" && albums.length === 0) ||
-          (filter === "Artists" && artists.length === 0)
-        ) ? (
+        ) : !loading &&
+          ((filter === "All" &&
+            songs.length === 0 &&
+            albums.length === 0 &&
+            artists.length === 0) ||
+            (filter === "Songs" && songs.length === 0) ||
+            (filter === "Albums" && albums.length === 0) ||
+            (filter === "Artists" && artists.length === 0)) ? (
           <Box
             sx={{
               display: "flex",
@@ -194,7 +203,9 @@ const GalleryPage = () => {
                       gap: 1,
                     }}
                   >
-                    <LibraryMusic sx={{ color: theme.palette.secondary.main }} />
+                    <LibraryMusic
+                      sx={{ color: theme.palette.secondary.main }}
+                    />
                     Liked Songs
                   </Typography>
                   <Grid container spacing={2}>
@@ -202,10 +213,7 @@ const GalleryPage = () => {
                       <Grid item xs={12} sm={6} md={3} lg={2} key={song.id}>
                         <Fade in timeout={800}>
                           <Box>
-                            <MusicPreviewCard
-                              type="song"
-                              item={song}
-                            />
+                            <MusicPreviewCard type="song" item={song} />
                           </Box>
                         </Fade>
                       </Grid>
@@ -235,10 +243,7 @@ const GalleryPage = () => {
                       <Grid item xs={12} sm={6} md={3} lg={2} key={album.id}>
                         <Fade in timeout={800}>
                           <Box>
-                            <MusicPreviewCard
-                              type="album"
-                              item={album}
-                            />
+                            <MusicPreviewCard type="album" item={album} />
                           </Box>
                         </Fade>
                       </Grid>
@@ -268,10 +273,7 @@ const GalleryPage = () => {
                       <Grid item xs={12} sm={6} md={3} lg={2} key={artist.id}>
                         <Fade in timeout={800}>
                           <Box>
-                            <MusicPreviewCard
-                              type="artist"
-                              item={artist}
-                            />
+                            <MusicPreviewCard type="artist" item={artist} />
                           </Box>
                         </Fade>
                       </Grid>
