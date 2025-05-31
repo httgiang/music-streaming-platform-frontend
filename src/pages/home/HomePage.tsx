@@ -11,19 +11,21 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
-import { PlayArrow, PlayCircleFilled, LibraryMusic } from "@mui/icons-material";
+import { PlayArrow } from "@mui/icons-material";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import TheBeatlesPic from "@/assets/images/the-beatles.jpg";
-import SummmerPlaylistImg from "@/assets/images/summer-playlist.jpg";
 import HeaderImg from "@/assets/images/header-img.jpg";
 import {
   fetchMostLikedSongs,
   fetchRecentlyLikedSongs,
 } from "@/api/music/song-api";
+import { fetchAlbums } from "@/api/music/album-api";
 import { SongProps } from "@/types/song";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { AlbumProps } from "@/types/album";
+import AlbumCard from "@/components/music/AlbumCard";
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -40,8 +42,15 @@ const HomePage = () => {
   });
 
   const { data: recentlyLikedSongs } = useQuery<SongProps[]>({
-    queryKey: ["recentlyLikedSongs"],
-    queryFn: fetchRecentlyLikedSongs,
+    queryKey: ["recentlyLikedSongs", 3],
+    queryFn: () => fetchRecentlyLikedSongs(3),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: albums } = useQuery<AlbumProps[]>({
+    queryKey: ["albums", 2],
+    queryFn: () => fetchAlbums(2),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   });
@@ -69,15 +78,6 @@ const HomePage = () => {
       artistImage: song.artistImage ? song.artistImage : "",
     },
   }));
-
-  // Demo featured playlist
-  const featuredPlaylist = {
-    title: "Summer Vibes 2025",
-    description: "The hottest tracks to elevate your summer mood",
-    coverUrl: SummmerPlaylistImg,
-    songCount: 24,
-    duration: "1 hr 42 min",
-  };
 
   type SectionHeadingProps = {
     title: string;
@@ -208,73 +208,16 @@ const HomePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <SectionHeading title="Featured Playlist" />
-            <MotionPaper
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                overflow: "hidden",
-                borderRadius: 3,
-                bgcolor: alpha(theme.palette.background.paper, 0.6),
-                border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-                cursor: "pointer",
-              }}
-            >
-              <Box
-                sx={{
-                  height: 180,
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <Box
-                  component="img"
-                  src={featuredPlaylist.coverUrl}
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    background:
-                      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%)",
-                  }}
-                />
-              </Box>
-              <Box
-                sx={{ p: 3, flex: 1, display: "flex", flexDirection: "column" }}
-              >
-                <Typography
-                  variant="overline"
-                  sx={{ color: theme.palette.primary.main, fontWeight: 600 }}
-                >
-                  FEATURED PLAYLIST
-                </Typography>
-                <Typography variant="h5" fontWeight={700} gutterBottom>
-                  {featuredPlaylist.title}
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2, opacity: 0.8 }}>
-                  {featuredPlaylist.description}
-                </Typography>
-                <Box sx={{ display: "flex", gap: 3, color: "text.secondary" }}>
-                  <Typography variant="body2">
-                    {featuredPlaylist.songCount} songs
-                  </Typography>
-                  <Typography variant="body2">
-                    {featuredPlaylist.duration}
-                  </Typography>
-                </Box>
-              </Box>
-            </MotionPaper>
+            <SectionHeading title="Featured Album" />
+            {albums && albums.length > 0 && (
+              <Grid container spacing={2}>
+                {albums.map((album) => (
+                  <Grid item xs={12} sm={6} key={album.id}>
+                    <AlbumCard {...album} />
+                  </Grid>
+                ))}
+              </Grid>
+            )}
           </MotionBox>
 
           <MotionBox

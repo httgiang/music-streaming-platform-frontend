@@ -60,7 +60,6 @@ const Profile = () => {
     user?.avatar || null,
   );
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const showToast = useToast();
   const formik = useFormik({
     enableReinitialize: true,

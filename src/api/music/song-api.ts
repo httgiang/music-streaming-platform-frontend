@@ -2,7 +2,9 @@ import api from "../axios-api";
 
 export const fetchMostLikedSongs = async () => {
   try {
-    const response = await api.get("/feeds/most-liked-songs");
+    const response = await api.get("/feeds/most-liked-songs?userProfiles=true");
+    console.log(response.data);
+    const artistName = "Unknown Artist";
     const mostLikedSongs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,
@@ -11,7 +13,7 @@ export const fetchMostLikedSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: item.user.username,
+          artist: item.user.userProfile?.name,
           artistImage: item.user.userAvatar,
         }))
       : [];
@@ -22,9 +24,12 @@ export const fetchMostLikedSongs = async () => {
   }
 };
 
-export const fetchRecentlyLikedSongs = async () => {
+export const fetchRecentlyLikedSongs = async (limit: number) => {
   try {
-    const response = await api.get("/feeds/recently-liked-songs");
+    const response = await api.get(
+      `/feeds/recently-liked-songs?userProfiles=true&limit=${limit}`,
+    );
+
     const recentlyLikedSongs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,
@@ -33,7 +38,7 @@ export const fetchRecentlyLikedSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: item.user.username,
+          artist: item.user.userProfile?.name,
           artistImage: item.user.userAvatar,
         }))
       : [];

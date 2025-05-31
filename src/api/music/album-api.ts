@@ -1,3 +1,4 @@
+import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {
@@ -31,10 +32,9 @@ export const getAlbumById = async (albumId: string) => {
 export const getSongsByAlbum = async (albumId: string) => {
   try {
     const response = await api.get(
-      `/albums/${encodeURIComponent(albumId)}?songs=true`,
+      `/albums/${encodeURIComponent(albumId)}?songs=true?userProfile=true`,
     );
     const songs = response.data?.data.album?.songs || [];
-    console.log("Fetched songs: ", songs);
     const artistName =
       response.data?.data.album?.user?.username || "Unknown Artist";
     return songs
@@ -52,6 +52,30 @@ export const getSongsByAlbum = async (albumId: string) => {
       }));
   } catch (error) {
     console.error("Fetch songs by album failed: ", error);
+    throw error;
+  }
+};
+
+export const fetchAlbums = async (limit: number) => {
+  try {
+    const response = await api.get(`/albums/many?limit=${limit}`, {
+      withCredentials: true,
+    });
+
+    const albums = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          coverImageUrl: item.coverImageUrl,
+          artist: item.user?.username || "Unknown Artist",
+          isPublic: item.isPublic,
+          likesCount: item.likesCount,
+        }))
+      : [];
+
+    return albums;
+  } catch (error) {
+    console.error("Fetch albums failed: ", error);
     throw error;
   }
 };
