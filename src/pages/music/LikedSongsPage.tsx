@@ -68,6 +68,7 @@ const LikedSongsPage = () => {
             p: 4,
             overflow: "hidden",
             transition: "all 0.3s ease",
+            position: "relative",
             "&:hover": {
               transform: "translateY(-4px)",
               boxShadow: `0 20px 60px ${alpha("#000", 0.4)}`,
@@ -75,7 +76,8 @@ const LikedSongsPage = () => {
           }}
         >
           <Box sx={{ display: "flex", gap: 5, alignItems: "center" }}>
-            <Box sx={{ flexShrink: 0, position: "relative" }}>              <Box
+            <Box sx={{ flexShrink: 0, position: "relative" }}>
+              <Box
                 sx={{
                   width: 280,
                   height: 280,
@@ -128,22 +130,33 @@ const LikedSongsPage = () => {
                 {songs.length} songs
               </Typography>
             </Stack>
-            <Box 
-              onClick={() => songs.length > 0 && dispatch(playSong(songs[0]))}
-              sx={{ cursor: "pointer" }}
-            >
-              <IconButton>
-                <PlayArrow
-                  sx={{
-                    backgroundColor: theme.palette.secondary.main,
-                    color: "white",
-                    borderRadius: "50%",
-                    width: 40,
-                    height: 40,
-                  }}
-                />
-              </IconButton>
-            </Box>
+          </Box>
+          <Box 
+            onClick={() => songs.length > 0 && dispatch(playSong(songs[0]))}
+            sx={{ 
+              position: "absolute",
+              bottom: 32,
+              right: 32,
+              transform: "scale(1.2)",
+              cursor: "pointer",
+              transition: "transform 0.2s ease",
+              "&:hover": {
+                transform: "scale(1.3)",
+              }
+            }}
+          >
+            <IconButton>
+              <PlayArrow
+                sx={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: "white",
+                  borderRadius: "50%",
+                  width: 40,
+                  height: 40,
+                  boxShadow: `0 8px 16px ${alpha("#000", 0.3)}`,
+                }}
+              />
+            </IconButton>
           </Box>
         </Card>
       </Fade>
