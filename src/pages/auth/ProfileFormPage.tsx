@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Box,
   Stack,
   TextField,
@@ -8,7 +7,6 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import countryList from "react-select-country-list";
 
 import { useFormik } from "formik";
 import {
@@ -20,15 +18,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AuthButton from "@/components/auth/AuthButton";
-import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useAuth } from "@/contexts/AuthContext";
 
 const ProfileFormPage = () => {
   const signUp = useAuth().signUp;
-  const navigate = useNavigate();
 
   const signUpData = useSelector((state: RootState) => state.signUp);
 
@@ -52,15 +47,12 @@ const ProfileFormPage = () => {
       };
 
       try {
-        const response = await signUp(payload);
-        navigate("/verify-otp");
+        await signUp(payload);
       } catch (error) {
         console.error("Sign up error:", error);
       }
     },
   });
-
-  const countries = useMemo(() => countryList().getData(), []);
 
   return (
     <Box width="100%">
@@ -128,21 +120,6 @@ const ProfileFormPage = () => {
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
           />
-          {/* <Autocomplete
-            disablePortal
-            id="country-select"
-            options={countries}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Country"
-                value={formik.values.country}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            )}
-            fullWidth
-          ></Autocomplete> */}
           <AuthButton typography="Next" />
         </Stack>
       </form>

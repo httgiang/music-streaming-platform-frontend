@@ -1,3 +1,4 @@
+import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {
@@ -28,13 +29,15 @@ export const getAlbumById = async (albumId: string) => {
   }
 };
 
-export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
+export const getSongsByAlbum = async (albumId: string) => {
   try {
     const response = await api.get(
-      `/songs/many?albumId=${encodeURIComponent(albumId)}&limit=${limit}`,
+      `/albums/${encodeURIComponent(albumId)}?songs=true?userProfile=true`,
     );
-    const results = response.data?.data || [];
-    return results
+    const songs = response.data?.data.album?.songs || [];
+    const artistName =
+      response.data?.data.album?.user?.username || "Unknown Artist";
+    return songs
       .filter((item: any) => {
         return item.albumId === albumId;
       })
@@ -44,8 +47,8 @@ export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
         lyric: item.lyric,
         coverImageUrl: item.coverImageUrl,
         duration: item.duration || 0,
-        artist: item.user.username,
-        artistImage: item.user.userAvatar,
+        artist: artistName,
+        artistImage: "",
       }));
   } catch (error) {
     console.error("Fetch songs by album failed: ", error);
@@ -53,12 +56,41 @@ export const getSongsByAlbum = async (albumId: string, limit: number = 50) => {
   }
 };
 
-export const searchAlbums = async (query: string) => {
+export const fetchAlbums = async (limit: number) => {
   try {
-    const response = await api.get(
-      `/albums/many?name=${encodeURIComponent(query)}`,
-    );
+    const response = await api.get(`/albums/many?limit=${limit}`, {
+      withCredentials: true,
+    });
+
+    const albums = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          coverImageUrl: item.coverImageUrl,
+          artist: item.user?.username || "Unknown Artist",
+          isPublic: item.isPublic,
+          likesCount: item.likesCount,
+        }))
+      : [];
+
+    return albums;
+  } catch (error) {
+    console.error("Fetch albums failed: ", error);
+    throw error;
+  }
+};
+
+export const searchAlbums = async (query?: string, userId?: string) => {
+  try {
+    let url = "/albums/many?";
+    const params = new URLSearchParams();
+    if (query) params.append("name", query);
+    if (userId) params.append("userId", userId);
+    url += params.toString();
+
+    const response = await api.get(url);
     const results = response.data?.data || [];
+
     return results.map((item: any) => ({
       id: item.id,
       name: item.name,
@@ -69,6 +101,25 @@ export const searchAlbums = async (query: string) => {
     }));
   } catch (error) {
     console.error("Search albums failed: ", error);
+    throw error;
+  }
+};
+
+export const fetchAllAlbums = async () => {
+  try {
+    const response = await api.get("/albums/many");
+    const albums = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          coverImageUrl: item.coverImageUrl,
+          artist: item.user?.username || "Unknown Artist",
+          isPublic: item.isPublic,
+        }))
+      : [];
+    return albums;
+  } catch (error) {
+    console.error("Fetch all albums failed: ", error);
     throw error;
   }
 };
@@ -126,6 +177,69 @@ export const publicAlbum = async (albumId: string) => {
     return response;
   } catch (error: any) {
     console.error("Set songs for album failed: ", error);
+    throw error;
+  }
+};
+
+export const likeAlbum = async (albumId: string) => {
+  try {
+    const response = await api.post(
+      `/albums/${albumId}/like`,
+      {},
+      { withCredentials: true },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Like album failed: ", error);
+    throw error;
+  }
+};
+
+export const unlikeAlbum = async (albumId: string) => {
+  try {
+    const response = await api.post(
+      `/albums/${albumId}/unlike`,
+      {},
+      { withCredentials: true },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Unlike album failed: ", error);
+    throw error;
+  }
+};
+
+export const getAlbumLikeStatus = async (albumId: string) => {
+  try {
+    const response = await api.get(`/albums/${albumId}/like-status`, {
+      withCredentials: true,
+    });
+    return response.data.data.likeStatus;
+  } catch (error) {
+    console.error("Get album like status failed: ", error);
+    throw error;
+  }
+};
+
+export const getLikedAlbums = async () => {
+  try {
+    const response = await api.get("/users/me/liked-albums", {
+      withCredentials: true,
+    });
+
+    const albums = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          coverImageUrl: item.coverImageUrl,
+          artist: item.user?.username || "Unknown Artist",
+          isPublic: item.isPublic,
+        }))
+      : [];
+
+    return albums;
+  } catch (error) {
+    console.error("Fetch liked albums failed: ", error);
     throw error;
   }
 };

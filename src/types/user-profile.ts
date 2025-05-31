@@ -6,22 +6,22 @@ export interface User {
   username: string;
   email: string;
   avatar?: string;
-  isVerfified?: boolean;
+  isVerified?: boolean;
 }
 export interface UserProfileProps {
-  avatar: string;
   name: string;
   birth: string | null;
   gender: string;
   phone: number;
+  avatarImageUrl: string;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
-  avatar: "",
   name: "",
   birth: "",
   gender: "",
   phone: 0,
+  avatarImageUrl: "",
 };
 
 export const userProfileValidationSchema = Yup.object().shape({

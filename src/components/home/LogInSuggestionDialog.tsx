@@ -1,7 +1,7 @@
 import { Button, Dialog, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
-
+import theme from "@/theme/theme";
 const LogInSuggestionDialog = ({
   open,
   onClose,
@@ -24,25 +24,41 @@ const LogInSuggestionDialog = ({
         textAlign="center"
       >
         <Typography fontSize={25} fontWeight={700}>
-          Get the best Groovity experience with a free account
+          Get the best
+          <span
+            style={{
+              background: theme.custom.logoColor,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "0 2px 10px rgba(179, 157, 219, 0.3)",
+            }}
+          >
+            {" "}
+            Groovity{" "}
+          </span>
+          experience with a free account
         </Typography>
         <Button
           variant="outlined"
-          sx={{ width: "15rem" }}
-          onClick={() => navigate("/sign-up")}
+          sx={{ width: "15rem", backgroundColor: theme.palette.secondary.main }}
+          onClick={() => navigate("/log-in")}
         >
-          Sign up{" "}
+          Log in{" "}
         </Button>
         <Button
           variant="outlined"
-          sx={{ width: "15rem" }}
-          onClick={() => navigate("/log-in")}
+          sx={{
+            width: "15rem",
+            borderColor: theme.palette.secondary.main,
+            color: theme.palette.secondary.main,
+          }}
+          onClick={() => navigate("/sign-up")}
         >
-          Log in
+          Sign up
         </Button>
         <Typography variant="body2" color="textSecondary">
           By creating your account, you agree to Groovity's <br />
-          <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>.
+          <u> Terms of Service</u> and <u> Privacy Policy</u>
         </Typography>
       </Stack>
     </Dialog>

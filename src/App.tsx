@@ -12,13 +12,16 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import ProfileFormPage from "@/pages/auth/ProfileFormPage";
 import AccountPage from "@/pages/user/Account";
 import ProfilePage from "@/pages/user/Profile";
-import SongPage from "@/pages/song/SongPage";
+import SongPage from "@/pages/music/SongPage";
 import SearchPage from "@/pages/home/SearchPage";
-import ArtistPage from "@/pages/song/ArtistPage";
+import ArtistPage from "@/pages/music/ArtistPage";
 import MusicWorkSpacePage from "@/pages/workspace/MusicWorkSpacePage";
-import AlbumPage from "@/pages/song/AlbumPage";
+import LikedSongsPage from "@/pages/music/LikedSongsPage";
+import AlbumPage from "@/pages/music/AlbumPage";
 import AddSongsToAlbumPage from "@/pages/workspace/AddSongsToAlbum";
 import PrivateRoute from "@/components/PrivateRoute";
+import ShowAllPage from "@/pages/music/ShowAllPage";
+import GalleryPage from "@/pages/music/GalleryPage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -30,7 +33,16 @@ function App() {
           <Route path="/song/:id" element={<SongPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
-          <Route path="/album/:id" element={<AlbumPage />} />
+          <Route path="/album/:id" element={<AlbumPage />} />{" "}
+          <Route path="/show-all" element={<ShowAllPage />} />
+          <Route
+            path="/gallery"
+            element={<PrivateRoute>{<GalleryPage />}</PrivateRoute>}
+          />
+          <Route
+            path="/liked-songs"
+            element={<PrivateRoute>{<LikedSongsPage />}</PrivateRoute>}
+          />
           <Route
             path="/music-workspace"
             element={<PrivateRoute>{<MusicWorkSpacePage />}</PrivateRoute>}

@@ -1,4 +1,4 @@
-import { Card, Box, Typography } from "@mui/material";
+import { Card, Box, Typography, Fade, Skeleton } from "@mui/material";
 import { SongProps } from "@/types/song";
 import { ArtistProps } from "@/types/artist";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
@@ -38,6 +38,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
   };
 
   const handlePlayButtonClick = () => {
+    setPlayButtonVisible(false);
     if (!isAuthenticated) {
       setShowLogInDialog(true);
       return;
@@ -63,13 +64,13 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          paddingX: 3,
-          paddingY: 2,
-          width: 150,
+          justifyContent: "center",
+          alignItems: "center",
+          p: 0.5,
+          width: 160,
           height: 200,
           backgroundColor: "rgba(255, 255, 255, 0.01)",
           backdropFilter: "blur(12px)",
-
           "&:hover": {
             cursor: "pointer",
             transform: "scale(1.05)",
@@ -82,31 +83,68 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
       >
         <Box
           sx={{
-            height: 150,
-            width: 150,
-            backgroundImage: `url(${
-              type === "song"
-                ? (item as SongProps).coverImageUrl
-                : (item as ArtistProps).coverImageUrl
-            })`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            borderRadius: type === "artist" ? "50%" : "0%",
-            filter: loadedImage ? "none" : "blur(10px)",
-            transition: "filter 0.3s ease-out",
+            position: "relative",
+            height: 140,
+            width: 140,
+            borderRadius: type === "artist" ? "50%" : "8px",
+            overflow: "hidden",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            opacity: loadedImage ? 1 : 0,
+            transition: "opacity 0.5s ease",
           }}
-          component="div"
         >
-          <img
-            src={
-              type === "song"
-                ? (item as SongProps).coverImageUrl
-                : (item as ArtistProps).coverImageUrl
-            }
-            alt={item.name}
-            style={{ display: "none" }}
-            onLoad={() => setLoadedImage(true)}
-          />
+          {item ? (
+            <>                <img
+                src={
+                  type === "song"
+                    ? (item as SongProps).coverImageUrl
+                    : type === "album"
+                    ? (item as AlbumProps).coverImageUrl
+                    : (item as ArtistProps).coverImageUrl
+                }
+                alt={item.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+                onLoad={() => setLoadedImage(true)}
+              />
+              <Fade in={isPlayButtonVisible}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 8,
+                    right: 8,
+                    zIndex: 2,
+                    borderRadius: "50%",
+                    transform: "scale(1.3)",
+                    display: type === "song" ? "block" : "none",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <PlayButtons onClick={handlePlayButtonClick} />
+                </Box>
+              </Fade>
+            </>
+          ) : (
+            <Skeleton
+              variant="rectangular"
+              width={140}
+              height={140}
+              animation="wave"
+              sx={{
+                borderRadius: type === "artist" ? "50%" : "8px",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+            />
+          )}
         </Box>
 
         <Box
@@ -116,35 +154,23 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
             paddingTop: 1,
             textAlign: "left",
             paddingLeft: 1,
+            alignSelf: "flex-start",
           }}
         >
-          <Typography variant="body1">
+          <Typography fontSize={14} fontWeight={600}>
             {type === "song"
               ? (item as SongProps).name
               : type === "artist"
               ? (item as ArtistProps).name
               : item.name}
           </Typography>
-          <Typography fontSize={14}>
+          <Typography fontSize={12} color="text.secondary">
             {type === "song"
               ? (item as SongProps).artist
               : type === "artist"
               ? "Artist"
               : (item as AlbumProps).artist}
           </Typography>
-          {isPlayButtonVisible && (
-            <Box
-              sx={{
-                position: "absolute",
-                right: 20,
-                transform: "scale(2.0)",
-              }}
-            >
-              {type === "song" && (
-                <PlayButtons onClick={handlePlayButtonClick} />
-              )}
-            </Box>
-          )}
         </Box>
       </Card>
       <LogInSuggestionDialog
