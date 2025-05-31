@@ -1,5 +1,4 @@
 import { Box, Typography, alpha, Paper, Fade } from "@mui/material";
-import { PlayArrow } from "@mui/icons-material";
 import theme from "@/theme/theme";
 import { motion } from "framer-motion";
 import { AlbumProps } from "@/types/album";
