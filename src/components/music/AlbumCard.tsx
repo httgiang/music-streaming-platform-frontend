@@ -3,17 +3,18 @@ import { PlayArrow } from "@mui/icons-material";
 import theme from "@/theme/theme";
 import { motion } from "framer-motion";
 import { AlbumProps } from "@/types/album";
-const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
 import { useState } from "react";
 import { PlayButtons } from "@/components/iconbuttons/IconButtons";
 import LogInSuggestionDialog from "@/components/home/LogInSuggestionDialog";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AlbumCard = (album: AlbumProps) => {
   const [isPlayButtonVisible, setPlayButtonVisible] = useState(false);
   const [showLogInDialog, setShowLogInDialog] = useState(false);
+  const navigate = useNavigate();
 
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
@@ -29,10 +30,16 @@ const AlbumCard = (album: AlbumProps) => {
 
   const handlePlayButtonClick = () => {
     setPlayButtonVisible(false);
+    handleOnPaperClick();
+  };
+  const handleOnPaperClick = () => {
     if (!isAuthenticated) {
       setShowLogInDialog(true);
       return;
     }
+    navigate(`/album/${album.id}`, {
+      state: album,
+    });
   };
   return (
     <MotionPaper
@@ -50,6 +57,7 @@ const AlbumCard = (album: AlbumProps) => {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleOnPaperClick}
     >
       <Box
         sx={{
@@ -107,8 +115,8 @@ const AlbumCard = (album: AlbumProps) => {
           <Box
             sx={{
               position: "absolute",
-              bottom: 8,
-              right: 8,
+              top: "50%",
+              right: 20,
               zIndex: 2,
               borderRadius: "50%",
               transform: "scale(1.3)",

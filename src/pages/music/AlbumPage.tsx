@@ -217,10 +217,7 @@ const AlbumPage: React.FC = () => {
                 />
               )}
             </Box>
-            <Stack
-              spacing={2}
-              sx={{ flex: 1, minWidth: 0, textAlign: "left" }}
-            >
+            <Stack spacing={2} sx={{ flex: 1, minWidth: 0, textAlign: "left" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <MusicNote
                   sx={{ color: alpha("#fff", 0.7), fontSize: "1.2rem" }}
@@ -272,47 +269,41 @@ const AlbumPage: React.FC = () => {
               timeout={800}
               style={{ transitionDelay: "200ms" }}
             >
-             <Box onClick={() => dispatch(playSong(song))}>
-                  <PlayArrow
-                    sx={{
-                      backgroundColor: theme.palette.secondary.main,
-                      color: "white",
-                      borderRadius: "50%",
-                      width: 40,
-                      height: 40,
-                      cursor: "pointer",
-                    }}
-                  />
-                </Box>
+              <Box onClick={() => dispatch(playSong(songs[0]))}>
+                <PlayArrow
+                  sx={{
+                    backgroundColor: theme.palette.secondary.main,
+                    color: "white",
+                    borderRadius: "50%",
+                    width: 40,
+                    height: 40,
+                    cursor: "pointer",
+                  }}
+                />
+              </Box>
             </Grow>
             {liked ? (
-                <ActionButton
-                  icon={
-                    <Favorite sx={{ color: theme.palette.secondary.main }} />
-                  }
-                  tooltip="Unlike album"
-                  onClick={handleUnlikeAlbum}
-                  delay={250}
-                />
-              ) : (
-                <ActionButton
-                  icon={
-                    <FavoriteBorder
-                      sx={{ color: theme.palette.secondary.main }}
-                    />
-                  }
-                  tooltip="Like album"
-                  onClick={handleLikeAlbum}
-                  delay={250}
-                />
-              )}
-
-              <ActionButton icon={<Share />} tooltip="Share" delay={350} />
               <ActionButton
-                icon={<Download />}
-                tooltip="Download"
-                delay={400}
+                icon={<Favorite sx={{ color: theme.palette.secondary.main }} />}
+                tooltip="Unlike album"
+                onClick={handleUnlikeAlbum}
+                delay={250}
               />
+            ) : (
+              <ActionButton
+                icon={
+                  <FavoriteBorder
+                    sx={{ color: theme.palette.secondary.main }}
+                  />
+                }
+                tooltip="Like album"
+                onClick={handleLikeAlbum}
+                delay={250}
+              />
+            )}
+
+            <ActionButton icon={<Share />} tooltip="Share" delay={350} />
+            <ActionButton icon={<Download />} tooltip="Download" delay={400} />
           </Box>
         </Card>
       </Fade>
@@ -343,7 +334,7 @@ const AlbumPage: React.FC = () => {
                 duration: song.duration || 0,
                 lyric: song.lyric || "",
                 artistImage: song.artistImage || "",
-                likesCount: song.likesCount || 0
+                likesCount: song.likesCount || 0,
               }}
             />
           </Box>

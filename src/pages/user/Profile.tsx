@@ -86,7 +86,7 @@ const Profile = () => {
   };
 
   const handleBackNavigation = () => {
-    navigate("/account");
+    window.history.back();
   };
 
   const handleUpdateProfileAvatar = async (file: File) => {

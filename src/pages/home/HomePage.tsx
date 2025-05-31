@@ -26,6 +26,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AlbumProps } from "@/types/album";
 import AlbumCard from "@/components/music/AlbumCard";
+import { useDispatch } from "react-redux";
+import { playSong } from "@/features/music/playerSlice";
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -79,6 +81,11 @@ const HomePage = () => {
     },
   }));
 
+  const dispatch = useDispatch();
+  const handlePlaySong = (song: SongProps) => {
+    if (!song) return;
+    dispatch(playSong(song));
+  };
   type SectionHeadingProps = {
     title: string;
     showAll?: boolean;
@@ -267,7 +274,10 @@ const HomePage = () => {
                         {item.artist}
                       </Typography>
                     </Box>
-                    <IconButton size="small">
+                    <IconButton
+                      size="small"
+                      onClick={() => handlePlaySong(item)}
+                    >
                       <PlayArrow />
                     </IconButton>
                   </MotionPaper>

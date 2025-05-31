@@ -11,7 +11,6 @@ import {
   alpha,
   Stack,
 } from "@mui/material";
-import { motion } from "framer-motion";
 
 const FooterLink = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();

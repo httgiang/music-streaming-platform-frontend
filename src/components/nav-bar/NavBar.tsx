@@ -311,7 +311,7 @@ const NavBar = () => {
                   onClick={() => {
                     handleCloseMenu();
                     if (user?.id) {
-                      navigate(`/profile/${user.id}`);
+                      navigate(`/profile`);
                     } else {
                       console.error("User ID is undefined");
                     }
