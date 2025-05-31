@@ -9,23 +9,19 @@ export interface User {
   isVerified?: boolean;
 }
 export interface UserProfileProps {
-  avatar: string;
   name: string;
   birth: string | null;
   gender: string;
   phone: number;
   avatarImageUrl: string;
-  // country: string;
 }
 
 export const initialUserProfileValues: UserProfileProps = {
-  avatar: "",
   name: "",
   birth: "",
   gender: "",
   phone: 0,
   avatarImageUrl: "",
-  // country: "",
 };
 
 export const userProfileValidationSchema = Yup.object().shape({

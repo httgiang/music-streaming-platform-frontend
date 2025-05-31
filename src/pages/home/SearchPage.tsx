@@ -23,17 +23,14 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     const fetchResults = async () => {
       if (key) {
-        const [searchResults, albumResults] = await Promise.all([
-          searchSongsOrArtists(key),
-          searchAlbums(key),
+        const [searchResults, albumResults] = await Promise.all([          searchSongsOrArtists(key),
+          searchAlbums(key, undefined),
         ]);
-        setResults(searchResults);
-
-        const artistsArray: ArtistProps[] = [];
+        setResults(searchResults);        const artistsArray: ArtistProps[] = [];
         searchResults.forEach((song: any) => {
-          if (song.artist) {
+          if (song.artist && song.userId) { // Check for both artist name and ID
             artistsArray.push({
-              id: song.userId || song.artist,
+              id: song.userId, // Always use the userId for artist identification
               name: song.artist,
               coverImageUrl: song.artistImage,
             });
@@ -128,6 +125,7 @@ const SearchPage: React.FC = () => {
                       duration: 3, // Placeholder, replace with actual duration if available
                       lyric: result.lyric,
                       artistImage: result.artistImage,
+                      likesCount: result.likesCount ?? 0, 
                     }}
                   />
                 </Box>

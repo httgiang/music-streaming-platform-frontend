@@ -5,6 +5,7 @@ export interface AlbumProps {
   artist: string;
   coverImageUrl: string;
   image?: string;
+  likesCount?: number;
 }
 
 export const initialAlbum: AlbumProps = {
@@ -13,4 +14,5 @@ export const initialAlbum: AlbumProps = {
   coverImageUrl: "",
   artist: "",
   isPublic: false,
+  likesCount: 0,
 };

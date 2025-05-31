@@ -5,9 +5,7 @@ import { RootState } from "@/store";
 import AuthenticatedSideBar from "@/components/side-bar/AuthenticatedSideBar";
 import theme from "@/theme/theme";
 const SideBar = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated,
-  );
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   return (
     <Drawer
       sx={{

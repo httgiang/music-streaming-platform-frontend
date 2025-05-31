@@ -1,9 +1,55 @@
-import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
+export const fetchMostLikedSongs = async () => {
+  try {
+    const response = await api.get("/feeds/most-liked-songs?userProfiles=true");
+    console.log(response.data);
+    const mostLikedSongs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric,
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user.userProfile?.name,
+          artistImage: item.user.userAvatar,
+        }))
+      : [];
+    return mostLikedSongs;
+  } catch (error) {
+    console.error("Fetch most liked songs failed: ", error);
+    throw error;
+  }
+};
+
+export const fetchRecentlyLikedSongs = async (limit: number) => {
+  try {
+    const response = await api.get(
+      `/feeds/recently-liked-songs?userProfiles=true&limit=${limit}`,
+    );
+
+    const recentlyLikedSongs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric,
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user.userProfile?.name,
+          artistImage: item.user.userAvatar,
+        }))
+      : [];
+    return recentlyLikedSongs;
+  } catch (error) {
+    console.error("Fetch recently liked songs failed: ", error);
+    throw error;
+  }
+};
 export const fetchSongs = async () => {
   try {
-    const response = await api.get("/songs/many", {
+    const response = await api.get("/songs/many?userProfiles=true", {
       withCredentials: true,
     });
     const songs = Array.isArray(response?.data?.data)
@@ -14,7 +60,7 @@ export const fetchSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: item.user.username,
+          artist: item.user.userProfile?.name,
           artistImage: item.user.userAvatar,
         }))
       : [];
@@ -81,6 +127,7 @@ export const searchSongsOrArtists = async (query: string) => {
       name: item.name,
       type: "song",
       artist: item.user.username,
+      userId: item.user.id,
       coverImageUrl: item.coverImageUrl,
       lyric: item.lyric,
     }));
@@ -90,36 +137,24 @@ export const searchSongsOrArtists = async (query: string) => {
   }
 };
 
-export const getSongsByArtist = async (
-  artistId: string,
-  limit: number = 50,
-  offset: number = 0,
-) => {
+export const getSongsByArtist = async (artistId: string) => {
   try {
     const response = await api.get(
-      `/songs/many?artistId=${encodeURIComponent(
-        artistId,
-      )}&limit=${limit}&offset=${offset}`,
+      `/songs/many?userId=${encodeURIComponent(artistId)}&userProfiles=true`,
     );
-
-    const results = response.data?.data || [];
-    // const filteredResults = results.filter(
-    //   (item: any) => item.user.username === artistId,
-    // );
-    // if (filteredResults.length === 0) {
-    //   console.warn("No songs found for artistId (username):", artistId);
-    // }
-    console.log("Filtered results: ", results);
-    return results.map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      lyric: item.lyric,
-      coverImageUrl: item.coverImageUrl,
-      duration: item.duration || 0,
-      likesCount: item.likesCount || 0,
-      artist: item.user.username,
-      artistImage: item.user.userAvatar,
-    }));
+    const songs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric,
+          coverImageUrl: item.coverImageUrl,
+          duration: item.duration || 0,
+          likesCount: item.likesCount || 0,
+          artist: item.user.username,
+          artistImage: item.user.userAvatar,
+        }))
+      : [];
+    return songs;
   } catch (error) {
     console.error("Fetch songs by artist failed: ", error);
     throw error;
@@ -150,6 +185,44 @@ export const unlikeSong = async (songId: string) => {
     return response.data;
   } catch (error) {
     console.error("Like song failed: ", error);
+    throw error;
+  }
+};
+
+export const getSongLikeStatus = async (songId: string) => {
+  try {
+    const response = await api.get(`/songs/${songId}/like-status`, {
+      withCredentials: true,
+    });
+    return response.data.data.likeStatus;
+  } catch (error) {
+    console.error("Get song like status failed: ", error);
+    throw error;
+  }
+};
+
+export const getLikedSongs = async () => {
+  try {
+    const response = await api.get("/users/me/liked-songs", {
+      withCredentials: true,
+    });
+
+    const songs = Array.isArray(response?.data?.data)
+      ? response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          lyric: item.lyric || "",
+          coverImageUrl: item.coverImageUrl,
+          duration: 0,
+          likesCount: item.likesCount || 0,
+          artist: "Unknown Artist",
+          artistImage: item.user?.userAvatar || "",
+        }))
+      : [];
+
+    return songs;
+  } catch (error) {
+    console.error("Fetch liked songs failed: ", error);
     throw error;
   }
 };
