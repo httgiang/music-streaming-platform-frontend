@@ -186,7 +186,7 @@ const MusicWorkSpacePage = () => {
               borderRadius: 3,
               backgroundColor: alpha(theme.palette.common.white, 0.1),
               "& .MuiLinearProgress-bar": {
-                background: theme.custom.gradient,
+                background: theme.custom.hoverGradient,
               },
             }}
           />

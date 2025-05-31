@@ -4,7 +4,6 @@ export const fetchMostLikedSongs = async () => {
   try {
     const response = await api.get("/feeds/most-liked-songs?userProfiles=true");
     console.log(response.data);
-    const artistName = "Unknown Artist";
     const mostLikedSongs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,
@@ -50,7 +49,7 @@ export const fetchRecentlyLikedSongs = async (limit: number) => {
 };
 export const fetchSongs = async () => {
   try {
-    const response = await api.get("/songs/many", {
+    const response = await api.get("/songs/many?userProfiles=true", {
       withCredentials: true,
     });
     const songs = Array.isArray(response?.data?.data)
@@ -61,7 +60,7 @@ export const fetchSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: item.user.username,
+          artist: item.user.userProfile?.name,
           artistImage: item.user.userAvatar,
         }))
       : [];
@@ -216,7 +215,7 @@ export const getLikedSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: item.user?.username || "Unknown Artist",
+          artist: "Unknown Artist",
           artistImage: item.user?.userAvatar || "",
         }))
       : [];
