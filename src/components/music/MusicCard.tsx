@@ -66,34 +66,37 @@ const MusicCard: React.FC<{ song: SongProps }> = ({ song }) => {
         justifyContent="space-between"
         gap={1}
       >
-        <Tooltip
-          title={<span style={{ fontSize: "16px" }}>Favorite</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }} size="small">
-            <FavoriteBorderOutlinedIcon sx={{ height: "18px" }} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={<span style={{ fontSize: "16px" }}>Add to playlist</span>}
-          componentsProps={{
-            tooltip: { sx: { backgroundColor: "gray" } },
-            popper: {
-              modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
-            },
-          }}
-          placement="top"
-        >
-          <IconButton sx={{ color: "white" }} size="small">
-            <AddCircleOutlineIcon sx={{ height: "18px" }} />
-          </IconButton>
-        </Tooltip>
+         {isHovered && (
+           <><Tooltip
+            title={<span style={{ fontSize: "16px" }}>Favorite</span>}
+            componentsProps={{
+              tooltip: { sx: { backgroundColor: "gray" } },
+              popper: {
+                modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+              },
+            }}
+            placement="top"
+          >
+            <IconButton sx={{ color: "white" }} size="small">
+              <FavoriteBorderOutlinedIcon sx={{ height: "18px" }} />
+            </IconButton>
+          </Tooltip><Tooltip
+            title={<span style={{ fontSize: "16px" }}>Add to playlist</span>}
+            componentsProps={{
+              tooltip: { sx: { backgroundColor: "gray" } },
+              popper: {
+                modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+              },
+            }}
+            placement="top"
+          >
+              <IconButton sx={{ color: "white" }} size="small">
+                <AddCircleOutlineIcon sx={{ height: "18px" }} />
+              </IconButton>
+            </Tooltip></>
+          
+        )}
+       
 
         <Typography
           variant="body2"

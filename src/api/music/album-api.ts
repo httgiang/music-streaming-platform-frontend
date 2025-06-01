@@ -134,9 +134,7 @@ export const fetchAllAlbums = async () => {
 
 export const setSongsForAlbum = async (albumId: string, songIds: string[]) => {
   try {
-    const response = await api.put(`/albums/${albumId}/songs/set`, {
-      songIds,
-    });
+    const response = await api.put(`/albums/${albumId}/songs/set`, songIds);
     return response;
   } catch (error: any) {
     console.error("Set songs for album failed: ", error);
@@ -147,14 +145,12 @@ export const setSongsForAlbum = async (albumId: string, songIds: string[]) => {
 export const appendSongsToAlbum = async (
   albumId: string,
   songIds: string[],
-) => {
-  try {
-    const response = await api.patch(
+) => {  try {    const response = await api.patch(
       `/albums/${albumId}/songs/append`,
-      songIds,
+      songIds
     );
     return response;
-  } catch (error: any) {
+  } catch (error: any){
     console.error("Set songs for album failed: ", error);
     throw error;
   }

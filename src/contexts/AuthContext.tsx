@@ -48,9 +48,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       setAuthToken(null);
-      localStorage.removeItem("user");
-
-      const response = await api.post("/auth/signin", logInData, {
+      localStorage.removeItem("user");      const response = await api.post("/auth/signin", logInData, {
         withCredentials: true,
       });
 
@@ -58,7 +56,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const { user, accessToken } = response.data.data;
         localStorage.setItem("user", JSON.stringify(user));
         setAuthToken(accessToken);
-        dispatch(loginSuccess(user));
+        dispatch(loginSuccess({ user }));
         showToast("Logged in successfully", "success");
       }
     } catch (error: any) {
@@ -127,7 +125,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     }
   };
-
   const restoreSession = async () => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
@@ -138,20 +135,24 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const controller = new AbortController();
     setLoading(true);
+    
     try {
-      const response = await api.post("/auth/refresh-token", {
+      const response = await api.post("/auth/refresh-token", {}, {
+        withCredentials: true,
         signal: controller.signal,
       });
 
-      setAuthToken(response.data.data.accessToken);
-
-      const stored = localStorage.getItem("user");
-      if (stored) {
-        const parsedUser = JSON.parse(stored);
-        dispatch(loginSuccess(parsedUser));
+      if (response?.data?.data?.accessToken) {
+        setAuthToken(response.data.data.accessToken);
+        dispatch(loginSuccess({ user: JSON.parse(storedUser) }));
+      } else {
+        throw new Error("Invalid token response");
       }
-    } catch {
+
+    } catch (error) {
+      console.error("Session restore error:", error);
       localStorage.removeItem("user");
+      dispatch(logout());
     } finally {
       setLoading(false);
     }

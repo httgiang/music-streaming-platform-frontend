@@ -62,8 +62,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      try {
-        const { data } = await api.post("/auth/refresh-token", {
+      try {        const { data } = await api.post("/auth/refresh-token", {}, {
           withCredentials: true,
         });
 
