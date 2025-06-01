@@ -83,18 +83,18 @@ const UploadMusicDialog = ({
       const reader = new FileReader();
       reader.onload = () => {
         setCoverPreview(reader.result as string);
-        console.log("Cover image preview set:", reader.result);
       };
       reader.readAsDataURL(coverImageFile);
     }
   };
 
-  const handleAudioFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setAudioFile(file);
-      const url = URL.createObjectURL(file);
+  const handleAudioFileChange = (audioFile: File) => {
+    if (audioFile) {
+      setAudioFile(audioFile);
+
+      const url = URL.createObjectURL(audioFile);
       setAudioPreview(url);
+      console.log("Audio file preview set:", url);
       setIsPlaying(false);
     }
   };
@@ -429,96 +429,100 @@ const UploadMusicDialog = ({
                   backgroundColor: alpha(theme.palette.background.paper, 0.4),
                 }}
               >
-                <input
-                  type="file"
-                  accept=".mp3, .wav"
+                <FileUploader
+                  types={["MP3", "WAV"]}
+                  multiple={false}
                   id="audio-file-input"
                   style={{ display: "none" }}
-                  onChange={handleAudioFileChange}
+                  handleChange={handleAudioFileChange}
                   required
-                />
-
-                {audioPreview ? (
-                  <Box sx={{ p: 2 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                >
+                  {audioFile ? (
+                    <Box sx={{ p: 2 }}>
                       <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
                       >
-                        <IconButton
-                          onClick={toggleAudioPlayback}
+                        <Box
                           sx={{
-                            backgroundColor: theme.palette.secondary.main,
-                            width: 36,
-                            height: 36,
-                            "&:hover": {
-                              backgroundColor: theme.palette.secondary.dark,
-                            },
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5,
                           }}
                         >
-                          {isPlaying ? <Pause /> : <PlayArrow />}
-                        </IconButton>
+                          <IconButton
+                            onClick={toggleAudioPlayback}
+                            sx={{
+                              backgroundColor: theme.palette.secondary.main,
+                              width: 36,
+                              height: 36,
+                              "&:hover": {
+                                backgroundColor: theme.palette.secondary.dark,
+                              },
+                            }}
+                          >
+                            {isPlaying ? <Pause /> : <PlayArrow />}
+                          </IconButton>
 
-                        <Typography fontWeight={500}>
-                          {audioFile?.name}
-                        </Typography>
+                          <Typography fontWeight={500}>
+                            {audioFile?.name}
+                          </Typography>
+                        </Box>
+
+                        <label htmlFor="audio-file-input">
+                          <Button
+                            component="span"
+                            variant="outlined"
+                            size="small"
+                            sx={{ textTransform: "none" }}
+                          >
+                            Change file
+                          </Button>
+                        </label>
                       </Box>
 
-                      <label htmlFor="audio-file-input">
-                        <Button
-                          component="span"
-                          variant="outlined"
-                          size="small"
-                          sx={{ textTransform: "none" }}
-                        >
-                          Change file
-                        </Button>
-                      </label>
-                    </Box>
-
-                    <audio
-                      ref={audioRef}
-                      src={audioPreview}
-                      style={{ display: "none" }}
-                    />
-                  </Box>
-                ) : (
-                  <label htmlFor="audio-file-input">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: 100,
-                        cursor: "pointer",
-                        p: 2,
-                        "&:hover": {
-                          backgroundColor: alpha(
-                            theme.palette.secondary.main,
-                            0.05,
-                          ),
-                        },
-                      }}
-                    >
-                      <MusicNote
-                        sx={{
-                          fontSize: 40,
-                          color: alpha(theme.palette.secondary.main, 0.7),
-                          mb: 1,
-                        }}
+                      <audio
+                        ref={audioRef}
+                        src={audioPreview || undefined}
+                        style={{ display: "none" }}
                       />
-                      <Typography color="text.secondary" align="center">
-                        Click to upload audio file
-                      </Typography>
                     </Box>
-                  </label>
-                )}
+                  ) : (
+                    <label htmlFor="audio-file-input">
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: 100,
+                          cursor: "pointer",
+                          p: 2,
+                          "&:hover": {
+                            backgroundColor: alpha(
+                              theme.palette.secondary.main,
+                              0.05,
+                            ),
+                          },
+                        }}
+                      >
+                        <MusicNote
+                          sx={{
+                            fontSize: 40,
+                            color: alpha(theme.palette.secondary.main, 0.7),
+                            mb: 1,
+                          }}
+                        />
+                        <Typography color="text.secondary" align="center">
+                          Click to upload audio file
+                        </Typography>
+                      </Box>
+                    </label>
+                  )}
+                </FileUploader>
               </MotionBox>
             </Box>
 

@@ -94,7 +94,9 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           }}
         >
           {item ? (
-            <>                <img
+            <>
+              {" "}
+              <img
                 src={
                   type === "song"
                     ? (item as SongProps).coverImageUrl
@@ -107,6 +109,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
+                  overflow: "hidden",
                   display: "block",
                 }}
                 onLoad={() => setLoadedImage(true)}

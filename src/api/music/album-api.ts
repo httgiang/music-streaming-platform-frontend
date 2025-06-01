@@ -1,4 +1,3 @@
-import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {
@@ -86,6 +85,8 @@ export const searchAlbums = async (query?: string, userId?: string) => {
     const params = new URLSearchParams();
     if (query) params.append("name", query);
     if (userId) params.append("userId", userId);
+
+    params.append("userProfiles", "true");
     url += params.toString();
 
     const response = await api.get(url);
@@ -95,7 +96,7 @@ export const searchAlbums = async (query?: string, userId?: string) => {
       id: item.id,
       name: item.name,
       coverImageUrl: item.coverImageUrl,
-      artist: item.user.username,
+      artist: item.user.userProfile?.name || "tlinh",
       isPublic: item.isPublic,
       type: "album",
     }));

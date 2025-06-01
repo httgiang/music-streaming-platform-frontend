@@ -21,28 +21,31 @@ import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import { useState } from "react";
 import { alpha } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
-const recentlyPlayed = [
-  {
-    id: 1,
-    title: "Blinding Lights",
-    artist: "The Weeknd",
-    image: "https://via.placeholder.com/40",
-  },
-  {
-    id: 2,
-    title: "Sunflower",
-    artist: "Post Malone, Swae Lee",
-    image: "https://via.placeholder.com/40",
-  },
-  {
-    id: 3,
-    title: "Stay",
-    artist: "The Kid LAROI",
-    image: "https://via.placeholder.com/40",
-  },
-];
+// const recentlyPlayed = [
+//   {
+//     id: 1,
+//     title: "Blinding Lights",
+//     artist: "The Weeknd",
+//     image: "https://via.placeholder.com/40",
+//   },
+//   {
+//     id: 2,
+//     title: "Sunflower",
+//     artist: "Post Malone, Swae Lee",
+//     image: "https://via.placeholder.com/40",
+//   },
+//   {
+//     id: 3,
+//     title: "Stay",
+//     artist: "The Kid LAROI",
+//     image: "https://via.placeholder.com/40",
+//   },
+// ];
 
 const NavButton: React.FC<{
   icon: React.ReactNode;
@@ -80,13 +83,15 @@ const AuthenticatedSideBar: React.FC = () => {
     navigate(path);
   };
 
+  const recentlyPlayed = useSelector(
+    (state: RootState) => state.player.recentlyPlayedSongs,
+  );
   const handleCreatePlaylist = () => {
     console.log("Create new playlist");
   };
 
   return (
     <Stack spacing={1.5} sx={{ height: "100%", width: "100%" }}>
-      {/* Main Navigation */}
       <Box sx={{ mb: 1 }}>
         <NavButton
           icon={<HomeIcon />}
@@ -96,7 +101,8 @@ const AuthenticatedSideBar: React.FC = () => {
             setActiveNav("home");
             navigateTo("/");
           }}
-        />        <NavButton
+        />{" "}
+        <NavButton
           icon={<SearchIcon />}
           label="Search"
           active={activeNav === "search"}
@@ -207,7 +213,7 @@ const AuthenticatedSideBar: React.FC = () => {
         </Box>
 
         <List dense sx={{ py: 0 }}>
-          {recentlyPlayed.map((item) => (
+          {recentlyPlayed?.map((item) => (
             <ListItem
               disablePadding
               key={item.id}
@@ -225,8 +231,8 @@ const AuthenticatedSideBar: React.FC = () => {
             >
               <ListItemAvatar sx={{ minWidth: 50 }}>
                 <Avatar
-                  src={item.image}
-                  alt={item.title}
+                  src={item.coverImageUrl || ""}
+                  alt={item.artist}
                   variant="rounded"
                   sx={{ width: 40, height: 40 }}
                 />
@@ -234,7 +240,7 @@ const AuthenticatedSideBar: React.FC = () => {
               <ListItemText
                 primary={
                   <Typography variant="body2" noWrap sx={{ fontWeight: 500 }}>
-                    {item.title}
+                    {item.name}
                   </Typography>
                 }
                 secondary={

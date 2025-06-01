@@ -88,7 +88,6 @@ const AddSongsToAlbumPage = () => {
       }
     } catch (error) {
       console.error("Error fetching album songs:", error);
-      showToast("Failed to fetch album songs", "error");
     }
   };
 
@@ -178,7 +177,7 @@ const AddSongsToAlbumPage = () => {
           marginLeft={"3rem"}
         >
           <Typography fontSize="h6" color="white" fontWeight="bold">
-            EP
+            ALBUM
           </Typography>
           <Typography variant="h3" color="white" fontWeight="bold">
             {album.name}

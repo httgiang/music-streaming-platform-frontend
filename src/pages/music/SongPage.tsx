@@ -118,7 +118,7 @@ const SongPage = () => {
         <IconButton
           onClick={onClick}
           sx={{
-            color: "white",
+            color: theme.palette.secondary.main,
             backdropFilter: "blur(10px)",
             backgroundColor: alpha("#fff", 0.1),
             border: `1px solid ${alpha("#fff", 0.2)}`,
@@ -338,7 +338,7 @@ const SongPage = () => {
                   border: `1px solid ${alpha("#fff", 0.1)}`,
                   borderRadius: 3,
                   p: 0,
-                  // pl: 5,
+                  pl: 5,
                   height: "600px",
                   overflow: "hidden",
                   position: "relative",
@@ -368,7 +368,7 @@ const SongPage = () => {
                             fontSize: "1.1rem",
                             fontWeight: 400,
                             transition: "all 0.2s ease",
-                            textAlign: "center",
+                            textAlign: "left",
                             minHeight: line.trim() === "" ? "1.2rem" : "auto",
                             cursor: "default",
                             "&:hover": {
