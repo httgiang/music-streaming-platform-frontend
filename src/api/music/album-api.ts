@@ -31,11 +31,14 @@ export const getAlbumById = async (albumId: string) => {
 export const getSongsByAlbum = async (albumId: string) => {
   try {
     const response = await api.get(
-      `/albums/${encodeURIComponent(albumId)}?songs=true?userProfile=true`,
+      `/albums/${encodeURIComponent(albumId)}?songs=true&userProfiles=true`,
     );
     const songs = response.data?.data.album?.songs || [];
-    const artistName =
-      response.data?.data.album?.user?.username || "Unknown Artist";
+    const artist = response.data?.data.album?.user?.userProfile?.name || 
+                  response.data?.data.album?.user?.username || 
+                  "Unknown Artist";
+    const artistImage = response.data?.data.album?.user?.userProfile?.avatarImageUrl || "";
+    
     return songs
       .filter((item: any) => {
         return item.albumId === albumId;
@@ -46,8 +49,8 @@ export const getSongsByAlbum = async (albumId: string) => {
         lyric: item.lyric,
         coverImageUrl: item.coverImageUrl,
         duration: item.duration || 0,
-        artist: artistName,
-        artistImage: "",
+        artist: artist,
+        artistImage: artistImage,
       }));
   } catch (error) {
     console.error("Fetch songs by album failed: ", error);
@@ -57,16 +60,20 @@ export const getSongsByAlbum = async (albumId: string) => {
 
 export const fetchAlbums = async (limit: number) => {
   try {
-    const response = await api.get(`/albums/many?limit=${limit}`, {
-      withCredentials: true,
-    });
+    const response = await api.get(
+      `/albums/many?limit=${limit}&userProfiles=true`,
+      {
+        withCredentials: true,
+      },
+    );
 
     const albums = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,
           name: item.name,
           coverImageUrl: item.coverImageUrl,
-          artist: item.user?.username || "Unknown Artist",
+          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artistImage: item.user?.userProfile?.avatarImageUrl || "",
           isPublic: item.isPublic,
           likesCount: item.likesCount,
         }))
@@ -81,7 +88,7 @@ export const fetchAlbums = async (limit: number) => {
 
 export const searchAlbums = async (query?: string, userId?: string) => {
   try {
-    let url = "/albums/many?";
+    let url = "/albums/many?userProfiles=true&";
     const params = new URLSearchParams();
     if (query) params.append("name", query);
     if (userId) params.append("userId", userId);
@@ -96,7 +103,8 @@ export const searchAlbums = async (query?: string, userId?: string) => {
       id: item.id,
       name: item.name,
       coverImageUrl: item.coverImageUrl,
-      artist: item.user.userProfile?.name || "tlinh",
+      artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+      artistImage: item.user?.userProfile?.avatarImageUrl || "",
       isPublic: item.isPublic,
       type: "album",
     }));
@@ -108,13 +116,14 @@ export const searchAlbums = async (query?: string, userId?: string) => {
 
 export const fetchAllAlbums = async () => {
   try {
-    const response = await api.get("/albums/many");
+    const response = await api.get("/albums/many?userProfiles=true");
     const albums = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,
           name: item.name,
           coverImageUrl: item.coverImageUrl,
-          artist: item.user?.username || "Unknown Artist",
+          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artistImage: item.user?.userProfile?.avatarImageUrl || "",
           isPublic: item.isPublic,
         }))
       : [];
@@ -224,7 +233,7 @@ export const getAlbumLikeStatus = async (albumId: string) => {
 
 export const getLikedAlbums = async () => {
   try {
-    const response = await api.get("/users/me/liked-albums", {
+    const response = await api.get("/users/me/liked-albums?userProfiles=true", {
       withCredentials: true,
     });
 
@@ -233,7 +242,8 @@ export const getLikedAlbums = async () => {
           id: item.id,
           name: item.name,
           coverImageUrl: item.coverImageUrl,
-          artist: item.user?.username || "Unknown Artist",
+          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artistImage: item.user?.userProfile?.avatarImageUrl || "",
           isPublic: item.isPublic,
         }))
       : [];
