@@ -286,7 +286,7 @@ const Profile = () => {
                   mb: 0.5,
                 }}
               >
-                {user?.username || "Username"}
+                {formik.values.name || "Username"}
               </Typography>
 
               <Typography sx={{ opacity: 0.85, fontSize: 18 }}>

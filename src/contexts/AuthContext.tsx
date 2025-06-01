@@ -49,15 +49,15 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       setAuthToken(null);
       localStorage.removeItem("user");
-      
+
       const response = await api.post("/auth/signin", logInData, {
         withCredentials: true,
       });
-      
+
       if (response?.status === 200) {
         const { user, accessToken } = response.data.data;
         localStorage.setItem("user", JSON.stringify(user));
-        setAuthToken(accessToken); 
+        setAuthToken(accessToken);
         dispatch(loginSuccess(user));
         showToast("Logged in successfully", "success");
       }
@@ -117,13 +117,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       setAuthToken(null);
       localStorage.removeItem("user");
+      localStorage.removeItem("recentlyPlayedSongs");
       dispatch(logout());
-      
-      await api.post(
-        "/auth/signout",
-        {},
-        { withCredentials: true },
-      );
+
+      await api.post("/auth/signout", {}, { withCredentials: true });
     } catch (error: any) {
       console.error("Logout error:", error);
     } finally {
@@ -133,7 +130,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const restoreSession = async () => {
     const storedUser = localStorage.getItem("user");
-    console.log("User:", storedUser);
     if (!storedUser) {
       dispatch(logout());
       setLoading(false);

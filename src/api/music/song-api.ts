@@ -150,8 +150,8 @@ export const getSongsByArtist = async (artistId: string) => {
           coverImageUrl: item.coverImageUrl,
           duration: item.duration || 0,
           likesCount: item.likesCount || 0,
-          artist: item.user.username,
-          artistImage: item.user.userAvatar,
+          artist: item.user.userProfile?.name,
+          artistImage: item.user.userProfile?.avatarImageUrl,
         }))
       : [];
     return songs;
