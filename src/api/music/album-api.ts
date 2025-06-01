@@ -1,3 +1,4 @@
+import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {
@@ -86,15 +87,12 @@ export const fetchAlbums = async (limit: number) => {
   }
 };
 
-export const searchAlbums = async (query?: string, userId?: string) => {
-  try {
-    let url = "/albums/many?userProfiles=true&";
+export const searchAlbums = async (query?: string, userId?: string) => {  try {
     const params = new URLSearchParams();
+    params.append("userProfiles", "true");
     if (query) params.append("name", query);
     if (userId) params.append("userId", userId);
-
-    params.append("userProfiles", "true");
-    url += params.toString();
+    const url = `/albums/many?${params.toString()}`;
 
     const response = await api.get(url);
     const results = response.data?.data || [];
