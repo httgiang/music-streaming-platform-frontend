@@ -21,7 +21,7 @@ import {
 } from "@mui/icons-material";
 import UploadMusicDialog from "./UploadMusicPage";
 import CreateAlbumDialog from "./CreateAlbumDialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getSongsByArtist } from "@/api/music/song-api";
 import { searchAlbums } from "@/api/music/album-api";
 import { useQuery } from "@tanstack/react-query";
@@ -30,6 +30,7 @@ import HomeSection from "@/components/section/HomeSection";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import { AlbumProps } from "@/types/album";
 import { motion } from "framer-motion";
+import { fetchUserProfile } from "@/api/user/user-api";
 
 const ToolCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -88,6 +89,7 @@ const MusicWorkSpacePage = () => {
   const theme = useTheme();
   const [openUploadMusic, setOpenUploadMusic] = useState(false);
   const [openCreateAlbum, setOpenCreateAlbum] = useState(false);
+  const [artistName, setArtistName] = useState("");
 
   const handleUploadMusic = () => setOpenUploadMusic(true);
   const handleCloseUploadMusic = () => setOpenUploadMusic(false);
@@ -168,6 +170,19 @@ const MusicWorkSpacePage = () => {
       },
     })) || [];
 
+  useEffect(() => {
+    const getArtistName = async () => {
+      try {
+        const profile = await fetchUserProfile(user.id);
+        setArtistName(profile.name || user.username);
+      } catch (error) {
+        console.error("Failed to fetch artist name:", error);
+        setArtistName(user.username);
+      }
+    };
+    getArtistName();
+  }, [user.id]);
+
   return (
     <Box
       display={"flex"}
@@ -237,8 +252,7 @@ const MusicWorkSpacePage = () => {
               marginLeft: "8px",
             }}
           >
-            {/* {user.username} */}
-            tlinh
+            {artistName}
           </span>
           👋
         </Typography>

@@ -43,12 +43,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     }
   };
-
   const logIn = async (logInData: LogInProps) => {
     try {
       setLoading(true);
+      // Clear any existing auth state
       setAuthToken(null);
       localStorage.removeItem("user");
+      dispatch(logout());
       
       const response = await api.post("/auth/signin", logInData, {
         withCredentials: true,
@@ -62,6 +63,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         showToast("Logged in successfully", "success");
       }
     } catch (error: any) {
+      // Clear any existing auth state on error
+      setAuthToken(null);
+      localStorage.removeItem("user");
+      dispatch(logout());
+      
       const message =
         error?.response?.data?.error?.message || "Invalid username or password";
       showToast(message, "error");
@@ -130,10 +136,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     }
   };
-
   const restoreSession = async () => {
     const storedUser = localStorage.getItem("user");
-    console.log("User:", storedUser);
     if (!storedUser) {
       dispatch(logout());
       setLoading(false);
@@ -143,19 +147,26 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const controller = new AbortController();
     setLoading(true);
     try {
+      // Only attempt to refresh if we have a stored user
       const response = await api.post("/auth/refresh-token", {
         signal: controller.signal,
       });
 
-      setAuthToken(response.data.data.accessToken);
-
-      const stored = localStorage.getItem("user");
-      if (stored) {
-        const parsedUser = JSON.parse(stored);
+      if (response?.status === 200 && response.data.data.accessToken) {
+        setAuthToken(response.data.data.accessToken);
+        const parsedUser = JSON.parse(storedUser);
         dispatch(loginSuccess(parsedUser));
+      } else {
+        // Clear auth state if refresh fails
+        setAuthToken(null);
+        localStorage.removeItem("user");
+        dispatch(logout());
       }
-    } catch {
+    } catch (error) {
+      // Clear auth state on any error
+      setAuthToken(null);
       localStorage.removeItem("user");
+      dispatch(logout());
     } finally {
       setLoading(false);
     }

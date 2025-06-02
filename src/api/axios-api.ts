@@ -45,9 +45,14 @@ const processQueue = (error: any, token: string | null = null) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config;    if (error.response?.status === 401 && !originalRequest._retry) {
+     
+      if (originalRequest.url.includes('/auth/signin') || 
+          originalRequest.url.includes('/auth/signup') || 
+          originalRequest.url.includes('/auth/signout')) {
+        return Promise.reject(error);
+      }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
