@@ -161,8 +161,7 @@ const LikedSongsPage = () => {
         </Card>
       </Fade>
 
-      <Stack spacing={2} sx={{ mt: 4 }}>
-        {songs.map((song) => (
+      <Stack spacing={2} sx={{ mt: 4 }}>        {songs.map((song) => (
           <Box
             key={song.id}
             sx={{
@@ -177,6 +176,11 @@ const LikedSongsPage = () => {
             <MusicCard
               key={song.id}
               song={song}
+              onLikeChange={(songId, liked) => {
+                if (!liked) {
+                  setSongs(prevSongs => prevSongs.filter(s => s.id !== songId));
+                }
+              }}
             />
           </Box>
         ))}

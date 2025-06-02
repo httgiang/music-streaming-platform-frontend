@@ -204,7 +204,7 @@ export const getSongLikeStatus = async (songId: string) => {
 
 export const getLikedSongs = async () => {
   try {
-    const response = await api.get("/users/me/liked-songs", {
+    const response = await api.get("/users/me/liked-songs?userProfiles=true", {
       withCredentials: true,
     });
 
@@ -216,8 +216,8 @@ export const getLikedSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: "Unknown Artist",
-          artistImage: item.user?.userAvatar || "",
+          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artistImage: item.user?.userProfile?.avatarImageUrl || item.user?.userAvatar || "",
         }))
       : [];
 

@@ -48,15 +48,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       setAuthToken(null);
-      localStorage.removeItem("user");      const response = await api.post("/auth/signin", logInData, {
+      localStorage.removeItem("user");
+      
+      const response = await api.post("/auth/signin", logInData, {
         withCredentials: true,
       });
-
+      
       if (response?.status === 200) {
         const { user, accessToken } = response.data.data;
         localStorage.setItem("user", JSON.stringify(user));
-        setAuthToken(accessToken);
-        dispatch(loginSuccess({ user }));
+        setAuthToken(accessToken); 
+        dispatch(loginSuccess(user));
         showToast("Logged in successfully", "success");
       }
     } catch (error: any) {
@@ -115,18 +117,23 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       setAuthToken(null);
       localStorage.removeItem("user");
-      localStorage.removeItem("recentlyPlayedSongs");
       dispatch(logout());
-
-      await api.post("/auth/signout", {}, { withCredentials: true });
+      
+      await api.post(
+        "/auth/signout",
+        {},
+        { withCredentials: true },
+      );
     } catch (error: any) {
       console.error("Logout error:", error);
     } finally {
       setLoading(false);
     }
   };
+
   const restoreSession = async () => {
     const storedUser = localStorage.getItem("user");
+    console.log("User:", storedUser);
     if (!storedUser) {
       dispatch(logout());
       setLoading(false);
@@ -135,24 +142,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const controller = new AbortController();
     setLoading(true);
-    
     try {
-      const response = await api.post("/auth/refresh-token", {}, {
-        withCredentials: true,
+      const response = await api.post("/auth/refresh-token", {
         signal: controller.signal,
       });
 
-      if (response?.data?.data?.accessToken) {
-        setAuthToken(response.data.data.accessToken);
-        dispatch(loginSuccess({ user: JSON.parse(storedUser) }));
-      } else {
-        throw new Error("Invalid token response");
-      }
+      setAuthToken(response.data.data.accessToken);
 
-    } catch (error) {
-      console.error("Session restore error:", error);
+      const stored = localStorage.getItem("user");
+      if (stored) {
+        const parsedUser = JSON.parse(stored);
+        dispatch(loginSuccess(parsedUser));
+      }
+    } catch {
       localStorage.removeItem("user");
-      dispatch(logout());
     } finally {
       setLoading(false);
     }
