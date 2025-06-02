@@ -12,7 +12,6 @@ import { DndContext, useSensor } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { DragOverlay } from "@dnd-kit/core";
 import {
-  appendSongsToAlbum,
   setSongsForAlbum,
   publicAlbum,
   getSongsByAlbum,
@@ -264,6 +263,7 @@ const AddSongsToAlbumPage = () => {
                   name: song.name,
                   artist: song.artist,
                   lyric: song.lyric,
+                  likesCount: song.likesCount,
                   artistImage: "",
                 }}
                 handleDelete={() => handleDeleteSong(song.id)}

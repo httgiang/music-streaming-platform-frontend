@@ -1,4 +1,3 @@
-import { l } from "node_modules/framer-motion/dist/types.d-CtuPurYT";
 import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {

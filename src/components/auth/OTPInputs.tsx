@@ -48,7 +48,7 @@ const OTPInputs = () => {
     const paste = e.clipboardData.getData("text");
     if (paste.length !== numInputs) return false;
     const newOtp = [...otp];
-    newOtp.forEach((val, index) => {
+    newOtp.forEach((_val, index) => {
       newOtp[index] = paste[index] || "";
     });
     setOtp(newOtp);

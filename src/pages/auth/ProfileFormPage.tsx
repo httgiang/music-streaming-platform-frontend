@@ -37,7 +37,7 @@ const ProfileFormPage = () => {
       };
 
       //temporary until backend is fixed
-      const { avatar, ...userProfileWithoutAvatar } = transformedValues;
+      const userProfileWithoutAvatar = transformedValues;
 
       const payload = {
         ...signUpData.credentialsData,

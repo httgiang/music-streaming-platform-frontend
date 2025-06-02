@@ -1,4 +1,3 @@
-import ShowAllDialog from "@/pages/music/ShowAllPage";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -11,9 +10,8 @@ interface HomeSectionProps {
 const HomeSection: React.FC<HomeSectionProps> = ({
   title,
   children,
-  onShowAll,
 }) => {
-  const [showAllDialogOpen, setShowAllDialogOpen] = useState(false);
+  const [, setShowAllDialogOpen] = useState(false);
   return (
     <Box>
       <Box

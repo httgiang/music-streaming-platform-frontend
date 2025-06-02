@@ -2,7 +2,6 @@ import { IconButton } from "@mui/material";
 import {
   NavigateNext,
   NavigateBefore,
-  PlayCircle,
   PlayArrow,
 } from "@mui/icons-material";
 import theme from "@/theme/theme";
