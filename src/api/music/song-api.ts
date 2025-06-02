@@ -3,7 +3,7 @@ import api from "../axios-api";
 export const fetchMostLikedSongs = async () => {
   try {
     const response = await api.get("/feeds/most-liked-songs?userProfiles=true");
-    console.log(response.data);
+    console.log("Most liked songs response:", response.data);
     const mostLikedSongs = Array.isArray(response?.data?.data)
       ? response.data.data.map((item: any) => ({
           id: item.id,
@@ -12,10 +12,12 @@ export const fetchMostLikedSongs = async () => {
           coverImageUrl: item.coverImageUrl,
           duration: 0,
           likesCount: item.likesCount || 0,
-          artist: item.user.userProfile?.name,
-          artistImage: item.user.userAvatar,
+          artist: item.user?.userProfile?.name || item.user?.username,
+          artistImage: item.user?.userProfile?.avatarImageUrl || item.user?.userAvatar,
+          userId: item.user?.id,
         }))
       : [];
+    console.log("Processed most liked songs:", mostLikedSongs);
     return mostLikedSongs;
   } catch (error) {
     console.error("Fetch most liked songs failed: ", error);

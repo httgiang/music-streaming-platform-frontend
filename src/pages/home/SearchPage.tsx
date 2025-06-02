@@ -125,7 +125,7 @@ const SearchPage: React.FC = () => {
                       duration: 3, // Placeholder, replace with actual duration if available
                       lyric: result.lyric,
                       artistImage: result.artistImage,
-                      likesCount: result.likesCount ?? 0, 
+                      likesCount: result.likesCount ?? 0
                     }}
                   />
                 </Box>

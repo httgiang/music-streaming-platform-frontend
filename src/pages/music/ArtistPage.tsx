@@ -315,8 +315,7 @@ const ArtistPage = () => {
               }}
             >
               <MusicCard
-                key={song.id}
-                song={{
+                key={song.id}                song={{
                   id: song.id,
                   coverImageUrl: song.coverImageUrl,
                   name: song.name,
@@ -325,6 +324,7 @@ const ArtistPage = () => {
                   lyric: song.lyric,
                   artistImage: song.artistImage,
                   likesCount: song.likesCount ?? 0,
+                  userId: song.userId || undefined
                 }}
               />
             </Box>

@@ -106,14 +106,13 @@ const SongPage = () => {
     icon,
     tooltip,
     onClick,
-    delay = 0,
   }: {
     icon: React.ReactNode;
     tooltip: string;
     onClick?: () => void;
     delay?: number;
   }) => (
-    <Grow in={loaded} timeout={600} style={{ transitionDelay: `${delay}ms` }}>
+   
       <Tooltip title={tooltip} placement="top">
         <IconButton
           onClick={onClick}
@@ -133,7 +132,7 @@ const SongPage = () => {
           {icon}
         </IconButton>
       </Tooltip>
-    </Grow>
+  
   );
 
   const lyricsLines = song?.lyric?.split("\n") || [];
@@ -281,7 +280,7 @@ const SongPage = () => {
                   }
                   tooltip="Unlike song"
                   onClick={toggleLikeSong}
-                  delay={250}
+                  
                 />
               ) : (
                 <ActionButton
@@ -292,15 +291,15 @@ const SongPage = () => {
                   }
                   tooltip="Like song"
                   onClick={toggleLikeSong}
-                  delay={250}
+                 
                 />
               )}
 
-              <ActionButton icon={<Share />} tooltip="Share" delay={350} />
+              <ActionButton icon={<Share />} tooltip="Share"  />
               <ActionButton
                 icon={<Download />}
                 tooltip="Download"
-                delay={400}
+               
               />
             </Box>
           </Card>

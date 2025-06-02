@@ -43,3 +43,33 @@ export const updateUserProfileAvatar = async (avatar: File) => {
     throw error;
   }
 };
+
+export const fetchManyUsers = async () => {
+  try {
+    // Use GET /users/many endpoint with a large limit to get artist users
+    const response = await api.get(`/users/many?limit=20`);
+    console.log("API Response for multiple users:", response.data);    if (!response.data.data || !Array.isArray(response.data.data)) {
+      console.error("Invalid API response format for users");
+      return [];
+    }
+    // Import default avatar - using Beatles image as default
+    const defaultAvatarUrl = new URL('../../assets/images/default-avatar.png', import.meta.url).href;
+
+    return response.data.data.map((user: any) => ({
+      id: user.id,
+      username: user.username,
+      userProfile: user.userProfile
+        ? {
+            name: user.userProfile.name,
+            avatarImageUrl: user.userProfile?.avatarImageUrl || defaultAvatarUrl,
+          }
+        : {
+            name: user.username,
+            avatarImageUrl: defaultAvatarUrl,
+          },
+    }));
+  } catch (error) {
+    console.error("Failed to fetch multiple users", error);
+    throw error;
+  }
+};

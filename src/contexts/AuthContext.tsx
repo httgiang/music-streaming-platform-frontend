@@ -96,18 +96,27 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       throw error;
     }
   };
-
   const verifyOtp = async (code: string) => {
     try {
+      
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) {
+        throw new Error("No user found. Please log in again.");
+      }
+
       const response = await api.post(
         "/auth/verify",
         { code },
         {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${api.defaults.headers.common["Authorization"]}`,
+          },
         },
       );
       if (response?.status === 200) {
         showToast("Verified successfully", "success");
+        navigate("/"); 
       }
     } catch (error: any) {
       const message =
@@ -123,6 +132,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       setAuthToken(null);
       localStorage.removeItem("user");
+      localStorage.removeItem("recentlyPlayedSongs");
       dispatch(logout());
       
       await api.post(
@@ -160,12 +170,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Clear auth state if refresh fails
         setAuthToken(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("recentlyPlayedSongs");
         dispatch(logout());
       }
     } catch (error) {
       // Clear auth state on any error
       setAuthToken(null);
       localStorage.removeItem("user");
+      localStorage.removeItem("recentlyPlayedSongs");
       dispatch(logout());
     } finally {
       setLoading(false);

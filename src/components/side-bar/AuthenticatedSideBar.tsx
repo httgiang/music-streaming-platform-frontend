@@ -25,26 +25,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-// const recentlyPlayed = [
-//   {
-//     id: 1,
-//     title: "Blinding Lights",
-//     artist: "The Weeknd",
-//     image: "https://via.placeholder.com/40",
-//   },
-//   {
-//     id: 2,
-//     title: "Sunflower",
-//     artist: "Post Malone, Swae Lee",
-//     image: "https://via.placeholder.com/40",
-//   },
-//   {
-//     id: 3,
-//     title: "Stay",
-//     artist: "The Kid LAROI",
-//     image: "https://via.placeholder.com/40",
-//   },
-// ];
+
 
 const NavButton: React.FC<{
   icon: React.ReactNode;

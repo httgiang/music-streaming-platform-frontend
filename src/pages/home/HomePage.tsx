@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import SongCardsSlider from "@/components/music/MusicCardsSlider";
-import TheBeatlesPic from "@/assets/images/the-beatles.jpg";
+
 import HeaderImg from "@/assets/images/header-img.jpg";
 import {
   fetchMostLikedSongs,
@@ -28,6 +28,9 @@ import { AlbumProps } from "@/types/album";
 import AlbumCard from "@/components/music/AlbumCard";
 import { useDispatch } from "react-redux";
 import { playSong } from "@/features/music/playerSlice";
+import { useEffect, useState } from "react";
+import { fetchManyUsers } from "@/api/user/user-api";
+import { ArtistProps } from "@/types/artist";
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -35,6 +38,10 @@ const MotionPaper = motion(Paper);
 const HomePage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [artists, setArtists] = useState<{
+    type: "artist";
+    item: ArtistProps;
+  }[]>([]);
 
   const { isLoading, data: mostLikedSongs } = useQuery<SongProps[]>({
     queryKey: ["mostLikedSongs"],
@@ -57,16 +64,37 @@ const HomePage = () => {
     refetchOnWindowFocus: false,
   });
 
-  const demoArtists = [
-    {
-      type: "artist" as const,
-      item: {
-        id: "1",
-        name: "The Beatles",
-        coverImageUrl: TheBeatlesPic,
-      },
-    },
-  ];
+  const { data: fetchedArtists } = useQuery({
+    queryKey: ["artists"],
+    queryFn: fetchManyUsers,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+  });
+  // Transform fetched artists into the format needed for display
+  useEffect(() => {
+    if (fetchedArtists) {
+      console.log('Processing artists data:', fetchedArtists);
+      const artistCards = fetchedArtists.map(
+        (artist: {
+          id: string;
+          username: string;
+          userProfile?: {
+            name: string;
+            avatarImageUrl: string;
+          };
+        }) => ({
+          type: "artist" as const,
+          item: {
+            id: artist.id,
+            name: artist.userProfile?.name || artist.username,
+            coverImageUrl: artist.userProfile?.avatarImageUrl || new URL('../../assets/images/the-beatles.jpg', import.meta.url).href,
+          },
+        })
+      );
+      console.log('Processed artist cards:', artistCards);
+      setArtists(artistCards);
+    }
+  }, [fetchedArtists]); // Add fetchedArtists as dependency
 
   const fetchedSongs = mostLikedSongs?.map((song) => ({
     type: "song" as const,
@@ -253,6 +281,7 @@ const HomePage = () => {
                 <Grid item xs={12} sm={4} key={item.id}>
                   <MotionPaper
                     whileHover={{ scale: 1.02 }}
+                    onClick={() => navigate(`/song/${item.id}`, { state: item })}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -261,6 +290,9 @@ const HomePage = () => {
                       borderRadius: 2,
                       bgcolor: alpha(theme.palette.background.paper, 0.4),
                       cursor: "pointer",
+                      "&:hover": {
+                        bgcolor: alpha(theme.palette.background.paper, 0.6),
+                      },
                     }}
                   >
                     <Avatar
@@ -276,7 +308,10 @@ const HomePage = () => {
                     </Box>
                     <IconButton
                       size="small"
-                      onClick={() => handlePlaySong(item)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePlaySong(item);
+                      }}
                     >
                       <PlayArrow />
                     </IconButton>
@@ -293,9 +328,9 @@ const HomePage = () => {
           >
             <SectionHeading
               title="Popular Artists"
-              onShowAll={() => navigate("/show-all", { state: demoArtists })}
+              onShowAll={() => navigate("/show-all", { state: artists })}
             />
-            <SongCardsSlider cardChildren={demoArtists} slidesToShow={6} />
+            <SongCardsSlider cardChildren={artists} slidesToShow={6} />
           </MotionBox>
         </Stack>
       </Container>

@@ -1,4 +1,5 @@
 export interface SongProps {
+  userId?: string; // Make userId optional and specify string type
   id: string;
   name: string;
   coverImageUrl: string;
