@@ -110,7 +110,11 @@ const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
         {isHovered && (
           <>
             <Tooltip
-              title={<span style={{ fontSize: "16px" }}>{liked ? "Unlike" : "Like"}</span>}
+              title={
+                <span style={{ fontSize: "16px" }}>
+                  {liked ? "Unlike" : "Like"}
+                </span>
+              }
               componentsProps={{
                 tooltip: { sx: { backgroundColor: "gray" } },
                 popper: {
@@ -119,13 +123,15 @@ const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
               }}
               placement="top"
             >
-              <IconButton 
-                sx={{ color: "white" }} 
+              <IconButton
+                sx={{ color: "white" }}
                 size="small"
                 onClick={toggleLikeSong}
               >
                 {liked ? (
-                  <Favorite sx={{ height: "18px", color: theme.palette.secondary.main }} />
+                  <Favorite
+                    sx={{ height: "18px", color: theme.palette.secondary.main }}
+                  />
                 ) : (
                   <FavoriteBorderOutlinedIcon sx={{ height: "18px" }} />
                 )}
@@ -157,11 +163,6 @@ const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
           {/* {song.duration} */}
           3:45
         </Typography>
-        {isHovered && (
-          <IconButton sx={{ color: "white" }} size="small">
-            <MoreHorizIcon sx={{ height: "18px" }} />
-          </IconButton>
-        )}
       </Box>
     </Box>
   );
