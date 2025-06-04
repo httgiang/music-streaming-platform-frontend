@@ -43,7 +43,7 @@ const CreateAlbumDialog = ({
   const showToast = useToast();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.user);
-
+  const artistName = useSelector((state: RootState) => state.user.name);
   const handleCreateAlbum = async () => {
     if (!albumName || !coverImage) {
       showToast("Please fill in all fields before submitting.", "warning");
@@ -61,7 +61,7 @@ const CreateAlbumDialog = ({
         const rawAlbum = response.data.data.album;
         const album: AlbumProps = {
           ...rawAlbum,
-          artist: user?.username,
+          artist: artistName,
         };
         console.log("Album created successfully:", rawAlbum);
         showToast("Album created successfully!", "success");

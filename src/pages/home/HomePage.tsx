@@ -38,10 +38,12 @@ const MotionPaper = motion(Paper);
 const HomePage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [artists, setArtists] = useState<{
-    type: "artist";
-    item: ArtistProps;
-  }[]>([]);
+  const [artists, setArtists] = useState<
+    {
+      type: "artist";
+      item: ArtistProps;
+    }[]
+  >([]);
 
   const { isLoading, data: mostLikedSongs } = useQuery<SongProps[]>({
     queryKey: ["mostLikedSongs"],
@@ -73,7 +75,7 @@ const HomePage = () => {
   // Transform fetched artists into the format needed for display
   useEffect(() => {
     if (fetchedArtists) {
-      console.log('Processing artists data:', fetchedArtists);
+      console.log("Processing artists data:", fetchedArtists);
       const artistCards = fetchedArtists.map(
         (artist: {
           id: string;
@@ -87,11 +89,14 @@ const HomePage = () => {
           item: {
             id: artist.id,
             name: artist.userProfile?.name || artist.username,
-            coverImageUrl: artist.userProfile?.avatarImageUrl || new URL('../../assets/images/the-beatles.jpg', import.meta.url).href,
+            coverImageUrl:
+              artist.userProfile?.avatarImageUrl ||
+              new URL("../../assets/images/the-beatles.jpg", import.meta.url)
+                .href,
           },
-        })
+        }),
       );
-      console.log('Processed artist cards:', artistCards);
+      console.log("Processed artist cards:", artistCards);
       setArtists(artistCards);
     }
   }, [fetchedArtists]); // Add fetchedArtists as dependency
@@ -281,7 +286,9 @@ const HomePage = () => {
                 <Grid item xs={12} sm={4} key={item.id}>
                   <MotionPaper
                     whileHover={{ scale: 1.02 }}
-                    onClick={() => navigate(`/song/${item.id}`, { state: item })}
+                    onClick={() =>
+                      navigate(`/song/${item.id}`, { state: item })
+                    }
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -330,7 +337,7 @@ const HomePage = () => {
               title="Popular Artists"
               onShowAll={() => navigate("/show-all", { state: artists })}
             />
-            <SongCardsSlider cardChildren={artists} slidesToShow={6} />
+            <SongCardsSlider cardChildren={artists} slidesToShow={7} />
           </MotionBox>
         </Stack>
       </Container>

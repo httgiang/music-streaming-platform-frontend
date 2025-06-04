@@ -31,6 +31,8 @@ import SongCardsSlider from "@/components/music/MusicCardsSlider";
 import { AlbumProps } from "@/types/album";
 import { motion } from "framer-motion";
 import { fetchUserProfile } from "@/api/user/user-api";
+import { useDispatch } from "react-redux";
+import { setUserName } from "@/features/auth/userSlice";
 
 const ToolCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -90,6 +92,7 @@ const MusicWorkSpacePage = () => {
   const [openUploadMusic, setOpenUploadMusic] = useState(false);
   const [openCreateAlbum, setOpenCreateAlbum] = useState(false);
   const [artistName, setArtistName] = useState("");
+  const dispatch = useDispatch();
 
   const handleUploadMusic = () => setOpenUploadMusic(true);
   const handleCloseUploadMusic = () => setOpenUploadMusic(false);
@@ -174,10 +177,11 @@ const MusicWorkSpacePage = () => {
     const getArtistName = async () => {
       try {
         const profile = await fetchUserProfile(user.id);
-        setArtistName(profile.name || user.username);
+        dispatch(setUserName(profile.name));
+        // setArtistName(profile.name || user.username);
       } catch (error) {
         console.error("Failed to fetch artist name:", error);
-        setArtistName(user.username);
+        dispatch(setUserName(user.username));
       }
     };
     getArtistName();

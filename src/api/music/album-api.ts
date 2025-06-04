@@ -31,14 +31,16 @@ export const getAlbumById = async (albumId: string) => {
 export const getSongsByAlbum = async (albumId: string) => {
   try {
     const response = await api.get(
-      `/albums/${encodeURIComponent(albumId)}?songs=true&userProfiles=true`,
+      `/albums/${encodeURIComponent(albumId)}?songs=true&userProfile=true`,
     );
     const songs = response.data?.data.album?.songs || [];
-    const artist = response.data?.data.album?.user?.userProfile?.name || 
-                  response.data?.data.album?.user?.username || 
-                  "Unknown Artist";
-    const artistImage = response.data?.data.album?.user?.userProfile?.avatarImageUrl || "";
-    
+    const artist =
+      response.data?.data.album?.user?.userProfile?.name ||
+      response.data?.data.album?.user?.username ||
+      "Unknown Artist";
+    const artistImage =
+      response.data?.data.album?.user?.userProfile?.avatarImageUrl || "";
+
     return songs
       .filter((item: any) => {
         return item.albumId === albumId;
@@ -72,7 +74,10 @@ export const fetchAlbums = async (limit: number) => {
           id: item.id,
           name: item.name,
           coverImageUrl: item.coverImageUrl,
-          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artist:
+            item.user?.userProfile?.name ||
+            item.user?.username ||
+            "Unknown Artist",
           artistImage: item.user?.userProfile?.avatarImageUrl || "",
           isPublic: item.isPublic,
           likesCount: item.likesCount,
@@ -86,7 +91,8 @@ export const fetchAlbums = async (limit: number) => {
   }
 };
 
-export const searchAlbums = async (query?: string, userId?: string) => {  try {
+export const searchAlbums = async (query?: string, userId?: string) => {
+  try {
     const params = new URLSearchParams();
     params.append("userProfiles", "true");
     if (query) params.append("name", query);
@@ -100,7 +106,8 @@ export const searchAlbums = async (query?: string, userId?: string) => {  try {
       id: item.id,
       name: item.name,
       coverImageUrl: item.coverImageUrl,
-      artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+      artist:
+        item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
       artistImage: item.user?.userProfile?.avatarImageUrl || "",
       isPublic: item.isPublic,
       type: "album",
@@ -119,7 +126,10 @@ export const fetchAllAlbums = async () => {
           id: item.id,
           name: item.name,
           coverImageUrl: item.coverImageUrl,
-          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artist:
+            item.user?.userProfile?.name ||
+            item.user?.username ||
+            "Unknown Artist",
           artistImage: item.user?.userProfile?.avatarImageUrl || "",
           isPublic: item.isPublic,
         }))
@@ -144,12 +154,14 @@ export const setSongsForAlbum = async (albumId: string, songIds: string[]) => {
 export const appendSongsToAlbum = async (
   albumId: string,
   songIds: string[],
-) => {  try {    const response = await api.patch(
+) => {
+  try {
+    const response = await api.patch(
       `/albums/${albumId}/songs/append`,
-      songIds
+      songIds,
     );
     return response;
-  } catch (error: any){
+  } catch (error: any) {
     console.error("Set songs for album failed: ", error);
     throw error;
   }
@@ -235,7 +247,10 @@ export const getLikedAlbums = async () => {
           id: item.id,
           name: item.name,
           coverImageUrl: item.coverImageUrl,
-          artist: item.user?.userProfile?.name || item.user?.username || "Unknown Artist",
+          artist:
+            item.user?.userProfile?.name ||
+            item.user?.username ||
+            "Unknown Artist",
           artistImage: item.user?.userProfile?.avatarImageUrl || "",
           isPublic: item.isPublic,
         }))
