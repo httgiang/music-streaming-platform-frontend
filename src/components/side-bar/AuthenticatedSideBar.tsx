@@ -25,8 +25,6 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-
-
 const NavButton: React.FC<{
   icon: React.ReactNode;
   label: string;
@@ -82,7 +80,7 @@ const AuthenticatedSideBar: React.FC = () => {
             navigateTo("/");
           }}
         />{" "}
-        <NavButton
+        {/* <NavButton
           icon={<SearchIcon />}
           label="Search"
           active={activeNav === "search"}
@@ -90,7 +88,7 @@ const AuthenticatedSideBar: React.FC = () => {
             setActiveNav("search");
             navigateTo("/search");
           }}
-        />
+        /> */}
         <NavButton
           icon={<CollectionsIcon />}
           label="Gallery"

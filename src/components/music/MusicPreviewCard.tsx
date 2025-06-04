@@ -69,7 +69,7 @@ const MusicPreviewCard: React.FC<MusicPreviewCardProps> = ({ item, type }) => {
           p: 0.5,
           width: 160,
           height: 200,
-          backgroundColor: "rgba(255, 255, 255, 0.01)",
+          // backgroundColor: "rgba(255, 255, 255, 0.01)",
           backdropFilter: "blur(12px)",
           "&:hover": {
             cursor: "pointer",

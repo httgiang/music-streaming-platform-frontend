@@ -18,8 +18,8 @@ import { useToast } from "@/contexts/ToastContext";
 import { createAlbum } from "@/api/music/album-api";
 import { useNavigate } from "react-router-dom";
 import { AlbumProps } from "@/types/album";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/store";
 import { motion } from "framer-motion";
 import { FileUploader } from "react-drag-drop-files";
 
@@ -42,8 +42,8 @@ const CreateAlbumDialog = ({
   const [isUploading, setIsUploading] = useState(false);
   const showToast = useToast();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.user);
-
+  // const user = useSelector((state: RootState) => state.auth.user);
+  // const artistName = useSelector((state: RootState) => state.user.name);
   const handleCreateAlbum = async () => {
     if (!albumName || !coverImage) {
       showToast("Please fill in all fields before submitting.", "warning");

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Box, Typography, IconButton, Tooltip } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+// import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Favorite from "@mui/icons-material/Favorite";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
@@ -25,14 +25,7 @@ interface MusicCardProps {
 const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
-  const navigate = useNavigate();  const formatTime = (time: number) => {
-    if (!time) return "0:00";
-    const totalSeconds = Math.round(time * 60); // Convert minutes to seconds and round to nearest second
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  };
-
+  const navigate = useNavigate();  
   const toggleLikeSong = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent double click navigation
     try {
@@ -116,7 +109,11 @@ const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
         {isHovered && (
           <>
             <Tooltip
-              title={<span style={{ fontSize: "16px" }}>{liked ? "Unlike" : "Like"}</span>}
+              title={
+                <span style={{ fontSize: "16px" }}>
+                  {liked ? "Unlike" : "Like"}
+                </span>
+              }
               componentsProps={{
                 tooltip: { sx: { backgroundColor: "gray" } },
                 popper: {
@@ -125,13 +122,15 @@ const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
               }}
               placement="top"
             >
-              <IconButton 
-                sx={{ color: "white" }} 
+              <IconButton
+                sx={{ color: "white" }}
                 size="small"
                 onClick={toggleLikeSong}
               >
                 {liked ? (
-                  <Favorite sx={{ height: "18px", color: theme.palette.secondary.main }} />
+                  <Favorite
+                    sx={{ height: "18px", color: theme.palette.secondary.main }}
+                  />
                 ) : (
                   <FavoriteBorderOutlinedIcon sx={{ height: "18px" }} />
                 )}
