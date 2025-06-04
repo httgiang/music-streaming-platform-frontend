@@ -14,7 +14,7 @@ export interface MusicCardSongProps {
   coverImageUrl: string;
   name: string;
   artist: string;
-  duration: string;
+  duration: number;
 }
 
 interface MusicCardProps {
@@ -25,7 +25,13 @@ interface MusicCardProps {
 const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate();  const formatTime = (time: number) => {
+    if (!time) return "0:00";
+    const totalSeconds = Math.round(time * 60); // Convert minutes to seconds and round to nearest second
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   const toggleLikeSong = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent double click navigation
@@ -154,14 +160,15 @@ const MusicCard: React.FC<MusicCardProps> = ({ song, onLikeChange }) => {
           textAlign="center"
           sx={{ flexGrow: 1, textAlign: "center" }}
         >
-          {/* {song.duration} */}
+          {/* {formatTime(song.duration)} */}
           3:45
         </Typography>
-        {isHovered && (
+
+        {/* {isHovered && (
           <IconButton sx={{ color: "white" }} size="small">
             <MoreHorizIcon sx={{ height: "18px" }} />
           </IconButton>
-        )}
+        )} */}
       </Box>
     </Box>
   );

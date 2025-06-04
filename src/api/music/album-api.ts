@@ -2,7 +2,7 @@ import api from "../axios-api";
 
 export const createAlbum = async (albumData: any) => {
   try {
-    const response = await api.post("/albums", albumData, {
+    const response = await api.post("/albums?userProfile=true", albumData, {
       withCredentials: true,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -31,7 +31,7 @@ export const getAlbumById = async (albumId: string) => {
 export const getSongsByAlbum = async (albumId: string) => {
   try {
     const response = await api.get(
-      `/albums/${encodeURIComponent(albumId)}?songs=true&userProfiles=true`,
+      `/albums/${encodeURIComponent(albumId)}?userProfile=true&songs=true`,
     );
     const songs = response.data?.data.album?.songs || [];
     const artist = response.data?.data.album?.user?.userProfile?.name || 
@@ -176,10 +176,12 @@ export const insertSongToAnIndex = async (
 
 export const publicAlbum = async (albumId: string) => {
   try {
-    const response = await api.patch(`/albums/${albumId}/public`);
+    const response = await api.patch(`/albums/${albumId}/public`, {}, {
+      withCredentials: true,
+    });
     return response;
   } catch (error: any) {
-    console.error("Set songs for album failed: ", error);
+    console.error("Failed to update album visibility: ", error);
     throw error;
   }
 };

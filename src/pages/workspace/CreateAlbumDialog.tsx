@@ -54,16 +54,17 @@ const CreateAlbumDialog = ({
       setIsUploading(true);
       const formData = new FormData();
       formData.append("name", albumName);
-      formData.append("coverImage", coverImage);
-      const response = await createAlbum(formData);
-
+      formData.append("coverImage", coverImage);      const response = await createAlbum(formData);
       if (response?.status === 201) {
         const rawAlbum = response.data.data.album;
+        console.log("Raw album data:", JSON.stringify(rawAlbum, null, 2));
+        console.log("User data in album:", rawAlbum.user);
+        console.log("User profile data:", rawAlbum.user?.userProfile);
         const album: AlbumProps = {
           ...rawAlbum,
-          artist: user?.username,
+          artist: rawAlbum.user?.userProfile?.name || rawAlbum.user?.username || "Unknown Artist",
         };
-        console.log("Album created successfully:", rawAlbum);
+        console.log("Final album object:", album);
         showToast("Album created successfully!", "success");
         navigate(`/album/add-songs`, { state: album });
         onClose();

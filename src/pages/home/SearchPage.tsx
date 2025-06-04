@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Stack, Chip } from "@mui/material";
+import { Box, Typography, Stack, Chip, CircularProgress, alpha, useTheme } from "@mui/material";
 import useQuery from "@/contexts/QueryContext";
 import { searchSongsOrArtists } from "@/api/music/song-api";
 import { searchAlbums } from "@/api/music/album-api";
@@ -15,6 +15,8 @@ const SearchPage: React.FC = () => {
   const [uniqueArtists, setUniqueArtists] = useState<ArtistProps[]>([]);
   const [albums, setAlbums] = useState<any[]>([]);
   const [filter, setFilter] = useState<string>("All");
+  const [loading, setLoading] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     setKey(query.get("key") || "");
@@ -23,34 +25,84 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     const fetchResults = async () => {
       if (key) {
-        const [searchResults, albumResults] = await Promise.all([          searchSongsOrArtists(key),
-          searchAlbums(key, undefined),
-        ]);
-        setResults(searchResults);        const artistsArray: ArtistProps[] = [];
-        searchResults.forEach((song: any) => {
-          if (song.artist && song.userId) { // Check for both artist name and ID
-            artistsArray.push({
-              id: song.userId, // Always use the userId for artist identification
-              name: song.artist,
-              coverImageUrl: song.artistImage,
-            });
-          }
-        });
+        setLoading(true);
+        try {
+          const [searchResults, albumResults] = await Promise.all([
+            searchSongsOrArtists(key),
+            searchAlbums(key, undefined),
+          ]);
+          setResults(searchResults);
+          
+          const artistsArray: ArtistProps[] = [];
+          searchResults.forEach((song: any) => {
+            if (song.artist && song.userId) {
+              artistsArray.push({
+                id: song.userId,
+                name: song.artist,
+                coverImageUrl: song.artistImage,
+              });
+            }
+          });
 
-        // Filter out duplicate artists based on their id
-        const uniqueArtistsArray = artistsArray.filter(
-          (artist, index, self) =>
-            index === self.findIndex((a) => a.id === artist.id),
-        );
+          const uniqueArtistsArray = artistsArray.filter(
+            (artist, index, self) =>
+              index === self.findIndex((a) => a.id === artist.id),
+          );
 
-        setUniqueArtists(uniqueArtistsArray);
-
-        // Set albums
-        setAlbums(albumResults.slice(0, 4));
+          setUniqueArtists(uniqueArtistsArray);
+          setAlbums(albumResults.slice(0, 4));
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchResults();
   }, [key]);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <CircularProgress color="secondary" />
+        <Typography color="text.secondary">
+          Searching...
+        </Typography>
+      </Box>
+    );
+  }
+
+  
+  if (!loading && key && !results.length && !uniqueArtists.length && !albums.length) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+          p: 3,
+          backgroundColor: alpha(theme.palette.background.paper, 0.1),
+          borderRadius: 2,
+          border: `1px solid ${alpha("#fff", 0.1)}`,
+          margin: 2,
+        }}
+      >
+        <Typography color="text.secondary" align="center">
+          No results found for "{key}"
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
